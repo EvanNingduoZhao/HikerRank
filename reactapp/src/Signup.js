@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './Login.css'
-import LoginForm from './component/LoginForm'
+import './Signup.css'
+import SignupForm from "./component/SignupForm";
 
-class Login extends Component {
+class Signup extends Component {
     render() {
         return (
             <div>
@@ -10,9 +10,9 @@ class Login extends Component {
                     <div className="logo-container">
                         <p className='hikerrank-title'>HIKERRANK</p>
                     </div>
-                    <div className="login-box-container">
-                        <div className="login-box">
-                            <LoginForm />
+                    <div className="signup-box-container">
+                        <div className="signup-box">
+                            <SignupForm />
                         </div>
                     </div>
                 </div>
@@ -22,4 +22,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Signup;

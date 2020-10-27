@@ -13,7 +13,7 @@ import './Home.css';
 import homepagePic from './pictures/homepage_pic.jpg';
 import Nav from './component/Nav'
 import Search from './component/Search'
-import SignIn from './component/SignIn'
+import SignUp from './component/SignUp'
 import DisplayTrail from './component/DisplayTrail'
 import PrettierSearch from './component/PrettierSearch'
 import Filter from './component/Filter'
@@ -30,7 +30,7 @@ class Home extends Component {
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />
           <Search />
-          <SignIn />
+          <SignUp />
         </div>
 
         <div className='main-content-container'>
