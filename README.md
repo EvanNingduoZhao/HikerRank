@@ -24,6 +24,8 @@ $ pip install mysqlclient
 
 mysql create database hikerrank character set utf8;
 
+mysql.server start
+
 python manage.py migrate
 
 ### Useful configuration links

@@ -119,5 +119,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
+    # os.path.join(BASE_DIR, 'reactapp/src')
     os.path.join(BASE_DIR, 'reactapp/build/static'),
 ]

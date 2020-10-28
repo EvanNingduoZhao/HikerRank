@@ -12,6 +12,7 @@ class Signup extends Component {
                     </div>
                     <div className="signup-box-container">
                         <div className="signup-box">
+                            <p className="subtitle">Please sign up</p>
                             <SignupForm />
                         </div>
                     </div>

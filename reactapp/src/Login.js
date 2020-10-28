@@ -12,6 +12,7 @@ class Login extends Component {
                     </div>
                     <div className="login-box-container">
                         <div className="login-box">
+                            <p className="subtitle">Please login</p>
                             <LoginForm />
                         </div>
                     </div>
