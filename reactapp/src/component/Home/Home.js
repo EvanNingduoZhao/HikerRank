@@ -1,22 +1,12 @@
-// import React from 'react';
-
-// export default function Home() {
-//     return (
-//         <div>
-//             <h1>Home</h1>
-//         </div>
-//     )
-// }
-
-import './App.css';
+import '../../App.css';
 import './Home.css';
-import homepagePic from './pictures/homepage_pic.jpg';
-import Nav from './component/Nav'
-import Search from './component/Search'
-import SignUp from './component/SignUp'
-import DisplayTrail from './component/DisplayTrail'
-import PrettierSearch from './component/PrettierSearch'
-import Filter from './component/Filter'
+import homepagePic from '../../pictures/homepage_pic.jpg';
+import Nav from '../Nav'
+import Search from '../Search'
+import SignUpButton from '../Signup/SignUpButton'
+import DisplayTrail from '../DisplayTrail'
+import PrettierSearch from '../PrettierSearch'
+import Filter from '../Filter'
 
 
 import React, { Component } from 'react';
@@ -30,7 +20,7 @@ class Home extends Component {
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />
           <Search />
-          <SignUp />
+          <SignUpButton />
         </div>
 
         <div className='main-content-container'>

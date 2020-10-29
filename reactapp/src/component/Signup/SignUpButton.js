@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import history from "./../history";
+import history from "../history";
 
-const SignUp = () => {
+const SignUpButton = () => {
     return (
         <form>
             <button className='sign-up-button' onClick={() => history.push('/signup')}>Sign Up</button>
@@ -9,4 +9,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp;
+export default SignUpButton;
