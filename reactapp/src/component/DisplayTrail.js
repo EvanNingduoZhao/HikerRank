@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
+
 class DisplayTrail extends Component {
     constructor(props) {
         super(props);
         this.state = {
           page: 'homepage',
-          trail_info: ''
+          trail_info: []
         }
         this.fetchData = this.fetchData.bind(this)
       }
@@ -16,20 +17,36 @@ class DisplayTrail extends Component {
 
     fetchData(){
     console.log('fetching')
-    fetch('https://www.hikingproject.com/data/get-conditions?ids=7001635,7002742,7006663,7000108,7011192&key=YOUR_KEY_HERE')
+    fetch('https://www.hikingproject.com/data/get-trails?lat=40.432756&lon=-79.924982&maxDistance=10&key=200958978-00d7024528a8bdd45c969fa078910537')
     .then(response => response.json())
-    .then(data => 
+    .then(json => 
         this.setState({
-        page: 'homepage',
-        trail_info: data[0]['name']
-        },()=>{console.log(data)})
+            page: 'homepage',
+            trail_info: json.trails
+        },()=>{console.log(json.trails)})
         )
     }
     
     render() {
         return (
             <div>
-                {this.state.trail_info}
+               {
+                   this.state.trail_info.map((trail) => {
+                       return (
+                           <div key={trail.id} className="trail-card">
+                               <p className="trail-name">{trail.name}</p>
+                               <p>{trail.location}</p>
+                               <p>Length: {trail.length} mi</p>
+                               <p>Difficulty: {trail.difficulty} </p>
+                               <p>Rating: {trail.stars} ({trail.starVotes})</p>
+                               
+                           </div>
+
+                        
+                       )
+                   })
+               }
+                {/* {this.state.trail_info.map(trail => <p key={trail.id}>{trail.name}</p>)} */}
             </div>
         );
     }

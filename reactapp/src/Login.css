@@ -53,7 +53,7 @@
 }
 
 
-input { 
+.login-input { 
     width: 270px; 
     margin-bottom: 10px; 
     background: rgb(0, 0, 0);
