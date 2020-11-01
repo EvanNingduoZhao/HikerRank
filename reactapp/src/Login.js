@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Login.css'
-import LoginForm from './LoginForm'
+import LoginForm from './component/LoginForm'
 
 class Login extends Component {
     render() {
