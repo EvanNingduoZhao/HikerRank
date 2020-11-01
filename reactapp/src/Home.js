@@ -1,13 +1,3 @@
-// import React from 'react';
-
-// export default function Home() {
-//     return (
-//         <div>
-//             <h1>Home</h1>
-//         </div>
-//     )
-// }
-
 import './App.css';
 import './Home.css';
 import homepagePic from './pictures/homepage_pic.jpg';
