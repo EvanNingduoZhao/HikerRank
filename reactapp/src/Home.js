@@ -3,7 +3,7 @@ import './Home.css';
 import homepagePic from './pictures/homepage_pic.jpg';
 import Nav from './component/Nav'
 import Search from './component/Search'
-import SignUpButton from './component/Signup/SignUpButton'
+import SignUpButton from './component/SignUpButton'
 import DisplayTrail from './component/DisplayTrail'
 import PrettierSearch from './component/PrettierSearch'
 import Filter from './component/Filter'
