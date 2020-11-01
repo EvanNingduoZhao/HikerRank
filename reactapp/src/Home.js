@@ -1,9 +1,11 @@
 import './App.css';
 import './Home.css';
 import homepagePic from './pictures/homepage_pic.jpg';
+import sampleMap from './pictures/sample-map.png'
 import Nav from './component/Nav'
 import Search from './component/Search'
 import SignUpButton from './component/SignUpButton'
+import LoginButton from './component/LoginButton'
 import DisplayTrail from './component/DisplayTrail'
 import PrettierSearch from './component/PrettierSearch'
 import Filter from './component/Filter'
@@ -20,6 +22,7 @@ class Home extends Component {
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />
           <Search />
+          <LoginButton />
           <SignUpButton />
         </div>
 
@@ -34,13 +37,20 @@ class Home extends Component {
             <h2 className='s-header'>Explore hiking trails in Pennsylvania:</h2>
           </div>
 
-          {/* <DisplayTrail /> */}
           <div class='search-criteria'>
               <PrettierSearch />
               <Filter />
           </div>
 
-          <div class='map-container'>
+          <div className='map-container'>
+            <div className="trail-info-box">
+              <div className="nearby-hint">Trails near you:</div>
+              <DisplayTrail />
+            </div>
+            <div className="mapbox">
+              <img src={sampleMap} width='770px'></img>
+            </div>
+            
           </div>
 
             

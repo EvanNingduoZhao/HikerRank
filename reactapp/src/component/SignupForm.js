@@ -15,10 +15,10 @@ class SignupForm extends Component {
     render() {
         return (
             <form method="post" className="signup-form">
-                <input type="text" name="username" placeholder="Username" required="required" />
-                <input type="text" name="email" placeholder="Password" required="required" />
-                <input type="text" name="password1" placeholder="Password" required="required" />
-                <input type="text" name="password2" placeholder="Confirm Password" required="required" />
+                <input type="text" className="signup-input" name="username" placeholder="Username" required="required" />
+                <input type="text" className="signup-input" name="email" placeholder="Password" required="required" />
+                <input type="text" className="signup-input" name="password1" placeholder="Password" required="required" />
+                <input type="text" className="signup-input" name="password2" placeholder="Confirm Password" required="required" />
                 <br></br>
                 <button type="submit" class="signup-btn">SIGN UP</button>
             </form>
