@@ -1,14 +1,14 @@
-import './App.css';
+import '../../App.css';
 import './Home.css';
-import homepagePic from './pictures/homepage_pic.jpg';
-import sampleMap from './pictures/sample-map.png'
-import Nav from './component/Nav'
-import Search from './component/Search'
-import SignUpButton from './component/SignUpButton'
-import LoginButton from './component/LoginButton'
-import DisplayTrail from './component/DisplayTrail'
-import PrettierSearch from './component/PrettierSearch'
-import Filter from './component/Filter'
+import homepagePic from '../../pictures/homepage_pic.jpg';
+import sampleMap from '../../pictures/sample-map.png'
+import Nav from '../Nav'
+import Search from '../Search'
+import SignUpButton from '../Signup/SignUpButton'
+import LoginButton from '../Login/LoginButton'
+import DisplayTrail from '../DisplayTrail'
+import PrettierSearch from '../PrettierSearch'
+import Filter from '../Filter'
 
 
 import React, { Component } from 'react';

@@ -8,10 +8,8 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <div className="page-container">
-                    {/*<div className="logo-container">*/}
-                        <p className='hikerrank-title'>HIKERRANK</p>
-                    {/*</div>*/}
+                <div className="profile-container">
+                    <p className='profile-hikerrank-title'>HIKERRANK</p>
                     <div className="left">
                         <img className="profilePic" src={pic} />
                         <div className="profile">
