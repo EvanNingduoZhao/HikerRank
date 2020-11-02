@@ -173,6 +173,11 @@
     font-size: 14px;
     overflow: scroll;
   }
+  .mapbox {
+    width: 770px;
+    height: 450px;
+    overflow: hidden;
+  }
 
   .nearby-hint{
     color: #FFFEFE;

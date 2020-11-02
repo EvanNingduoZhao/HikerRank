@@ -9,6 +9,7 @@ import LoginButton from '../Login/LoginButton'
 import DisplayTrail from '../DisplayTrail'
 import PrettierSearch from '../PrettierSearch'
 import Filter from '../Filter'
+import SampleMap from '../SampleMap'
 
 
 import React, { Component } from 'react';
@@ -48,7 +49,8 @@ class Home extends Component {
               <DisplayTrail />
             </div>
             <div className="mapbox">
-              <img src={sampleMap} width='770px'></img>
+                {/* <img src={sampleMap} width='770px'></img> */}
+                <SampleMap />
             </div>
             
           </div>
