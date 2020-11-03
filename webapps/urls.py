@@ -15,14 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
+from rest_framework import routers
 
 from hikerrank import views
 
+router = routers.DefaultRouter()
+router.register(r'text', views.TextViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/', include(router.urls)),
     url(r'^', TemplateView.as_view(template_name='index.html')),
-    # path('', views.getHome, name='Home'),
-    # path('create_text', views.create_text, name='create_text'),
 ]
