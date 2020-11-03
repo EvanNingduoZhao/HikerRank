@@ -40,3 +40,21 @@ https://www.youtube.com/watch?v=Law7wfdg_ls
 https://medium.com/@bsangars15/react-button-click-navigate-to-new-page-6af7397ea220
 
 https://brandoncantello.medium.com/using-history-to-navigate-your-react-app-from-outside-a-component-40ea74ba4402
+
+### Links about getting data from the DB or saving data in form to DB
+
+Remember to install the djangorestframework:
+
+source env(your env name)/bin/activate
+
+pip3 install djangorestframework
+
+https://www.youtube.com/watch?v=x9UEDRbLhJE&list=PLC3y8-rFHvwgg3vaYJgHGnModB54rxOk3&index=43
+
+https://www.youtube.com/watch?v=w-QJiQwlZzU&list=PLLRM7ROnmA9FxCtnLoIHAs6hIkJyd1dEx&index=2
+
+https://www.django-rest-framework.org/tutorial/quickstart/
+
+https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/integrating-django-react/#choosing-a-javascript-framework
+
+https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch

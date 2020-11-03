@@ -1,6 +1,14 @@
 from django.shortcuts import render
+from rest_framework import viewsets
+
 from hikerrank.forms import TextForm
 from hikerrank.models import Text
+from hikerrank.serializers import TextSerializer
+
+
+class TextViewSet(viewsets.ModelViewSet):
+    queryset = Text.objects.all()
+    serializer_class = TextSerializer
 
 
 def getHome(request):

@@ -7,6 +7,7 @@ import Home from "./component/Home/Home";
 import history from "./component/history";
 import Profile from "./component/Profile/Profile";
 import Trail from "./component/Trail/Trail";
+import Test from "./Test"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/signup" component={Signup} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/trail" component={Trail} />
+                <Route path="/test" component={Test} />
             </Switch>
         </Router>
     </div>
