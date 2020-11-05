@@ -9,21 +9,66 @@ import LoginButton from '../Login/LoginButton'
 import DisplayTrail from '../DisplayTrail'
 import PrettierSearch from '../PrettierSearch'
 import Filter from '../Filter'
+import UserMenu from '../UserMenu'
 
 
 import React, { Component } from 'react';
 
 class Home extends Component {
+
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      login_status: sessionStorage.getItem('login_status'),
+      username: sessionStorage.getItem('username')
+    }
+
+    console.log(this.state) //'true' if logged in, null if not
+  }
+
+  // componentWillUnmount(){
+  //   this.setUserStatus()
+  // }
+
+  // setUserStatus(){
+  //   var userStatus = sessionStorage.getItem('login_status')
+  //   console.log(userStatus)
+  // }
+
+  
+  
   
   render() {
+    const renderLoginButton = ()=>{
+      if(this.state.login_status!=='true'){
+        return (
+            <LoginButton />
+        )
+      } else {
+        return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
+      }
+    }
+
+    const renderSignupButton = ()=>{
+      if(this.state.login_status!=='true'){
+        return (
+            <SignUpButton />
+        )
+      } else {
+        return (<UserMenu />)
+      }
+    }
+
     return (
       <div className='container'>
         <div className='header-container'>
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />
           <Search />
-          <LoginButton />
-          <SignUpButton />
+          {renderLoginButton()}
+          {renderSignupButton()}
+          
         </div>
 
         <div className='main-content-container'>
@@ -57,7 +102,7 @@ class Home extends Component {
         </div>
 
         <div className='footer-container'>
-
+          
         </div>
         
       </div>

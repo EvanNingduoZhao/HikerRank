@@ -58,3 +58,8 @@ https://www.django-rest-framework.org/tutorial/quickstart/
 https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/integrating-django-react/#choosing-a-javascript-framework
 
 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+
+### Something new to npm install:
+react-dropdown
+react-router-dom
