@@ -9,12 +9,12 @@ class TextSerializer(serializers.HyperlinkedModelSerializer):
         model = Text
         fields = ['input_text']
 
-class SignupSerializer(serializers.HyperlinkedModelSerializer):
 
+class SignupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username','email','password']
-    
+        fields = ['username', 'email', 'password']
+
     def create(self, validated_data):
         user = User(
             email=validated_data['email'],

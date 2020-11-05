@@ -31,7 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include(router.urls)),
-    path('auth/signup',csrf_exempt(views.signup_view),name="signup"),
-    path('auth/login',obtain_auth_token,name="login"),
+    path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
+    path('auth/login', obtain_auth_token, name="login"),
     url(r'^', TemplateView.as_view(template_name='index.html')),
 ]

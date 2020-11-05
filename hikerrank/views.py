@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView
@@ -7,11 +7,9 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 
-from hikerrank.forms import TextForm
 from hikerrank.models import Text
 from django.contrib.auth.models import User
 from hikerrank.serializers import TextSerializer, SignupSerializer
-
 
 
 class TextViewSet(viewsets.ModelViewSet):
@@ -19,27 +17,13 @@ class TextViewSet(viewsets.ModelViewSet):
     serializer_class = TextSerializer
 
 
-def getHome(request):
-    textForm = TextForm()
-    return render(request, 'hikerrank/hikerrank.html', {'form': textForm})
-
-
-def create_text(request):
-    text = Text()
-    textForm = TextForm(request.POST, instance=text)
-    textForm.save()
-    return render(request, 'hikerrank/hikerrank.html', {'form': TextForm()})
-
-
-
 # class SignupViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
 #     serializer_class = SignupSerializer
 
-@api_view(['POST','GET'])
+@api_view(['POST', 'GET'])
 @csrf_exempt
 def signup_view(request):
-
     if request.method == 'POST':
         serializer = SignupSerializer(data=request.data)
         data = {}
@@ -53,4 +37,3 @@ def signup_view(request):
         else:
             data = serializer.errors
         return Response(data)
-
