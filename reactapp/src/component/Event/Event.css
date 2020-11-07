@@ -1,0 +1,64 @@
+/* .event-content > div{
+    width: 33%;
+} */
+
+.event-left{
+    padding-top: 10px;
+    float: left;
+    width: 30%;
+    height: 50%;
+}
+
+.event-right{
+    padding-top: 10px;
+    float: right;
+    width: 30%;
+    height: 50%;
+}
+
+.event-middle{
+    float: left;
+    height: 50%;
+    width: 40%;
+    padding-top: 10px;
+}
+
+#username{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 32px;
+}
+
+p#initiator{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 32px;
+}
+
+.event-description{
+    background-color: #d2e6d2;
+    filter: drop-shadow(5px 3px 5px #BDBDBD);
+    height: 200px;
+}
+
+#event-description{
+    
+    line-height: 3;
+}
+
+.description-box{
+    padding-top: 50px;
+}
+
+.apply-option{
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+
+.addfav-option{
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+

@@ -10,6 +10,7 @@ import DisplayTrail from '../DisplayTrail'
 import PrettierSearch from '../PrettierSearch'
 import Filter from '../Filter'
 import UserMenu from '../UserMenu'
+import DropDownMenu from '../DropDownMenu'
 
 
 import React, { Component } from 'react';
@@ -56,7 +57,7 @@ class Home extends Component {
             <SignUpButton />
         )
       } else {
-        return (<UserMenu />)
+        return (<DropDownMenu />)
       }
     }
 
