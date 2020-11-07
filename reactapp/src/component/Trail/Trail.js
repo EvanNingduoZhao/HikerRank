@@ -7,6 +7,7 @@ import Nav from '../Nav'
 import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
+import TrailInfo from './TrailInfo'
 
 
 class Trail extends Component {
@@ -23,10 +24,11 @@ class Trail extends Component {
 
                 <div className = 'main-content-container'>
                     <div className='pic-slogan'>
-                    <img className='bg-image' src={trailPagePic} width='100%'/>
+                        <img className='bg-image' src={trailPagePic} width='100%'/>
                         <h1 className='slogan'>Riverview Park Adventure</h1>
                         <h3 className='sub-slogan'>This is a scenic starting and ending at the Observatory, taking you past several key places and arround the park</h3>
                     </div>
+                    <TrailInfo/>
 
 
                 </div>
