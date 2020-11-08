@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import history from "../history";
+import { Redirect } from 'react-router-dom';
 
 class SignupForm extends Component {
     constructor(props) {
@@ -9,19 +11,96 @@ class SignupForm extends Component {
             email: '',
             password1: '',
             password2: '', 
+            status: false,
+            errorMessage: ''
+        }
+
+        // this.handleUsernameInput = this.handleUsernameInput.bind(this)
+        // this.handleEmailInput = this.handleEmailInput.bind(this)
+        // this.handleP1Input = this.handleP1Input.bind(this)
+        // this.handleP2Input = this.handleP2Input.bind(this)
+    }
+
+
+    handleUsernameInput = (event) => {this.setState({ username: event.target.value})}
+    handleEmailInput = (event) => {this.setState({ email: event.target.value})}
+    handleP1Input = (event) => {this.setState({ password1: event.target.value})}
+    handleP2Input = (event) => {this.setState({ password2: event.target.value})}
+    
+
+    handleSubmit = event => {
+        event.preventDefault()
+        alert(`${this.state.username} ${this.state.email} ${this.state.password2} `)
+        // console.log(this.state)
+        if (this.state.password1!==this.state.password2) {
+            this.setState({
+                errorMessage: "Passwords don't match"
+            })
+        } else {
+            this.postForm()
+        }    
+    }
+
+    postForm(){
+        const data = {
+            username: this.state.username, 
+            email: this.state.email,
+            password: this.state.password1
+        }
+
+        fetch('/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data['username']!==this.state.username) {
+                this.setState({
+                    errorMessage: "Oops, this username is already taken.",
+                    status: false
+                });
+                console.log(this.state)
+            } else {
+                sessionStorage.setItem('login_status','true');
+                sessionStorage.setItem('username',this.state.username);
+                this.setState({
+                    errorMessage:"",
+                    status: true,
+                });
+            }        
+            console.log(data)  
+        })
+        .catch((error) => {
+            console.error('Error: ', error)
+        });
+    }
+
+    renderRedirect = () => {
+        if (this.state.status) {
+          return <Redirect to='/' />
         }
     }
-    
+
+
     render() {
         return (
-            <form method="post" className="signup-form">
-                <input type="text" className="signup-input" name="username" placeholder="Username" required="required" />
-                <input type="text" className="signup-input" name="email" placeholder="Password" required="required" />
-                <input type="text" className="signup-input" name="password1" placeholder="Password" required="required" />
-                <input type="text" className="signup-input" name="password2" placeholder="Confirm Password" required="required" />
+            <div>
+                {this.renderRedirect()}
+                <form className="signup-form" onSubmit={this.handleSubmit}>
+                    <input type="text" className="signup-input" name="username" placeholder="Username" required="required" value={this.state.username} onChange={this.handleUsernameInput}/>
+                    <input type="text" className="signup-input" name="email" placeholder="Email" required="required" value={this.state.email} onChange={this.handleEmailInput}/>
+                    <input type="text" className="signup-input" name="password1" placeholder="Password" required="required" value={this.state.password1} onChange={this.handleP1Input}/>
+                    <input type="text" className="signup-input" name="password2" placeholder="Confirm Password" required="required" value={this.state.password2} onChange={this.handleP2Input}/>
                 <br></br>
                 <button type="submit" class="signup-btn">SIGN UP</button>
-            </form>
+                </form>
+                <div className="error-container">
+                    <p className="signup-error">{this.state.errorMessage}</p>
+                </div>
+            </div>   
         );
     }
 }

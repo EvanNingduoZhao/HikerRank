@@ -1,8 +1,15 @@
 from django.db import models
+
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
 
 class Text(models.Model):
     input_text = models.CharField(max_length=100)
+
 
 class Profile_Picture(models.Model):
    Picture	=models.FileField(default='default.jpg',upload_to='profile_pics',blank=True)
@@ -62,3 +69,10 @@ class Follow_UnFollow(models.Model):
    time 		= models.DateTimeField(auto_now_add=True)
    user 		= models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='user')
    following 	= models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='following')
+
+
+@receiver(post_save,sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+

@@ -1,0 +1,19 @@
+div{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, V
+}
+#username{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 32px;
+}
+
+.bio-box{
+    width: 70%;
+    text-align: center;
+    margin: auto;
+}
+
+#bio {
+    line-height: 1.6;
+}

@@ -1,16 +1,88 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import history from "../history";
 
 class LoginForm extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            username: '',
+            password: '',
+            loginStatus:'',
+            errorMessage:''
+        }
+        
+    }
+    handleUsernameInput = (event) => {this.setState({ username: event.target.value})}
+    handlePasswordInput = (event) => {this.setState({ password: event.target.value})}
+
+    handleLogin = event => {
+        event.preventDefault()
+        alert(`${this.state.username} ${this.state.password}`)
+
+        this.postLogin()
+    }
+
+    postLogin(){
+        const data = {
+            username: this.state.username, 
+            password: this.state.password
+        }
+
+        fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {    
+            if(data['token']!=null) {
+                console.log(data);
+                sessionStorage.setItem('login_status','true');
+                sessionStorage.setItem('username',this.state.username);
+                this.setState({
+                    errorMessage:"",
+                    loginStatus: true,
+                });
+            } else {
+                this.setState({
+                    errorMessage:"Invalid credentials",
+                    loginStatus: false,
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error: ', error)
+        });
+    }
+    
+    renderRedirect = () => {
+        if (this.state.loginStatus) {
+          return <Redirect to='/' />
+        }
+    }
+
     render() {
         return (
-            <form method="post" className="login-form">
-                <input type="text" className="login-input" name="username" placeholder="Username" required="required" />
-                <input type="text" className="login-input" name="password" placeholder="Password" required="required" />
-                <br></br>
-                <button type="submit" class="login-btn">LOGIN</button>
-                <button type="submit" class="signup-btn">SIGN UP</button>
-                <button type="submit" class="guest-btn">CONTINUE AS GUESTS</button>
-            </form>
+            <div>
+                {this.renderRedirect()}
+                <form className="login-form" onSubmit={this.handleLogin}>
+                    <input type="text" className="login-input" name="username" placeholder="Username" required="required" value={this.state.username} onChange={this.handleUsernameInput}/>
+                    <input type="text" className="login-input" name="password" placeholder="Password" required="required" value={this.state.password} onChange={this.handlePasswordInput}/>
+                    <br></br>
+                    <button type="submit" class="login-btn">LOGIN</button>
+                </form>
+                <button type="submit" class="signup-btn" onClick={() => history.push('/signup')}>SIGN UP</button>
+                <button type="submit" class="guest-btn" onClick={() => history.push('/')}>CONTINUE AS GUESTS</button>
+                <div className="error-container">
+                    <p className="login-error">{this.state.errorMessage}</p>
+                </div>
+            </div>
+            
         );
     }
 }
