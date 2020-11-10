@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Nav from '../Nav'
 import Search from '../Search'
 import DropDownMenu from '../DropDownMenu'
-import UserProfile from '../NewProfile/UserProfile'
 import ProfilePic from '../../pictures/profile-picture.png'
 import ApplyIcon from '../../pictures/apply-icon.png'
 import AddfavIcon from '../../pictures/addfav-icon.png'

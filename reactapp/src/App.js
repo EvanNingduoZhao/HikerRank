@@ -18,7 +18,7 @@ function App() {
                 <Route path="/" exact component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/profile" component={Profile} />
+                <Route path="/profile/:id" component={Profile} />
                 <Route path="/trail" component={Trail} />
                 <Route path="/event" component={Event} />
                 <Route path="/test" component={Test} />

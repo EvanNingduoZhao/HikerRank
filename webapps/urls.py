@@ -20,12 +20,16 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from django.views.decorators.csrf import csrf_exempt
+from django.views.static import serve
+from django.conf import settings
 
 from hikerrank import views
 
 router = routers.DefaultRouter()
-router.register(r'text', views.TextViewSet)
-#router.register(r'signup',views.SignupViewSet)
+router.register(r'event',views.EventViewSet)
+router.register(r'profile',views.ProfileViewSet)
+router.register(r'trail',views.TrailViewSet)
+router.register(r'user',views.UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +38,5 @@ urlpatterns = [
     path('auth/signup',csrf_exempt(views.signup_view),name="signup"),
     path('auth/login',obtain_auth_token,name="login"),
     url(r'^', TemplateView.as_view(template_name='index.html')),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,})
 ]
