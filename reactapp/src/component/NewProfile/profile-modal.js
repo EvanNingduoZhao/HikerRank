@@ -7,7 +7,7 @@ import './EditProfileButton.css'
   
   const {
     title, isOpen, askToClose,
-    onAfterOpen, onRequestClose, onChangeInput,profileId
+    onAfterOpen, onRequestClose, onChangeInput,profileId,ini_picture
   } = props;
 
   const [bio, setBio] = useState("");
@@ -51,10 +51,10 @@ import './EditProfileButton.css'
       onRequestClose={onRequestClose}
       id="profile-modal">
       <h3>Edit Profile</h3>
-      <img src={ProfilePic} width="170px"></img>
+      <img src={ini_picture} width="170px"></img>
       <form className="edit-profile-form">
         <input id="edit-bio" type="text" onChange={(event) => setBio(event.target.value)} placeholder="Enter your description here..."/><br></br>
-        <input type="file"  accept="image/png, image/jpeg, image/png" onChange={(event) => setPicture(event.target.files[0])}></input>
+        <input type="file"  accept="image/jpg, image/jpeg, image/png" onChange={(event) => setPicture(event.target.files[0])}></input>
         <button className="btn btn-primary" onClick={()=> updateProfile()}>Submit</button>
       </form>
       <button className="close-edit-button" onClick={askToClose}>X close</button>

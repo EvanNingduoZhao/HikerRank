@@ -1,0 +1,16 @@
+.notif-title{
+    margin-top: 60px;
+}
+
+.notif-content{
+    margin-top: 30px;
+    height: 300px;
+}
+
+.calendar{
+    align-content: center;
+}
+
+.calendar-position{
+    margin-left: 38%;
+}

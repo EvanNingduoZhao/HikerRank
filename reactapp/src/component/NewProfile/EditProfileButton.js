@@ -31,7 +31,7 @@ class EditProfileButton extends Component {
 
       toggleModal = key => event => {
         console.log(this.state)
-        
+        // alert(`${this.props.ini_picture}`)
         event.preventDefault();
         if (this.state.currentModal) {
           this.handleModalCloseRequest();
@@ -83,7 +83,8 @@ class EditProfileButton extends Component {
                     onRequestClose={this.handleModalCloseRequest}
                     askToClose={this.toggleModal(MODAL_A)}
                     onChangeInput={this.handleInputChange} 
-                    profileId={this.props.profileId}/>
+                    profileId={this.props.profileId}
+                    ini_picture={this.props.ini_picture}/>
             </div>
         );
     }

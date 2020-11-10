@@ -22,6 +22,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from django.views.decorators.csrf import csrf_exempt
 from django.views.static import serve
 from django.conf import settings
+from django.conf.urls.static import static
 
 from hikerrank import views
 
@@ -36,7 +37,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include(router.urls)),
     path('auth/signup',csrf_exempt(views.signup_view),name="signup"),
-    path('auth/login',obtain_auth_token,name="login"),
-    url(r'^', TemplateView.as_view(template_name='index.html')),
-    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,})
-]
+    # path('auth/login',obtain_auth_token,name="login"),
+    path('auth/login',views.AuthTokenView.as_view(),name="login"),
+    # url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,})
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [url(r'^', TemplateView.as_view(template_name='index.html'))]

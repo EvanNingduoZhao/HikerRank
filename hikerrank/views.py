@@ -6,6 +6,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
@@ -63,41 +64,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         # print(serializer.is_valid())
         # serializer.save()
         return Response({'message':'success'},status=200)
-    
-    def perform_create(self, serializer):
-        serializer.save()
-
-
-
-
-# @api_view(['PUT','GET','DELETE'])
-# @csrf_exempt
-# def profile_detail_view(request,id):
-#     print()
-#     try: 
-#         profile = Profile.objects.get(pk=id)
-#     except Profile.DoesNotExist: 
-#         print('error')
-#         return JsonResponse({'message': 'The profile does not exist'}, status=status.HTTP_404_NOT_FOUND) 
-
-#     if request.method == 'GET': 
-#         profile_serializer = ProfileSerializer(profile)
-#         return JsonResponse(profile_serializer.data) 
- 
-#     elif request.method == 'PUT': 
-#         new_profile = {}
-#         new_profile['user'] = request.user
-#         new_profile['bio'] = request.data['bio']
-#         new_profile['picture'] = request.data['picture']
-#         profile_serializer = ProfileSerializer(profile, data=new_profile)
-#         if profile_serializer.is_valid(): 
-#             profile_serializer.save() 
-#             return JsonResponse(profile_serializer.data) 
-#         return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
- 
-#     elif request.method == 'DELETE': 
-#         profile.delete() 
-#         return JsonResponse({'message': 'Profile was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -120,9 +86,23 @@ def signup_view(request):
             data['username'] = user.username
             token = Token.objects.get(user=user).key
             data['token'] = token
+            data['id'] = user.id
             profile = Profile(user=user)
             profile.save()
         else:
             data = serializer.errors
         return Response(data)
 
+
+class AuthTokenView(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+        })

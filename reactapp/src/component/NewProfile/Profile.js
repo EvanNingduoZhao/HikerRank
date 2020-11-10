@@ -9,6 +9,7 @@ import ProfilePic from '../../pictures/profile-picture.png'
 import EditProfileButton from './EditProfileButton'
 import UserCheckins from './UserCheckins'
 import FriendsList from './FriendsList'
+import Footer from '../Footer'
 import Album from './Album'
 
 class Profile extends Component {
@@ -79,12 +80,12 @@ class Profile extends Component {
 
                 <div className='content'>
                     <div className='left'>
-                        <p id="username">USERNAME</p>
-                        <img src={this.state.profile_picture} alt="image" width="170px"></img>
+                        <p id="username">{this.state.username}</p>
+                        <img src={this.state.profile_picture} alt="image" width="170px" ></img>
                         <div className="bio-box">
                             <p id="bio">{this.state.profile_bio}</p>
                         </div>
-                        <EditProfileButton profileId={this.state.profile_id}/>
+                        <EditProfileButton profileId={this.state.profile_id} ini_picture={this.state.profile_picture}/>
                         <FriendsList />
                         
                     </div>
@@ -94,6 +95,8 @@ class Profile extends Component {
                         <Album />
                     </div>
                 </div>
+
+                <Footer />
             </div>
         );
     }

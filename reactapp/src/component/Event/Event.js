@@ -6,6 +6,7 @@ import ProfilePic from '../../pictures/profile-picture.png'
 import ApplyIcon from '../../pictures/apply-icon.png'
 import AddfavIcon from '../../pictures/addfav-icon.png'
 import GroupChatIcon from '../../pictures/groupchat-icon.png'
+import Footer from '../Footer'
 import './Event.css'
 
 class Event extends Component {
@@ -74,7 +75,11 @@ class Event extends Component {
                             <h3>Join Group Chat</h3>
                         </div>
                     </div>
+
+
                 </div>
+
+                <Footer />
                 
 
             </div>
