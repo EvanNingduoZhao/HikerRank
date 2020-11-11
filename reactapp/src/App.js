@@ -8,6 +8,7 @@ import history from "./component/history";
 import Profile from "./component/NewProfile/Profile";
 import Trail from "./component/Trail/Trail";
 import Event from "./component/Event/Event";
+import Notification from "./component/Notification/Notification"
 import Test from "./Test"
 
 function App() {
@@ -18,10 +19,12 @@ function App() {
                 <Route path="/" exact component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/profile" component={Profile} />
+                <Route path="/profile/:id" component={Profile} />
                 <Route path="/trail" component={Trail} />
                 <Route path="/event" component={Event} />
                 <Route path="/test" component={Test} />
+                <Route path="/notification" component={Notification} />
+                
             </Switch>
         </Router>
     </div>

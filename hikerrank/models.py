@@ -1,27 +1,22 @@
 from django.db import models
+
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-
 from django.contrib.auth.models import User
 
-class Text(models.Model):
-    input_text = models.CharField(max_length=100)
+
+def profile_picture_upload_path(instance, filename):
+   return '/'.join([str(instance.user.username),filename])
 
 
-@receiver(post_save,sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-class Profile_Picture(models.Model):
-   Picture	=models.FileField(default='default.jpg',upload_to='profile_pics',blank=True)
-   Content_type	=models.CharField(max_length=50,default='image/jpeg');
-
+# id link to user id
 class Profile(models.Model):
-   User      = models.ForeignKey(User, default=None, on_delete=models.PROTECT)
-   bio       = models.TextField(blank=True)
-   picture      = models.FileField(blank=True,default="default-picture.png")
+   user         = models.OneToOneField(User, primary_key=True,default=None, on_delete=models.PROTECT)
+   bio 		    = models.TextField(default="Tell me about yourself...",blank=True)
+   picture      = models.FileField(default="default-picture.png",max_length=255,upload_to=profile_picture_upload_path)
 
 
 class Trail(models.Model):
@@ -38,13 +33,14 @@ class Trail(models.Model):
    high_altitude = models.FloatField(blank=True)
    low_altitude  = models.FloatField(blank=True)
    ratings      = models.FloatField(default=0)
-
+   map_info = models.JSONField()
+    
 class Event(models.Model):
    initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
    name         = models.CharField(max_length=200)
    description  = models.TextField(blank=True)
-   time      = models.DateTimeField(auto_now_add=True)
-   trail     = models.ForeignKey(Trail,on_delete=models.CASCADE)
+   time		    = models.DateTimeField(auto_now_add=True)
+   trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
    participants = models.ManyToManyField(User,related_name="participants")
@@ -70,5 +66,11 @@ class Review(models.Model):
 
 class Follow_UnFollow(models.Model):
    time 		= models.DateTimeField(auto_now_add=True)
-   user 		= models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='user')
-   following 	= models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='following')
+   user 		= models.ForeignKey(User,on_delete=models.CASCADE, related_name="this_user")
+   following 	= models.ForeignKey(User,on_delete=models.CASCADE, related_name="following")
+
+
+@receiver(post_save,sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
