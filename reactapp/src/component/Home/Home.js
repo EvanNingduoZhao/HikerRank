@@ -10,6 +10,7 @@ import DisplayTrail from '../DisplayTrail'
 import PrettierSearch from '../PrettierSearch'
 import Filter from '../Filter'
 import UserMenu from '../UserMenu'
+import Footer from '../Footer'
 import DropDownMenu from '../DropDownMenu'
 
 
@@ -103,7 +104,7 @@ class Home extends Component {
         </div>
 
         <div className='footer-container'>
-          
+          <Footer />
         </div>
         
       </div>
