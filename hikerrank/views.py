@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from rest_framework import viewsets
@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.views.decorators.csrf import csrf_exempt
+
 from django.http.response import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -75,10 +76,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 
-@api_view(['POST','GET'])
+
+@api_view(['POST', 'GET'])
 @csrf_exempt
 def signup_view(request):
-
     if request.method == 'POST':
         serializer = SignupSerializer(data=request.data)
         data = {}
@@ -95,6 +96,7 @@ def signup_view(request):
         else:
             data = serializer.errors
         return Response(data)
+
 
 
 class AuthTokenView(ObtainAuthToken):
@@ -131,4 +133,4 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-        
+
