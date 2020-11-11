@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -16,8 +16,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
 from django.contrib.auth.models import User
-from hikerrank.serializers import SignupSerializer,EventSerializer,\
-    TrailSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer
+from .models import Trail
+from .serializers import TrailSerializer
+
+from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer
 
 
 
@@ -70,6 +72,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     
 
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -97,6 +100,11 @@ def signup_view(request):
             data = serializer.errors
         return Response(data)
 
+
+
+class TrailViewSet(viewsets.ModelViewSet):
+    queryset = Trail.objects.all()
+    serializer_class = TrailSerializer
 
 
 class AuthTokenView(ObtainAuthToken):
@@ -133,4 +141,5 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 

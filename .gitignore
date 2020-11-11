@@ -3,4 +3,6 @@ db.sqlite3
 migrations
 .DS_Store
 .idea
-pictures
+bin/*
+lib/*
+

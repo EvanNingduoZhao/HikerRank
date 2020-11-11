@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import '../../App.css';
 import './Trail.css';
-import trailPagePic from '../../pictures/TrailPagePic.png';
+// import trailPagePic from '../../pictures/TrailPagePic.png';
 import sampleMap from '../../pictures/sample-map.png'
 import checkMark from '../../pictures/checkMark.png'
 import reviewIcon from '../../pictures/reviewIcon.png'
@@ -13,10 +13,35 @@ import Nav from '../Nav'
 import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
-import TrailInfo from './TrailInfo'
+import axios from 'axios';
+import PicSlogan from './PicSlogan';
+import TrailInfo from './TrailInfo';
+
 
 
 class Trail extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             trail:{}
+        }
+    }
+    componentDidMount(){
+        const trailID='7003964';
+        axios.get(`http://127.0.0.1:8000/api/trail/${trailID}/`)
+            .then(res=>{
+                console.log("this is res")
+                console.log(res.data)
+                this.setState({
+                    trail:res.data
+                })
+                console.log("this is the trail summary")
+                console.log(this.state.trail.summary)
+            })
+        console.log(this.state.trail.name)
+    }
+    
     render() {
         return (
             <div className = 'container'>
@@ -27,22 +52,14 @@ class Trail extends Component {
                     <LoginButton />
                     <SignUpButton />
                 </div>
-
-                <div className='pic-slogan-container'>
-                        <img className='bg-image' src={trailPagePic} width='100%'/>
-                        <h1 className='slogan'>Riverview Park Adventure</h1>
-                        <h3 className='sub-slogan'>This is a scenic starting and ending at the Observatory, taking you past several key places and arround the park</h3>
-                </div>
-
-                <div className='Trail-Info-container'>
-                    <p className='section-header'>ABOUT THE TRAIL</p>
-                    <p>Location: Millvale, Pennsylvania</p>
-                    <p>Length:3.1 miles</p>
-                    <p>Elevation: high - 1213 ft, low - 874 ft</p>
-                    <p>Difficulty: Medium</p>
-                    <p>Other Information:</p>
-                    <p>Ratings: 3.5(10) <a href=''>Rate this trail</a></p>
-                </div>
+                <PicSlogan name={this.state.trail.name} summary={this.state.trail.summary}/>
+                <TrailInfo location={this.state.trail.location} 
+                            length={this.state.trail.length}
+                            high={this.state.trail.high_altitude}
+                            low={this.state.trail.low_altitude}
+                            difficulty={this.state.trail.difficulty}
+                            rating={this.state.trail.ratings}
+                />
 
                 <div className='map-container'>
                     <img src={sampleMap}/>
