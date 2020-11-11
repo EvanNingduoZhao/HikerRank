@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
-from hikerrank.models import Text
+from hikerrank.models import Text,Trail
 from django.contrib.auth.models import User
+
 
 
 class TextSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,3 +24,8 @@ class SignupSerializer(serializers.HyperlinkedModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class TrailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Trail
+        fields='__all__'

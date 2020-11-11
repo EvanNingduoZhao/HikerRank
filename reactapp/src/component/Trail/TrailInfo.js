@@ -1,30 +1,18 @@
-import React, { Component } from 'react';
-import './TrailInfo.css'
+import React from 'react'
 
-class TraiInfo extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-             trailInfo:{}
-        }
-    }
-    
-    render() {
-        return (
-            <div>
-                <p className='AboutTheTrail'>ABOUT THE TRAIL</p>
-                <div className='TrailInfo'>
-                    <p>Location:</p>
-                    <p>Length:</p>
-                    <p>Elevation:</p>
-                    <p>Difficulty:</p>
-                    <p>Other Information:</p>
-                    <p>Ratings:</p>
-                </div>
-            </div>
-        )
-    }
+function TrailInfo(props) {
+    return (
+        <div className='Trail-Info-container'>
+            <p className='section-header'>ABOUT THE TRAIL</p>
+            <p>Location: {props.location}</p>
+            <p>Length:{props.length} miles</p>
+            <p>Elevation: high - {props.high} ft, low - {props.low} ft</p>
+            <p>Difficulty: {props.difficulty}</p>
+            <p>Other Information:</p>
+            <p>Ratings: {props.rating}(10) <a href=''>Rate this trail</a></p>
+        </div>
+    )
 }
 
-export default TraiInfo
+export default TrailInfo
+

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from hikerrank.models import Text
 from django.contrib.auth.models import User
 from hikerrank.serializers import TextSerializer, SignupSerializer
+from .models import Trail
+from .serializers import TrailSerializer
 
 
 class TextViewSet(viewsets.ModelViewSet):
@@ -37,3 +39,8 @@ def signup_view(request):
         else:
             data = serializer.errors
         return Response(data)
+
+
+class TrailViewSet(viewsets.ModelViewSet):
+    queryset = Trail.objects.all()
+    serializer_class = TrailSerializer
