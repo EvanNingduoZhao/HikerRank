@@ -11,7 +11,8 @@ class LoginForm extends Component {
             username: '',
             password: '',
             loginStatus:'',
-            errorMessage:''
+            errorMessage:'',
+            redirect: null
         }
         
     }
@@ -44,6 +45,7 @@ class LoginForm extends Component {
                 console.log(data);
                 sessionStorage.setItem('login_status','true');
                 sessionStorage.setItem('username',this.state.username);
+                sessionStorage.setItem('id',data['user_id'])
                 this.setState({
                     errorMessage:"",
                     loginStatus: true,
@@ -60,9 +62,27 @@ class LoginForm extends Component {
         });
     }
     
+    handleSignup = event => {
+        this.setState({
+            redirect: 'to_signup'
+        },()=>console.log(this.state.redirect));
+    }
+
+    handleGuest  = event =>{
+        this.setState({
+            redirect: 'to_homepage'
+        },()=>console.log(this.state.redirect))
+    }
+
     renderRedirect = () => {
         if (this.state.loginStatus) {
           return <Redirect to='/' />
+        } 
+        if (this.state.redirect === 'to_signup'){
+            return <Redirect to='/signup' />
+        }
+        if (this.state.redirect === 'to_homepage'){
+            return <Redirect to='/' />
         }
     }
 
@@ -76,8 +96,8 @@ class LoginForm extends Component {
                     <br></br>
                     <button type="submit" class="login-btn">LOGIN</button>
                 </form>
-                <button type="submit" class="signup-btn" onClick={() => history.push('/signup')}>SIGN UP</button>
-                <button type="submit" class="guest-btn" onClick={() => history.push('/')}>CONTINUE AS GUESTS</button>
+                <button type="submit" class="signup-btn" onClick={this.handleSignup}>SIGN UP</button>
+                <button type="submit" class="guest-btn" onClick={this.handleGuest}>CONTINUE AS GUESTS</button>
                 <div className="error-container">
                     <p className="login-error">{this.state.errorMessage}</p>
                 </div>

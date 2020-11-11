@@ -11,6 +11,7 @@ class SignupForm extends Component {
             email: '',
             password1: '',
             password2: '', 
+            id:null,
             status: false,
             errorMessage: ''
         }
@@ -66,15 +67,17 @@ class SignupForm extends Component {
             } else {
                 sessionStorage.setItem('login_status','true');
                 sessionStorage.setItem('username',this.state.username);
+                sessionStorage.setItem('id',data['id']);
                 this.setState({
                     errorMessage:"",
                     status: true,
+                    id: data['id']
                 });
             }        
             console.log(data)  
         })
         .catch((error) => {
-            console.error('Error: ', error)
+            console.log('Error: ', error)
         });
     }
 

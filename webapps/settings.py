@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'hikerrank',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -147,4 +148,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+
 CORS_ALLOW_ALL_ORIGINS=True
+MEDIA_ROOT = os.path.join(BASE_DIR,'pictures')
+MEDIA_URL = '/pictures/'
+

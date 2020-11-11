@@ -8,11 +8,30 @@ class EditProfileButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          currentModal: null
+          currentModal: null,
+          modal_stay_open: null
         };
       }
-    
+
+      componentDidMount(){
+        if(sessionStorage.getItem('stay_open')==='true'){
+          this.setState({
+            currentModal: MODAL_A,
+            modal_stay_open: true
+          },()=>console.log(this.state));
+          sessionStorage.setItem('stay_open','false')
+        } else {
+          this.setState({
+            currentModal: null,
+            modal_stay_open: false
+          },()=>console.log(this.state))
+        }
+      }
+
+
       toggleModal = key => event => {
+        console.log(this.state)
+        // alert(`${this.props.ini_picture}`)
         event.preventDefault();
         if (this.state.currentModal) {
           this.handleModalCloseRequest();
@@ -22,7 +41,8 @@ class EditProfileButton extends Component {
         this.setState({
           ...this.state,
           currentModal: key,
-        });
+        },()=>{console.log(this.state)});
+        
       }
     
       handleModalCloseRequest = () => {
@@ -32,6 +52,7 @@ class EditProfileButton extends Component {
           ...this.state,
           currentModal: null
         });
+        // sessionStorage.removeItem('stay_open')
       }
     
       handleInputChange = e => {
@@ -39,12 +60,14 @@ class EditProfileButton extends Component {
         if (text == '') {
         }
         this.setState({ ...this.state});
+        console.log(this.state)
       }
     
       handleOnAfterOpenModal = () => {
         // when ready, we can access the available refs.
         this.heading && (this.heading.style.color = '#F00');
       }
+
 
     render() {
         const { currentModal } = this.state;
@@ -54,56 +77,18 @@ class EditProfileButton extends Component {
                 <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)}>Edit Profile</button>
                 <MyModal
                     title={this.state.title1}
-                    isOpen={currentModal == MODAL_A}
+                    // isOpen={currentModal == MODAL_A }
+                    isOpen={currentModal == MODAL_A || this.modal_stay_open}
                     onAfterOpen={this.handleOnAfterOpenModal}
                     onRequestClose={this.handleModalCloseRequest}
                     askToClose={this.toggleModal(MODAL_A)}
-                    onChangeInput={this.handleInputChange} />
+                    onChangeInput={this.handleInputChange} 
+                    profileId={this.props.profileId}
+                    ini_picture={this.props.ini_picture}/>
             </div>
         );
     }
 }
 
-// function EditProfileButton() {
-//     // Get the modal
-//     var modal = document.getElementById("myModal");
 
-//     // Get the button that opens the modal
-//     var btn = document.getElementById("myBtn");
-
-//     // Get the <span> element that closes the modal
-//     var span = document.getElementsByClassName("close")[0];
-
-//     // When the user clicks on the button, open the modal
-//     btn.onclick = function() {
-//         modal.style.display = "block";
-//     }
-
-//     // When the user clicks on <span> (x), close the modal
-//     span.onclick = function() {
-//     modal.style.display = "none";
-//     }
-
-//     // When the user clicks anywhere outside of the modal, close it
-//     window.onclick = function(event) {
-//     if (event.target == modal) {
-//         modal.style.display = "none";
-//     }
-//     }
-
-  
-//     return (
-//       <div>
-//         <button id="myBtn">Open Modal</button>
-
-//         <div id="myModal" class="modal">
-//             <div class="modal-content">
-//                 <span class="close">&times;</span>
-//                 <p>Some text in the Modal..</p>
-//             </div>
-//         </div>
-//       </div>
-//     );
-//   }
-  
   export default EditProfileButton;
