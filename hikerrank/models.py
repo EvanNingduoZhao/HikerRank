@@ -38,6 +38,11 @@ class Trail(models.Model):
    ratings      = models.FloatField(default=0)
 
 
+class Follow_UnFollow(models.Model):
+   time 		= models.DateTimeField(auto_now_add=True)
+   user 		= models.ForeignKey(User,on_delete=models.CASCADE, related_name="this_user")
+   following 	= models.ForeignKey(User,on_delete=models.CASCADE, related_name="following")
+
 
 # class Photo(models.Model):
 #    picture 	= models.FileField(upload_to='')

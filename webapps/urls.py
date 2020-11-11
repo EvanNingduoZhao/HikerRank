@@ -31,6 +31,7 @@ router.register(r'event',views.EventViewSet)
 router.register(r'profile',views.ProfileViewSet)
 router.register(r'trail',views.TrailViewSet)
 router.register(r'user',views.UserViewSet)
+router.register(r'follow-unfollow',views.FollowUnfollowViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

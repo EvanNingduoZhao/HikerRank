@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from hikerrank.models import Event, Trail, Profile
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
 from django.contrib.auth.models import User
 
 class SignupSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,22 +36,14 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         model = Profile
         fields = '__all__'
 
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     print("***************")
-    #     picture = validated_data['picture']
-    #     bio = validated_data['bio']
-    #     # user_id = validated_data['user']
-    #     profile = Profile(
-    #         bio =bio,
-    #         picture =picture,
-    #         # user = this_user
-    #     )
-    #     profile.save()
-    #     return profile
-
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id','username','email']
+
+
+class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Follow_UnFollow
+        fields = '__all__'

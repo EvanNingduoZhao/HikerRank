@@ -10,11 +10,13 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-from hikerrank.models import Event, Trail, Profile
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
 from django.contrib.auth.models import User
-from hikerrank.serializers import SignupSerializer,EventSerializer,TrailSerializer, ProfileSerializer,UserSerializer
+from hikerrank.serializers import SignupSerializer,EventSerializer,\
+    TrailSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer
 
 
 
@@ -64,6 +66,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         # print(serializer.is_valid())
         # serializer.save()
         return Response({'message':'success'},status=200)
+    
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -106,3 +109,26 @@ class AuthTokenView(ObtainAuthToken):
             'token': token.key,
             'user_id': user.pk,
         })
+
+
+class FollowUnfollowViewSet(viewsets.ModelViewSet):
+    queryset = Follow_UnFollow.objects.all()
+    serializer_class = FollowUnfollowSerializer
+   
+    def get(self, request, pk=None):
+        if pk == None:
+            data = Follow_UnFollow.objects.all()
+        else:
+            this_user = User.objects.get(id=pk)
+            data = Follow_UnFollow.objects.filter(user=this_user)
+
+        queryset = self.filter_queryset(data)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+        

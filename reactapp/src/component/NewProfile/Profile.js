@@ -5,8 +5,8 @@ import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
 import DropDownMenu from '../DropDownMenu'
-import ProfilePic from '../../pictures/profile-picture.png'
 import EditProfileButton from './EditProfileButton'
+import AddFriendButton from './AddFriendButton'
 import UserCheckins from './UserCheckins'
 import FriendsList from './FriendsList'
 import Footer from '../Footer'
@@ -31,40 +31,53 @@ class Profile extends Component {
     }
 
     componentDidMount(){
-        const api_url = '/api/profile/'+this.state.profile_id+'/'
-        console.log(api_url)
-        fetch(api_url)
+        const profile_api_url = '/api/profile/'+this.state.profile_id+'/'
+        console.log(profile_api_url)
+        fetch(profile_api_url)
         .then(res => res.json())
         .then(
             result =>{
-                console.log(result['picture']);
+                console.log(result);
                 this.setState({
                     profile_bio:result['bio'],
-                    profile_picture:result['picture']
+                    profile_picture:result['picture'],
+                },()=>{console.log(this.state)})
+            }
+        )
+        
+        const user_api_url = '/api/user/'+this.state.profile_id+'/'
+        fetch(user_api_url)
+        .then(res => res.json())
+        .then(
+            result =>{
+                console.log(result);
+                this.setState({
+                    profile_username:result['username'],
                 },()=>{console.log(this.state)})
             }
         )
     }
+
     
     render() {
         
         const renderLoginButton = ()=>{
-            if(this.state.login_status!=='true'){
-              return (
-                  <LoginButton />
-              )
-            } else {
-              return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
-            }
+            if(this.state.login_status!=='true'){return (<LoginButton />)} 
+            else {return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)}
           }
       
           const renderSignupButton = ()=>{
-            if(this.state.login_status!=='true'){
+            if(this.state.login_status!=='true'){return (<SignUpButton />)} 
+            else {return (<DropDownMenu />)}
+          }
+
+          const renderEditButton = ()=>{
+            if(this.state.profile_id===sessionStorage.getItem('id')){
               return (
-                  <SignUpButton />
+                <EditProfileButton profileId={this.state.profile_id} ini_picture={this.state.profile_picture}/>
               )
             } else {
-              return (<DropDownMenu />)
+              return (<AddFriendButton profileId={this.state.profile_id}/>)
             }
           }
 
@@ -80,19 +93,19 @@ class Profile extends Component {
 
                 <div className='content'>
                     <div className='left'>
-                        <p id="username">{this.state.username}</p>
+                        <p id="username">{this.state.profile_username}</p>
                         <img src={this.state.profile_picture} alt="image" width="170px" ></img>
                         <div className="bio-box">
                             <p id="bio">{this.state.profile_bio}</p>
                         </div>
-                        <EditProfileButton profileId={this.state.profile_id} ini_picture={this.state.profile_picture}/>
-                        <FriendsList />
+                        {renderEditButton()}
+                        <FriendsList profileId={this.state.profile_id}/>
                         
                     </div>
 
                     <div className='right'>
                         <UserCheckins />
-                        <Album />
+                        <Album profileId={this.state.profile_id}/>
                     </div>
                 </div>
 
