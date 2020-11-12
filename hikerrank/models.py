@@ -12,6 +12,10 @@ def profile_picture_upload_path(instance, filename):
    return '/'.join([str(instance.user.username),filename])
 
 
+def profile_album_upload_path(instance, filename):
+   return '/'.join([str(instance.user.username),filename])
+
+
 # id link to user id
 class Profile(models.Model):
    user         = models.OneToOneField(User, primary_key=True,default=None, on_delete=models.PROTECT)
@@ -50,6 +54,13 @@ class Photo(models.Model):
    content_type 	= models.CharField(max_length=50, default='image/jpeg');
    Trail		=models.ForeignKey(Trail,on_delete=models.CASCADE)
    Event		=models.ForeignKey(Event,on_delete=models.CASCADE)
+   
+
+class Album(models.Model):
+   user = models.ForeignKey(User,on_delete=models.CASCADE)
+   picture = models.FileField(default="welcome-image.jpg",max_length=255,upload_to=profile_album_upload_path)
+   caption = models.TextField(blank=True)
+   time	  = models.DateTimeField(auto_now_add=True)
 
 
 class CheckIn(models.Model):

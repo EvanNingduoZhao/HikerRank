@@ -7,7 +7,8 @@ class FriendsList extends Component {
         
         this.state={
             profile_id: this.props.profileId,
-            dict:{}
+            dict:{},
+            no_friend_msg: null
         }
     }
     
@@ -17,6 +18,7 @@ class FriendsList extends Component {
         .then(res => res.json())
         .then( data =>{
             var data_size = Object.keys(data).length
+
             for (let index = 0; index < data_size; index++) {
                 const element = data[index];
                 let user_url = element['user']
@@ -37,7 +39,8 @@ class FriendsList extends Component {
                             dict[name] = '/profile/'+String(id)+'/'
                             this.setState({
                                 ...this.state,
-                                dict: dict
+                                dict: dict,
+                                no_friend_msg:null
                             },console.log(this.state))
                         })
                     } else {
@@ -46,6 +49,22 @@ class FriendsList extends Component {
                 })
             }
         })
+
+        if(Object.keys(this.state.dict).length===0 && sessionStorage.getItem('id')===this.state.profile_id){
+            this.setState({
+                ...this.state,
+                no_friend_msg: "You have no friends. Go add some friends!"
+            },console.log(this.state))
+            return;
+        }
+        
+        if(Object.keys(this.state.dict).length===0 && sessionStorage.getItem('id')!=this.state.profile_id){
+            this.setState({
+                ...this.state,
+                no_friend_msg: "This user currently has no friends"
+            },console.log(this.state))
+            return;
+        }
     }
     
 
@@ -54,7 +73,7 @@ class FriendsList extends Component {
         return (
             <div className="fl-box">
                 <p className="fl-header">FRIENDS CIRCLE</p>
-                
+                <h4>{this.state.no_friend_msg}</h4>
                 {
                     Object.keys(this.state.dict).map((key, index) => (
                         <div>

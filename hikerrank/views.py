@@ -14,12 +14,14 @@ from django.http.response import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow,CheckIn,Review, Album
 from django.contrib.auth.models import User
 from .models import Trail
 from .serializers import TrailSerializer
 
-from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer
+from hikerrank.serializers import SignupSerializer,EventSerializer, \
+    ProfileSerializer,UserSerializer,FollowUnfollowSerializer,CheckinSerializer, \
+        ReviewSerializer, AlbumSerializer
 
 
 
@@ -105,6 +107,30 @@ def signup_view(request):
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
+
+class CheckinViewSet(viewsets.ModelViewSet):
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckinSerializer
+
+class AlbumViewSet(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+    def create(self, request,*args, **kwargs):
+        data = {}
+        print(request.data)
+        picture = request.data['picture']
+        caption = request.data['caption']
+        user_id = int(request.data['user'])
+        user = User.objects.get(id=user_id)
+        album = Album(user=user,caption=caption,picture=picture)
+        album.save()
+
+        return Response({'message':'success'},status=200)
+ 
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 
 class AuthTokenView(ObtainAuthToken):

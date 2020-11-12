@@ -34,6 +34,10 @@ router.register(r'event',views.EventViewSet)
 router.register(r'profile',views.ProfileViewSet)
 router.register(r'user',views.UserViewSet)
 router.register(r'follow-unfollow',views.FollowUnfollowViewSet)
+router.register(r'checkin',views.CheckinViewSet)
+router.register(r'review',views.ReviewViewSet)
+router.register(r'album',views.AlbumViewSet)
+
 
 
 urlpatterns = [

@@ -4,29 +4,55 @@ import example1 from '../../pictures/album-example-1.jpg'
 import example2 from '../../pictures/album-example-2.jpg'
 import example3 from '../../pictures/album-example-3.jpg'
 import example4 from '../../pictures/album-example-4.jpg'
+import UploadPhotoButton from './UploadPhotoButton'
+import Modal from 'react-modal';
 import Carousel from 'react-images';
 
 
-const images = [{ source: example1 }, { source: example2}, {source: example3},{source:example4}];
+const images = [
+  { source: example1,caption: "Cloud & mountain" }, 
+  { source: example2, caption: "Cloud & mountain"}, 
+  { source: example3, caption: "Cloud & mountain"},
+  { source:example4,caption: "Cloud & mountain"}];
 
 class Album extends Component {
   constructor(props) {
     super(props);
     
     this.state={
-      profile_id: this.props.profileId
+      profile_id: this.props.profileId,
     }
+  }
+
+  componentDidMount(){
+    fetch('/api/album/')
+    .then(res => res.json())
+    .then (data => {
+        var data_size = Object.keys(data).length
+        for (let index = 0; index < data_size; index++) {
+            const element = data[index];
+            var user_url = element['user']
+            if (user_url.split("/").includes(String(this.state.profile_id))){
+                var picture_dict = {};
+                var picture_source = element['picture']
+                var picture_caption = element['caption']
+                // picture_dict['time'] = String(element['time']).substring(0,10)
+                images.push({source: picture_source, caption:picture_caption})
+            }
+          }
+    })
   }
   
   render() {
     const renderUploadButton = ()=>{
       if(this.state.profile_id===sessionStorage.getItem('id')){
-        return (<button className="btn btn-primary" id="upload-photo-btn"> Upload Photo</button>)
+        return (<UploadPhotoButton profileId={this.state.profile_id}/>)
       } 
       else {return (<div></div>)}
     }
 
     return (
+      
         <div className="album-box">
             <p className="album-header">HIKING ALBUM</p>
             <div className="gallery">
