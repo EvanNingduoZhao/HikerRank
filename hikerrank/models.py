@@ -33,7 +33,7 @@ class Trail(models.Model):
    high_altitude = models.FloatField(blank=True)
    low_altitude  = models.FloatField(blank=True)
    ratings      = models.FloatField(default=0)
-   map_info = models.JSONField()
+   # map_info = models.JSONField(default=dict)
     
 class Event(models.Model):
    initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")

@@ -1,5 +1,5 @@
 
-.container{
+.trailpage-container{
   position:absolute;
   width: 100%;
   height:100%;
@@ -11,21 +11,22 @@
   grid-template-rows: 70px repeat(1fr,auto);
 }
 
-.header-container {
+.trail-header-container {
   grid-column-start: 1;
   grid-column-end: 4;
+  grid-row-start:1;
   background: #000000;
   text-align: left;
 }
 
-.pic-slogan-container{
+.trail-pic-slogan-container{
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.Trail-Info-container{
+.trail-Trail-Info-container{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:3;
@@ -42,7 +43,7 @@ text-indent: 1px;
 color: #000000;
 }
 
-.section-header{
+.trail-section-header{
   font-family: Ubuntu;
   font-style: normal;
   font-weight: bold;
@@ -52,10 +53,10 @@ color: #000000;
   
   color: #000000;
 }
-.bg-image{
+.trail-bg-image{
   filter: brightness(50%); 
 }
-.map-container{
+.trail-map-container{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:3;
@@ -65,24 +66,24 @@ color: #000000;
   margin-right: 10%;
   border-color: black;
 }
-.map-container > img{
+.trail-map-container > img{
   object-fit: cover;
   width: 100%;
   max-height: 100%;
 }
-.checkin-container{
+.trail-checkin-container{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:4;
   grid-row-end:5;
 }
 
-.user-checkin{
+.trail-user-checkin{
   margin-top: 30px;
   margin-bottom: 30px;
 }
 
-.button{
+.trail-button{
   background: #219653;
   height: 30px;
   width: 160px;
@@ -99,19 +100,19 @@ color: #000000;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.review-container{
+.trail-review-container{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:4;
   grid-row-end:6;
 }
-.review{
+.trail-review{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.reviewer-profile-pic{
+.trail-reviewer-profile-pic{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:1;
@@ -119,7 +120,7 @@ color: #000000;
   overflow: hidden;
 }
 
-.username{
+.trail-username{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:1;
@@ -134,7 +135,7 @@ color: #000000;
   text-align: center;
 }
 
-.post-time{
+.trail-post-time{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:2;
@@ -148,7 +149,7 @@ color: #000000;
 
   color: #000000;
 }
-.review-rating{
+.trail-review-rating{
   grid-column-start: 4;
   grid-column-end: 5;
   grid-row-start:2;
@@ -161,7 +162,7 @@ color: #000000;
 
   color: #219653;
 }
-.review-text{
+.trail-review-text{
   grid-column-start: 2;
   grid-column-end: 15;
   grid-row-start:3;
@@ -179,20 +180,20 @@ color: #000000;
   color: #000000;
 }
 
-.add-new-review{
+.trail-add-new-review{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 }
 
-.add-review-profile-pic{
+.trail-add-review-profile-pic{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:1;
   grid-row-end:3;
 }
 
-.add-review-text{
+.trail-add-review-text{
   margin:0px;
   grid-column-start: 2;
   grid-column-end: 15;
@@ -208,14 +209,14 @@ color: #000000;
   color: #000000;
 }
 
-.add-review-button{
+.trail-add-review-button{
   grid-column-start: 7;
   grid-column-end: 10;
   grid-row-start:3;
   grid-row-end:4;
 }
 
-.events-container{
+.trail-events-container{
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start:6;
@@ -223,7 +224,7 @@ color: #000000;
   margin-top: 50px;
 }
 
-.event{
+.trail-event{
   display: grid;
   grid-template-columns: repeat(1fr,15);
   grid-template-rows: 1fr 1fr;
@@ -231,42 +232,42 @@ color: #000000;
   margin-bottom: 20px;
 }
 
-.calender-pic{
+.trail-calender-pic{
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start:1;
   grid-row-end:3;
 }
 
-.event-date-name{
+.trail-event-date-name{
   grid-column-start: 4;
   grid-column-end: 6;
   grid-row-start:1;
   grid-row-end:2;
 }
 
-.event-orgnizer{
+.trail-event-orgnizer{
   grid-column-start: 4;
   grid-column-end: 6;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.event-participants{
+.trail-event-participants{
   grid-column-start: 6;
   grid-column-end: 10;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.see-participants-list{
+.trail-see-participants-list{
   grid-column-start: 10;
   grid-column-end: 13;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.join-event-button{
+.trail-join-event-button{
   grid-column-start: 13;
   grid-column-end: 16;
   grid-row-start:1;

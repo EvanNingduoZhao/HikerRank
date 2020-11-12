@@ -38,9 +38,10 @@ def writeDataToDB():
         with urllib.request.urlopen(url) as url:
             data = json.loads(url.read().decode())
             for trail in data['trails']:
+                print('prepare to insert')
                 add_trail = ("INSERT INTO hikerrank_trail "
                              "VALUES (%s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s ,%s,%s)")
-
+                print('insert success')
                 trail = (str(trail['id']), trail['name'], trail['summary'], trail['difficulty'], trail['location'], trail['longitude'],trail['latitude'],trail['length'],trail['ascent'],trail['descent'],trail['high'],trail['low'],trail['stars'])
                 #trail = (str(trail['id']), trail['name'], trail['summary'], trail['difficulty'], trail['location'], trail['url'], trail['length'],trail['ascent'],trail['descent'],trail['high'],trail['low'],trail['longitude'],trail['latitude'])
 
@@ -55,6 +56,7 @@ def writeDataToDB():
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print("Database does not exist")
         else:
+            print("This is a else error")
             print(err)
     else:
         cnx.close()
