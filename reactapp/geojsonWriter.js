@@ -26,7 +26,7 @@ fs.readdir(directoryPath, function(err, files) {
     let trailname = parsedJson['features'][0]['properties']['name'];
 
     let data = [converted, trailname]
-    const sql = "update hikerrank_trail set mapinfo=? where name=?";
+    const sql = "update hikerrank_trail set map_info=? where name=?";
     connection.query(sql, data, (err) => {
       if(err) {
         return console.error(err.message);
