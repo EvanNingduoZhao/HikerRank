@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import './TestMap.css'
-import Map from './Map.js'
+import './HomeMapWrapper.css'
+import Map from './HomeMap.js'
 
-class TestMap extends Component {
+class HomeMapWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,4 +60,4 @@ class TestMap extends Component {
     }
 }
 
-export default TestMap
+export default HomeMapWrapper

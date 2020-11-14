@@ -12,6 +12,7 @@ import Filter from '../Filter'
 import UserMenu from '../UserMenu'
 import Footer from '../Footer'
 import DropDownMenu from '../DropDownMenu'
+import HomeMapWrapper from '../HomeMap/HomeMapWrapper'
 
 
 import React, { Component } from 'react';
@@ -96,6 +97,7 @@ class Home extends Component {
               <DisplayTrail />
             </div>
             <div className="mapbox">
+              {/* <HomeMapWrapper /> */}
               <img src={sampleMap} width='770px'></img>
             </div>
             

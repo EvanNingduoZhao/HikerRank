@@ -11,6 +11,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
+    "mapbox-gl": "^1.11.1",
     "mysql": "^2.18.1",
     "react": "^17.0.0",
     "react-awesome-slider": "^4.1.0",
