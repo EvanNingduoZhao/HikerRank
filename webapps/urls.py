@@ -26,27 +26,23 @@ from django.conf.urls.static import static
 
 from hikerrank import views
 
-
 router = routers.DefaultRouter()
 
 router.register(r'trail', views.TrailViewSet)
-router.register(r'event',views.EventViewSet)
-router.register(r'profile',views.ProfileViewSet)
-router.register(r'user',views.UserViewSet)
-router.register(r'follow-unfollow',views.FollowUnfollowViewSet)
-router.register(r'checkin',views.CheckinViewSet)
-router.register(r'review',views.ReviewViewSet)
-router.register(r'album',views.AlbumViewSet)
-
-
+router.register(r'event', views.EventViewSet)
+router.register(r'profile', views.ProfileViewSet)
+router.register(r'user', views.UserViewSet)
+router.register(r'follow-unfollow', views.FollowUnfollowViewSet)
+router.register(r'checkin', views.CheckinViewSet)
+router.register(r'review', views.ReviewViewSet)
+router.register(r'album', views.AlbumViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/', include(router.urls)),
-    path('auth/signup',csrf_exempt(views.signup_view),name="signup"),
-    path('auth/login',views.AuthTokenView.as_view(),name="login"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  path('api/', include(router.urls)),
+                  path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
+                  path('auth/login', views.AuthTokenView.as_view(), name="login"),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [url(r'^', TemplateView.as_view(template_name='index.html'))]
-
