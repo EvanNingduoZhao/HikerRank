@@ -2,8 +2,8 @@ import React from 'react'
 
 function TrailInfo(props) {
     return (
-        <div className='trail-Trail-Info-container'>
-            <p className='trail-section-header'>ABOUT THE TRAIL</p>
+        <div className='Trail-Info-container'>
+            <p className='section-header'>ABOUT THE TRAIL</p>
             <p>Location: {props.location}</p>
             <p>Length:{props.length} miles</p>
             <p>Elevation: high - {props.high} ft, low - {props.low} ft</p>

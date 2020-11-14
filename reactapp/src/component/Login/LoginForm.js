@@ -58,7 +58,7 @@ class LoginForm extends Component {
             }
         })
         .catch((error) => {
-            console.error('Error: ', error)
+            console.error('Error: ', JSON.stringify(error.res))
         });
     }
     

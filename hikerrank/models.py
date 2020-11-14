@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 def profile_picture_upload_path(instance, filename):
@@ -39,7 +40,8 @@ class Event(models.Model):
    initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
    name         = models.CharField(max_length=200)
    description  = models.TextField(blank=True)
-   time		    = models.DateTimeField(auto_now_add=True)
+   post_time		    = models.DateTimeField(auto_now_add=True)
+   event_time= models.DateTimeField(default=datetime.now)
    trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)

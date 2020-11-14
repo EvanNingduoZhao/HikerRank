@@ -14,12 +14,12 @@ from django.http.response import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow,CheckIn,Review
 from django.contrib.auth.models import User
 from .models import Trail
 from .serializers import TrailSerializer
 
-from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer
+from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer
 
 
 
@@ -43,6 +43,10 @@ class EventViewSet(viewsets.ModelViewSet):
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -106,6 +110,9 @@ class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
 
+class CheckInViewSet(viewsets.ModelViewSet):
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckinSerializer
 
 class AuthTokenView(ObtainAuthToken):
 

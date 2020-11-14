@@ -27,6 +27,7 @@ class Home extends Component {
     }
 
     console.log(this.state) //'true' if logged in, null if not
+    console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
 
   // componentWillUnmount(){
@@ -63,7 +64,7 @@ class Home extends Component {
     }
 
     return (
-      <div className='container'>
+      <div className='home-container'>
         <div className='header-container'>
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />

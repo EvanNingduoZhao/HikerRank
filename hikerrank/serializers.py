@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow,CheckIn,Review
 from django.contrib.auth.models import User
 
 
@@ -15,6 +15,8 @@ class SignupSerializer(serializers.HyperlinkedModelSerializer):
             username=validated_data['username']
         )
         user.set_password(validated_data['password'])
+        # We check if password and confirm password equals in the front end before sending the data
+        # to the back end rest framework API
         user.save()
         return user
 
@@ -24,7 +26,18 @@ class TrailSerializer(serializers.ModelSerializer):
         model=Trail
         fields='__all__'
 
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+
+class CheckinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=CheckIn
+        fields='__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Review
+        fields='__all__'
+
+class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'

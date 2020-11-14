@@ -1,5 +1,5 @@
 
-.trailpage-container{
+.container{
   position:absolute;
   width: 100%;
   height:100%;
@@ -11,7 +11,7 @@
   grid-template-rows: 70px repeat(1fr,auto);
 }
 
-.trail-header-container {
+.header-container {
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start:1;
@@ -19,14 +19,14 @@
   text-align: left;
 }
 
-.trail-pic-slogan-container{
+.pic-slogan-container{
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.trail-Trail-Info-container{
+.Trail-Info-container{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:3;
@@ -43,7 +43,7 @@ text-indent: 1px;
 color: #000000;
 }
 
-.trail-section-header{
+.section-header{
   font-family: Ubuntu;
   font-style: normal;
   font-weight: bold;
@@ -53,10 +53,10 @@ color: #000000;
   
   color: #000000;
 }
-.trail-bg-image{
+.bg-image{
   filter: brightness(50%); 
 }
-.trail-map-container{
+.map-container{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:3;
@@ -66,24 +66,24 @@ color: #000000;
   margin-right: 10%;
   border-color: black;
 }
-.trail-map-container > img{
+.map-container > img{
   object-fit: cover;
   width: 100%;
   max-height: 100%;
 }
-.trail-checkin-container{
+.checkin-container{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:4;
   grid-row-end:5;
 }
 
-.trail-user-checkin{
+.user-checkin{
   margin-top: 30px;
   margin-bottom: 30px;
 }
 
-.trail-button{
+.button{
   background: #219653;
   height: 30px;
   width: 160px;
@@ -100,27 +100,28 @@ color: #000000;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.trail-review-container{
+.review-container{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:4;
   grid-row-end:6;
 }
-.trail-review{
+.review{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.trail-reviewer-profile-pic{
+.reviewer-profile-pic{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:1;
   grid-row-end:3;
-  overflow: hidden;
+  max-width:100%;
+  height:auto
 }
 
-.trail-username{
+.username{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:1;
@@ -135,7 +136,7 @@ color: #000000;
   text-align: center;
 }
 
-.trail-post-time{
+.post-time{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:2;
@@ -149,7 +150,7 @@ color: #000000;
 
   color: #000000;
 }
-.trail-review-rating{
+.review-rating{
   grid-column-start: 4;
   grid-column-end: 5;
   grid-row-start:2;
@@ -162,7 +163,7 @@ color: #000000;
 
   color: #219653;
 }
-.trail-review-text{
+.review-text{
   grid-column-start: 2;
   grid-column-end: 15;
   grid-row-start:3;
@@ -180,20 +181,20 @@ color: #000000;
   color: #000000;
 }
 
-.trail-add-new-review{
+.add-new-review{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 }
 
-.trail-add-review-profile-pic{
+.add-review-profile-pic{
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start:1;
   grid-row-end:3;
 }
 
-.trail-add-review-text{
+.add-review-text{
   margin:0px;
   grid-column-start: 2;
   grid-column-end: 15;
@@ -209,14 +210,14 @@ color: #000000;
   color: #000000;
 }
 
-.trail-add-review-button{
+.add-review-button{
   grid-column-start: 7;
   grid-column-end: 10;
   grid-row-start:3;
   grid-row-end:4;
 }
 
-.trail-events-container{
+.events-container{
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start:6;
@@ -224,7 +225,7 @@ color: #000000;
   margin-top: 50px;
 }
 
-.trail-event{
+.event{
   display: grid;
   grid-template-columns: repeat(1fr,15);
   grid-template-rows: 1fr 1fr;
@@ -232,42 +233,42 @@ color: #000000;
   margin-bottom: 20px;
 }
 
-.trail-calender-pic{
+.calender-pic{
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start:1;
   grid-row-end:3;
 }
 
-.trail-event-date-name{
+.event-date-name{
   grid-column-start: 4;
   grid-column-end: 6;
   grid-row-start:1;
   grid-row-end:2;
 }
 
-.trail-event-orgnizer{
+.event-orgnizer{
   grid-column-start: 4;
   grid-column-end: 6;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.trail-event-participants{
+.event-participants{
   grid-column-start: 6;
   grid-column-end: 10;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.trail-see-participants-list{
+.see-participants-list{
   grid-column-start: 10;
   grid-column-end: 13;
   grid-row-start:2;
   grid-row-end:3;
 }
 
-.trail-join-event-button{
+.join-event-button{
   grid-column-start: 13;
   grid-column-end: 16;
   grid-row-start:1;

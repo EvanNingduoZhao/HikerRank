@@ -16,6 +16,11 @@ import LoginButton from '../Login/LoginButton'
 import axios from 'axios';
 import PicSlogan from './PicSlogan';
 import TrailInfo from './TrailInfo';
+import DropDownMenu from '../DropDownMenu'
+import DisplayCheckins from "./DisplayCheckins";
+import DisplayReviews from "./DisplayReviews"
+import DisplayEvents from './DisplayEvents'
+
 
 
 
@@ -24,33 +29,71 @@ class Trail extends Component {
         super(props)
     
         this.state = {
-             trail:{}
+            login_status: sessionStorage.getItem('login_status'),
+            username: sessionStorage.getItem('username'),
+            trail:{},
+            checkins:{},
+            trail_id:this.props.match.params['id']
         }
+        console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
     }
+    // componentWillMount(){
+    //     const trailID='7003964';
+    //     axios.get(`http://127.0.0.1:8000/api/trail/${trailID}/`)
+    //         .then(res=>{
+    //             console.log(res.data)
+    //             this.setState({
+    //                 trail:res.data,
+    //                 trail_id:res.data.id
+    //             })
+    //         })
+    // }
     componentDidMount(){
-        const trailID='7003964';
-        axios.get(`http://127.0.0.1:8000/api/trail/${trailID}/`)
+        axios.get(`http://127.0.0.1:8000/api/trail/${this.state.trail_id}/`)
             .then(res=>{
-                console.log("this is res")
                 console.log(res.data)
                 this.setState({
-                    trail:res.data
+                    trail:res.data,
                 })
-                console.log("this is the trail summary")
-                console.log(this.state.trail.summary)
             })
-        console.log(this.state.trail.name)
+        axios.get(`http://127.0.0.1:8000/api/checkin/`)
+            .then(res=>{
+                this.setState({
+                    checkins:res.data.filter(a=>a.trail==this.state.trail_id)
+                })
+                console.log(this.state.checkins)
+            })
     }
     
     render() {
+        const renderLoginButton = ()=>{
+            if(this.state.login_status!=='true'){
+              return (
+                  <LoginButton />
+              )
+            } else {
+              return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
+            }
+          }
+      
+          const renderSignupButton = ()=>{
+            if(this.state.login_status!=='true'){
+              return (
+                  <SignUpButton />
+              )
+            } else {
+              return (<DropDownMenu />)
+            }
+          }
+
         return (
-            <div className = 'trailpage-container'>
-                <div className='trail-header-container'>
+            <div className = 'container'>
+                <div className='header-container'>
                     <div><h3 className='title'>HIKERRANK</h3></div> 
                     <Nav />
                     <Search />
-                    <LoginButton />
-                    <SignUpButton />
+                    {renderLoginButton()}
+                    {renderSignupButton()}
                 </div>
                 <PicSlogan name={this.state.trail.name} summary={this.state.trail.summary}/>
                 <TrailInfo location={this.state.trail.location} 
@@ -61,102 +104,88 @@ class Trail extends Component {
                             rating={this.state.trail.ratings}
                 />
 
-                <div className='trail-map-container'>
+                <div className='map-container'>
                     <img src={sampleMap}/>
                 </div>
+
+                <DisplayCheckins trailId = {this.state.trail_id}/>
                 
-                <div className='trail-checkin-container'>
-                    <p className='trail-section-header'>
+                {/* <div className='checkin-container'>
+                    <p className='section-header'>
                         RECENT CHECK-INS 
                         <img src={checkMark}/>
                     </p>
-                    <p className="trail-user-checkin">Username  --------  Check-in-time</p>
-                    <p className="trail-user-checkin">Username  --------  Check-in-time</p>
-                    <p className="trail-user-checkin">Username  --------  Check-in-time</p>
-                    <p className="trail-user-checkin">Username  --------  Check-in-time</p>
+                    <p className="user-checkin">Username  --------  Check-in-time</p>
+                    <p className="user-checkin">Username  --------  Check-in-time</p>
+                    <p className="user-checkin">Username  --------  Check-in-time</p>
+                    <p className="user-checkin">Username  --------  Check-in-time</p>
+                    <CheckinButton traiId= {this.state.trail.id}/>
                     <button className='button'>
                         Check in here!
                     </button>
-                </div>
-
-                <div className='trail-review-container'>
-                    <p className='trail-section-header'>
+                </div> */}
+                {/* <div className='review-container'>
+                    <p className='section-header'>
                         REVIEW HIGHLIGHTS
                         <img src={reviewIcon}/>
                     </p>
 
-                    <div className='trail-review'>
-                        <img className='trail-reviewer-profile-pic' src={maleProfileIcon}/>
-                        <div className='trail-username'>Username</div>
-                        <div className='trail-post-time'>Time posted</div>
-                        <div className='trail-review-rating'>Rating</div>
-                        <p className='trail-review-text'>Comment area</p>
+                    <div className='review'>
+                        <img className='reviewer-profile-pic' src={maleProfileIcon}/>
+                        <div className='username'>Username</div>
+                        <div className='post-time'>Time posted</div>
+                        <div className='review-rating'>Rating</div>
+                        <p className='review-text'>Comment area</p>
                     </div>
                     <hr></hr>
-                    <div className='trail-review'>
-                        <img className='trail-reviewer-profile-pic' src={femaleProfileIcon}/>
-                        <div className='trail-username'>Username</div>
-                        <div className='trail-post-time'>Time posted</div>
-                        <div className='trail-review-rating'>Rating</div>
-                        <p className='trail-review-text'>Comment area</p>
+                    <div className='review'>
+                        <img className='reviewer-profile-pic' src={femaleProfileIcon}/>
+                        <div className='username'>Username</div>
+                        <div className='post-time'>Time posted</div>
+                        <div className='review-rating'>Rating</div>
+                        <p className='review-text'>Comment area</p>
                     </div>
                     
-                    <div className='trail-add-new-review'>
-                        <img className='trail-add-review-profile-pic'src={catPic}/>
-                        <p className='trail-add-review-text'>Comment area</p>
-                        <button className='trail-add-review-button button'>
+                    <div className='add-new-review'>
+                        <img className='add-review-profile-pic'src={catPic}/>
+                        <p className='add-review-text'>Comment area</p>
+                        <button className='add-review-button button'>
                             Add your review
                         </button>
                     </div>
-                </div>
+                </div> */}
+                <DisplayReviews trailId = {this.state.trail_id}/>
 
-                <div className='trail-events-container'>
-                    <span className='trail-section-header'>
+                {/* <div className='events-container'>
+                    <span className='section-header'>
                         UPCOMING EVENTS: 
                     </span>
-                    <span className='trail-section-sub-header'>
+                    <span className='section-sub-header'>
                         Join your hikers crew to go for a ride together
                     </span>
 
-                    <div className='trail-event'>
-                        <img className='trail-calender-pic'src={calender}/>
-                        <div className='trail-event-date-name'>Event Date - Event Name</div>
-                        <div className='trail-event-orgnizer'>Initiated by: Username</div>
-                        <div className='trail-event-participants'>Current number of participants: #</div>
-                        <a className='trail-see-participants-list' href=''>See participants list</a>
-                        <button className='trail-button join-event-button'>Join this event</button>
+                    <div className='event'>
+                        <img className='calender-pic'src={calender}/>
+                        <div className='event-date-name'>Event Date - Event Name</div>
+                        <div className='event-orgnizer'>Initiated by: Username</div>
+                        <div className='event-participants'>Current number of participants: #</div>
+                        <a className='see-participants-list' href=''>See participants list</a>
+                        <button className='button join-event-button'>Join this event</button>
                     </div>
 
                     <hr></hr>
-                    <div className='trail-event'>
-                        <img className='trail-calender-pic'src={calender}/>
-                        <div className='trail-event-date-name'>Event Date - Event Name</div>
-                        <div className='trail-event-orgnizer'>Initiated by: Username</div>
-                        <div className='trail-event-participants'>Current number of participants: #</div>
-                        <a className='trail-see-participants-list' href=''>See participants list</a>
-                        <button className='trail-button join-event-button'>Join this event</button>
+                    <div className='event'>
+                        <img className='calender-pic'src={calender}/>
+                        <div className='event-date-name'>Event Date - Event Name</div>
+                        <div className='event-orgnizer'>Initiated by: Username</div>
+                        <div className='event-participants'>Current number of participants: #</div>
+                        <a className='see-participants-list' href=''>See participants list</a>
+                        <button className='button join-event-button'>Join this event</button>
                     </div>
 
-                </div>
+                </div> */}
+                <DisplayEvents trailId = {this.state.trail_id}/>
 
-                <div className = 'trail-main-content-container'>
-                    {/* <div className='pic-slogan-container'>
-                        <img className='bg-image' src={trailPagePic} width='100%'/>
-                        <h1 className='slogan'>Riverview Park Adventure</h1>
-                        <h3 className='sub-slogan'>This is a scenic starting and ending at the Observatory, taking you past several key places and arround the park</h3>
-                    </div> */}
-                    {/* <div className='content-top-container'>
-
-                    </div>
-                    <div className='content-middle-container'>
-
-                    </div>
-                    <div className='content-buttom-container'>
-
-                    </div> */}
-
-                    {/* <TrailInfo/> */}
-                </div>
 
             </div>
 

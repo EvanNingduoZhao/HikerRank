@@ -30,6 +30,8 @@ from hikerrank import views
 router = routers.DefaultRouter()
 
 router.register(r'trail', views.TrailViewSet)
+router.register(r'checkin', views.CheckInViewSet)
+router.register(r'review', views.ReviewViewSet)
 router.register(r'event',views.EventViewSet)
 router.register(r'profile',views.ProfileViewSet)
 router.register(r'user',views.UserViewSet)
