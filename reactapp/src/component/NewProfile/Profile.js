@@ -104,7 +104,7 @@ class Profile extends Component {
                     </div>
 
                     <div className='right'>
-                        <UserCheckins />
+                        <UserCheckins profileId={this.state.profile_id}/>
                         <Album profileId={this.state.profile_id}/>
                     </div>
                 </div>

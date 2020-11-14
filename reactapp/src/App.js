@@ -20,8 +20,14 @@ function App() {
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/profile/:id" component={Profile} />
+<<<<<<< HEAD
                 <Route path="/trail/:id" component={Trail} />
                 <Route path="/event" component={Event} />
+=======
+                {/* <Route path="/trail/:id" component={Trail} /> */}
+                <Route path="/trail" component={Trail} />
+                <Route path="/event/:id" component={Event} />
+>>>>>>> 5ee55ef225c9c2e55c2776d48ab9af1950b866b4
                 <Route path="/test" component={Test} />
                 <Route path="/notification" component={Notification} />
                 

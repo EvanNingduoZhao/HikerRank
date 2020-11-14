@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -13,13 +13,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 
-
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow,CheckIn,Review
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album
 from django.contrib.auth.models import User
 from .models import Trail
 from .serializers import TrailSerializer
 
-from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer
+from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer,AlbumSerializer
 
 
 
@@ -52,9 +51,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
     # parser_classes = [MultiPartParser,FormParser]
-    
-    def create(self, request,*args, **kwargs):
+
+    def create(self, request, *args, **kwargs):
         data = {}
         print(request.data)
         picture = request.data['picture']
@@ -62,7 +62,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         user_id = int(request.data['user'])
         print('error point 1')
         user = User.objects.get(id=user_id)
-        profile = Profile(user=user,bio=bio,picture=picture)
+        profile = Profile(user=user, bio=bio, picture=picture)
         profile.save()
         # data['picture'] = picture
         # data['bio'] = bio
@@ -72,16 +72,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
         # print(serializer.errors)
         # print(serializer.is_valid())
         # serializer.save()
-        return Response({'message':'success'},status=200)
-    
-
+        return Response({'message': 'success'}, status=200)
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
 
 
 @api_view(['POST', 'GET'])
@@ -105,7 +101,6 @@ def signup_view(request):
         return Response(data)
 
 
-
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
@@ -113,6 +108,33 @@ class TrailViewSet(viewsets.ModelViewSet):
 class CheckInViewSet(viewsets.ModelViewSet):
     queryset = CheckIn.objects.all()
     serializer_class = CheckinSerializer
+
+class CheckinViewSet(viewsets.ModelViewSet):
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckinSerializer
+
+
+class AlbumViewSet(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = {}
+        print(request.data)
+        picture = request.data['picture']
+        caption = request.data['caption']
+        user_id = int(request.data['user'])
+        user = User.objects.get(id=user_id)
+        album = Album(user=user, caption=caption, picture=picture)
+        album.save()
+
+        return Response({'message': 'success'}, status=200)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
 
 class AuthTokenView(ObtainAuthToken):
 
@@ -131,7 +153,7 @@ class AuthTokenView(ObtainAuthToken):
 class FollowUnfollowViewSet(viewsets.ModelViewSet):
     queryset = Follow_UnFollow.objects.all()
     serializer_class = FollowUnfollowSerializer
-   
+
     def get(self, request, pk=None):
         if pk == None:
             data = Follow_UnFollow.objects.all()
@@ -148,5 +170,3 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-

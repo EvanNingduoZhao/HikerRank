@@ -3,12 +3,6 @@ import '../../App.css';
 import './Trail.css';
 // import trailPagePic from '../../pictures/TrailPagePic.png';
 import sampleMap from '../../pictures/sample-map.png'
-import checkMark from '../../pictures/checkMark.png'
-import reviewIcon from '../../pictures/reviewIcon.png'
-import maleProfileIcon from '../../pictures/maleProfileIcon.png'
-import femaleProfileIcon from '../../pictures/femaleProfileIcon.png'
-import catPic from '../../pictures/catPic.png'
-import calender from '../../pictures/calender.png'
 import Nav from '../Nav'
 import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
@@ -37,17 +31,7 @@ class Trail extends Component {
         }
         console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
     }
-    // componentWillMount(){
-    //     const trailID='7003964';
-    //     axios.get(`http://127.0.0.1:8000/api/trail/${trailID}/`)
-    //         .then(res=>{
-    //             console.log(res.data)
-    //             this.setState({
-    //                 trail:res.data,
-    //                 trail_id:res.data.id
-    //             })
-    //         })
-    // }
+
     componentDidMount(){
         axios.get(`http://127.0.0.1:8000/api/trail/${this.state.trail_id}/`)
             .then(res=>{
@@ -109,81 +93,9 @@ class Trail extends Component {
                 </div>
 
                 <DisplayCheckins trailId = {this.state.trail_id}/>
-                
-                {/* <div className='checkin-container'>
-                    <p className='section-header'>
-                        RECENT CHECK-INS 
-                        <img src={checkMark}/>
-                    </p>
-                    <p className="user-checkin">Username  --------  Check-in-time</p>
-                    <p className="user-checkin">Username  --------  Check-in-time</p>
-                    <p className="user-checkin">Username  --------  Check-in-time</p>
-                    <p className="user-checkin">Username  --------  Check-in-time</p>
-                    <CheckinButton traiId= {this.state.trail.id}/>
-                    <button className='button'>
-                        Check in here!
-                    </button>
-                </div> */}
-                {/* <div className='review-container'>
-                    <p className='section-header'>
-                        REVIEW HIGHLIGHTS
-                        <img src={reviewIcon}/>
-                    </p>
-
-                    <div className='review'>
-                        <img className='reviewer-profile-pic' src={maleProfileIcon}/>
-                        <div className='username'>Username</div>
-                        <div className='post-time'>Time posted</div>
-                        <div className='review-rating'>Rating</div>
-                        <p className='review-text'>Comment area</p>
-                    </div>
-                    <hr></hr>
-                    <div className='review'>
-                        <img className='reviewer-profile-pic' src={femaleProfileIcon}/>
-                        <div className='username'>Username</div>
-                        <div className='post-time'>Time posted</div>
-                        <div className='review-rating'>Rating</div>
-                        <p className='review-text'>Comment area</p>
-                    </div>
-                    
-                    <div className='add-new-review'>
-                        <img className='add-review-profile-pic'src={catPic}/>
-                        <p className='add-review-text'>Comment area</p>
-                        <button className='add-review-button button'>
-                            Add your review
-                        </button>
-                    </div>
-                </div> */}
+    
                 <DisplayReviews trailId = {this.state.trail_id}/>
 
-                {/* <div className='events-container'>
-                    <span className='section-header'>
-                        UPCOMING EVENTS: 
-                    </span>
-                    <span className='section-sub-header'>
-                        Join your hikers crew to go for a ride together
-                    </span>
-
-                    <div className='event'>
-                        <img className='calender-pic'src={calender}/>
-                        <div className='event-date-name'>Event Date - Event Name</div>
-                        <div className='event-orgnizer'>Initiated by: Username</div>
-                        <div className='event-participants'>Current number of participants: #</div>
-                        <a className='see-participants-list' href=''>See participants list</a>
-                        <button className='button join-event-button'>Join this event</button>
-                    </div>
-
-                    <hr></hr>
-                    <div className='event'>
-                        <img className='calender-pic'src={calender}/>
-                        <div className='event-date-name'>Event Date - Event Name</div>
-                        <div className='event-orgnizer'>Initiated by: Username</div>
-                        <div className='event-participants'>Current number of participants: #</div>
-                        <a className='see-participants-list' href=''>See participants list</a>
-                        <button className='button join-event-button'>Join this event</button>
-                    </div>
-
-                </div> */}
                 <DisplayEvents trailId = {this.state.trail_id}/>
 
 

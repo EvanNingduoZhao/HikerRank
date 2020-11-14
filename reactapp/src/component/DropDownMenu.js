@@ -35,7 +35,10 @@ class DropDownMenu extends Component {
     renderRedirect = () => {
         if (this.state.redirect_to==1) {
             return <Redirect to={this.state.profile_url} />
-           
+        
+        } if (this.state.redirect_to==2) {
+            return <Redirect to='/notification' />
+        
         } if (this.state.redirect_to==3){
             sessionStorage.removeItem('login_status')
             sessionStorage.removeItem('username')

@@ -9,18 +9,18 @@
     height: 30px;
 }
 
-#profile-modal{
-    width: 320px;
-    height: 400px;
-    text-align: center;
-    left:90px !important;
-    position: absolute !important;
+#upload-modal{
+    width: 500px;
+    height: 250px;
+    text-align: left;
+    left:50% !important;
+    position: fixed !important;
 }
 
-#edit-bio{
-    margin-top: 20px;
+#edit-caption{
+    margin-top: 15px;
     margin-bottom: 12px;
-    width: 70%;
+    width: 90%;
     height: 40px;
     line-height: 1;
     font-size: small;
@@ -30,4 +30,9 @@
     margin-top: 20px;
     border: none;
     background-color: white;
+}
+
+.upload-picture{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

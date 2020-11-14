@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow,CheckIn,Review
+from hikerrank.models import Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album
 from django.contrib.auth.models import User
-
 
 
 class SignupSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,10 +20,11 @@ class SignupSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
-class TrailSerializer(serializers.ModelSerializer):
+class TrailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model=Trail
-        fields='__all__'
+        model = Trail
+        fields = '__all__'
+
 
 
 class CheckinSerializer(serializers.ModelSerializer):
@@ -43,9 +43,6 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
-
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
@@ -55,7 +52,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id','username','email']
+        fields = ['id', 'username', 'email']
 
 
 class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
@@ -63,3 +60,20 @@ class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
         model = Follow_UnFollow
         fields = '__all__'
 
+
+class CheckinSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CheckIn
+        fields = '__all__'
+
+
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
+class AlbumSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Album
+        fields = '__all__'

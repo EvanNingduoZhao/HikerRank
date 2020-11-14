@@ -3,41 +3,39 @@ import Modal from 'react-modal';
 import ProfilePic from '../../pictures/profile-picture.png'
 import './EditProfileButton.css'
 
- function ProfileModal(props) {
+ function UploadModal(props) {
   
   const {
-    title, isOpen, askToClose,
+    isOpen, askToClose,
     onAfterOpen, onRequestClose, onChangeInput,profileId,ini_picture
   } = props;
 
-  const [bio, setBio] = useState("");
+  const [caption, setCaption] = useState("");
   const [picture, setPicture] = useState();
- 
+
 
   const being_update = false
 
-  const updateProfile = () => {
+  const uploadPhoto = () => {
     const uploadData = new FormData();
 
     uploadData.append('picture',picture, picture.name)
-    uploadData.append('bio',bio)
+    uploadData.append('caption',caption)
     uploadData.append('user',profileId)
-    // uploadData.append('username',sessionStorage.getItem('username'))
-    alert(`${profileId}`)
-    // var profile_url = '/api/profile/'+profileId+'/'
-    fetch('/api/profile/',{
+
+    fetch('/api/album/',{
       method: 'POST', 
       body: uploadData
     })
     .then(res =>{
-      alert(`${res}`)
+      // alert(`${res}`)
       console.log(res);
-      sessionStorage.setItem('stay_open','false')
+      sessionStorage.setItem('upload_modal_stay_open','false')
     })
     .catch(error => {
       console.log(error)
-      alert(`${error}`)
-      sessionStorage.setItem('stay_open','true')
+      // alert(`${error}`)
+      sessionStorage.setItem('upload_modal_stay_open','true')
     })
 
   }
@@ -49,17 +47,17 @@ import './EditProfileButton.css'
       isOpen={isOpen}
       onAfterOpen={onAfterOpen}
       onRequestClose={onRequestClose}
-      id="profile-modal">
-      <h3>Edit Profile</h3>
-      <img src={ini_picture} width="170px"></img>
-      <form className="edit-profile-form">
-        <input id="edit-bio" type="text" onChange={(event) => setBio(event.target.value)} placeholder="Enter your description here..."/><br></br>
+      id="upload-modal">
+      <h3>Upload a new photo:</h3>
+      {/* <img src={ini_picture} width="170px"></img> */}
+      <form className="edit-photo-form">
+        <input id="edit-caption" type="text" onChange={(event) => setCaption(event.target.value)} placeholder="What's in this photo?"/><br></br>
         <input className="upload-picture" type="file"  accept="image/jpg, image/jpeg, image/png" onChange={(event) => setPicture(event.target.files[0])}></input>
-        <button className="btn btn-primary" onClick={()=> updateProfile()}>Submit</button>
+        <button className="btn btn-primary" onClick={()=> uploadPhoto()}>Submit</button>
       </form>
       <button className="close-edit-button" onClick={askToClose}>X close</button>
     </Modal>
   );
 }
 
-export default ProfileModal
+export default UploadModal
