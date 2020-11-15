@@ -28,7 +28,7 @@ class AddReview extends Component {
 
     handleFormSubmit = (event) =>{
         return(
-            axios.post('http://127.0.0.1:8000/api/review/',{
+            axios.post('/api/review/',{
                 trail:this.state.trail_id,
                 poster:this.state.userId,
                 rating:parseInt(this.state.rating),

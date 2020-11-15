@@ -16,7 +16,7 @@ class JoinEventButton extends Component {
 
     handleJoinEvent=(event)=>{
         console.log('Join event button just clicked')
-        axios.get(`http://127.0.0.1:8000/api/event/${this.state.event_id}`)
+        axios.get(`/api/event/${this.state.event_id}`)
         .then(res=>{
             console.log(res.data)
             this.setState({
@@ -24,7 +24,7 @@ class JoinEventButton extends Component {
             })
         })
         return(
-            axios.put(`http://127.0.0.1:8000/api/event/${this.state.event_id}`,{
+            axios.put(`/api/event/${this.state.event_id}`,{
                 participants:this.state.participants.push(this.state.userId)
             })
             .then(response => {

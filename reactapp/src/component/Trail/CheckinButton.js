@@ -16,7 +16,7 @@ class CheckinButton extends Component {
 
     handleCheckin = (event)=>{
         return(
-            axios.post('http://127.0.0.1:8000/api/checkin/',{
+            axios.post('/api/checkin/',{
                 trail:this.state.trail_id,
                 User:this.state.userId
             })

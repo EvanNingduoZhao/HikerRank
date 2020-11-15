@@ -99,10 +99,10 @@ class Trail extends Component {
                     <img src={sampleMap}/>
                 </div>
 
-                {/* <DisplayCheckins trailId = {this.state.trail_id}/>
+                <DisplayCheckins trailId = {this.state.trail_id}/>
             
          
-                <DisplayReviews trailId = {this.state.trail_id}/> */}
+                <DisplayReviews trailId = {this.state.trail_id}/>
 
                 
                 <DisplayEvents trailId = {this.state.trail_id}/>

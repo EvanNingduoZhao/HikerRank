@@ -12,7 +12,7 @@ class DisplayReviewUserName extends Component {
         }
     }
     componentDidMount(){
-        axios.get(`http://127.0.0.1:8000/api/user/${this.state.user_id}/`)
+        axios.get(`/api/user/${this.state.user_id}/`)
         .then(res=>{
             var username=String(res.data.username)
             this.setState({
