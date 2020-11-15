@@ -27,17 +27,17 @@ class TrailSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-class CheckinSerializer(serializers.ModelSerializer):
+class CheckinSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=CheckIn
         fields='__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Review
         fields='__all__'
 
-class EventSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
@@ -49,27 +49,15 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
-
+        fields = '__all__'
 
 class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Follow_UnFollow
-        fields = '__all__'
-
-
-class CheckinSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CheckIn
-        fields = '__all__'
-
-
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Review
         fields = '__all__'
 
 

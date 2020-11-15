@@ -22,22 +22,18 @@ from hikerrank.serializers import SignupSerializer,EventSerializer, ProfileSeria
 
 
 
-def getHome(request):
-    textForm = TextForm()
-    return render(request, 'hikerrank/hikerrank.html', {'form': textForm})
-
-
-def create_text(request):
-    text = Text()
-    textForm = TextForm(request.POST, instance=text)
-    textForm.save()
-    return render(request, 'hikerrank/hikerrank.html', {'form': TextForm()})
 
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-
+    def put(self, request, *args, **kwargs):
+        print(request.data)
+        participants_to_add = int(request.data['participants_to_add'])
+        
+        checkin=CheckIn(trail=trail,User=user_profile)
+        checkin.save()
+        return Response({'message': 'success'}, status=200)
 
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
@@ -105,14 +101,21 @@ class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
 
-class CheckInViewSet(viewsets.ModelViewSet):
-    queryset = CheckIn.objects.all()
-    serializer_class = CheckinSerializer
+
+
 
 class CheckinViewSet(viewsets.ModelViewSet):
     queryset = CheckIn.objects.all()
     serializer_class = CheckinSerializer
-
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        trail_id = int(request.data['trail'])
+        user_id = int(request.data['User'])
+        trail=Trail.objects.get(id=trail_id)
+        user_profile=Profile.objects.get(user_id=user_id)
+        checkin=CheckIn(trail=trail,User=user_profile)
+        checkin.save()
+        return Response({'message': 'success'}, status=200)
 
 class AlbumViewSet(viewsets.ModelViewSet):
     queryset = Album.objects.all()
@@ -134,7 +137,17 @@ class AlbumViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        rating=request.data['rating']
+        review_text=request.data['Review_text']
+        trail_id = int(request.data['trail'])
+        user_id = int(request.data['poster'])
+        trail=Trail.objects.get(id=trail_id)
+        poster_profile=Profile.objects.get(user_id=user_id)
+        review=Review(rating=rating,Review_text=review_text,trail=trail,poster=poster_profile)
+        review.save()
+        return Response({'message': 'success'}, status=200)
 
 class AuthTokenView(ObtainAuthToken):
 
