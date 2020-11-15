@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import calender from '../../pictures/calender.png'
 import JoinEventButton from './JoinEventButton';
+import NewEventButton from './NewEventButton'
 
 class DisplayEvents extends Component {
     constructor(props) {
@@ -86,6 +87,7 @@ class DisplayEvents extends Component {
                     )
                 })
             }
+            <NewEventButton trailId = {this.state.trail_id}/>
         </div>
         )
     }

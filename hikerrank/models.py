@@ -50,7 +50,8 @@ class Event(models.Model):
    trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
-   participants = models.ManyToManyField(User,related_name="participants")
+   participants = models.ManyToManyField(User,related_name="participants",blank=True)
+   #******* new change
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')
@@ -84,6 +85,17 @@ class Follow_UnFollow(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="this_user")
     following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+
+
+class PendingRequest(models.Model):
+    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(blank=True)
+
+class ProcessedRequest(models.Model):
+    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10) #accept denied
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

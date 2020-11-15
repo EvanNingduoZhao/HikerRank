@@ -49,7 +49,7 @@ class AddReview extends Component {
                 <img className='add-review-profile-pic'src={catPic}/>
                 <form onSubmit = {(event)=> this.handleFormSubmit(event)}>
                     <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
-                    <span>
+                    <span className="rating-label">
                         <label>Rating: </label>
                         <select value={this.state.rating} onChange={this.handleRatingChange}>
                             <option>1</option>

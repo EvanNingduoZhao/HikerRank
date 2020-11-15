@@ -83,7 +83,7 @@ class displayReviews extends Component {
                                         */}
                                         <DisplayReviewUserName user_id={element.user_id} profile_url={element.profile_url}/>
                                         <div className='post-time'>{element.timestamp}</div>
-                                        <div className='review-rating'>{element.rating}</div>
+                                        <div className='review-rating'>Rating: {element.rating}</div>
                                         <p className='review-text'>{element.review_text}</p>
                                     </div>
                                     <hr></hr>

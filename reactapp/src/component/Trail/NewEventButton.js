@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Modal from 'react-modal';
-import MyModal from './Event-modal';
+import MyModal from './NewEvent-modal';
 
 const MODAL_A = 'modal_a';
 
-class JoinEventButton extends Component {
+class NewEventButton extends Component {
     constructor(props) {
         super(props)
     
@@ -13,21 +13,18 @@ class JoinEventButton extends Component {
             currentModal: null,
             modal_stay_open: null,
             userId : sessionStorage.getItem('id'),
-            event_id:this.props.event_id,
-            participants:[]
+            trail_id:this.props.trailId,
         }
-        console.log(this.state)
-        console.log(`this event id is: ${this.state.event_id}`)
     }
 
     
     componentDidMount(){
-        if(sessionStorage.getItem('event_stay_open')==='true'){
+        if(sessionStorage.getItem('new_event_stay_open')==='true'){
           this.setState({
             currentModal: MODAL_A,
             modal_stay_open: true
           },()=>console.log(this.state));
-          sessionStorage.setItem('event_stay_open','false')
+          sessionStorage.setItem('new_event_stay_open','false')
         } else {
           this.setState({
             currentModal: null,
@@ -80,8 +77,8 @@ class JoinEventButton extends Component {
     render() {
         const { currentModal } = this.state;
         return (
-            <div className="join-event-button">
-                <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)}>Join this event</button>
+            <div>
+                <button id="ini-event-btn" type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)}>Initiate an event!</button>
                 <MyModal
                     isOpen={currentModal == MODAL_A || this.modal_stay_open}
                     onAfterOpen={this.handleOnAfterOpenModal}
@@ -89,10 +86,10 @@ class JoinEventButton extends Component {
                     askToClose={this.toggleModal(MODAL_A)}
                     onChangeInput={this.handleInputChange} 
                     userId={this.props.userId}
-                    eventId={this.props.event_id}/>
+                    trailId={this.state.trail_id}/>
             </div>
         )
     }
 }
 
-export default JoinEventButton
+export default NewEventButton

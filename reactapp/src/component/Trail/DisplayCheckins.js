@@ -56,7 +56,7 @@ class displayCheckins extends Component {
             <div className='checkin-container'>
                 <p className='section-header'>
                     RECENT CHECK-INS 
-                    <img src={checkMark}/>
+                    <img src={checkMark} className="trail-page-icon"/>
                 </p>
                 
                 {

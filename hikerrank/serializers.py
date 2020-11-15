@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album
+from hikerrank.models import (
+    Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
+    PendingRequest, ProcessedRequest
+)
 from django.contrib.auth.models import User
 
 
@@ -64,4 +67,16 @@ class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Album
+        fields = '__all__'
+
+
+class PendingRequestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PendingRequest
+        fields = '__all__'
+
+
+class ProcessedRequestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ProcessedRequest
         fields = '__all__'
