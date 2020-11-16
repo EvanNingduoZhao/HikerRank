@@ -8,27 +8,36 @@ class displayCheckins extends Component {
         super(props)
         this.state = {
              checkins_list:[],
-             trail_id : this.props.trailId
+             trail_id : this.props.trailId,
+             no_checkin_msg:"No one has been to this trail yet. Why don't you be the first one to check in?"
         }
     }
 
     componentDidMount(){
         var list = new Array()
-        axios.get(`http://127.0.0.1:8000/api/checkin/`)
+        axios.get(`/api/checkin/`)
         .then(res=>{
             console.log(res.data)
             var size = Object.keys(res.data).length
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
-                let fetched_trail_id = String(fetched_element.trail)
+                let fetched_trail_id = String(fetched_element['trail'])
                 let timestamp=fetched_element.Time.substring(0,10)
                 console.log(`timestamp is ${fetched_element.Time.substring(0,10)}`)
                 console.log(fetched_trail_id)
                 console.log(`current trail id is: ${this.state.trail_id}`)
-                if(fetched_trail_id===this.state.trail_id){
-                    let fetched_user_id = String(fetched_element.User)
+                if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
+                    //User id is the second to the last element in the list formed by splitting the url
+                    // by "/"
+                    this.setState({
+                        no_checkin_msg:null
+                    })
+                    let profile_url_splitted_list=fetched_element.User.split("/")
+                    let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     console.log(`The id of this user is ${fetched_user_id}`)
-                    axios.get(`http://127.0.0.1:8000/api/user/${fetched_user_id}/`)
+                    let fetched_user_url = `/api/user/${fetched_user_id}/`
+                    console.log(fetched_user_url)
+                    axios.get(`/api/user/${fetched_user_id}/`)
                     .then(res=>{
                         var checkin_dict = {}
                         checkin_dict['username']=res.data.username
@@ -44,6 +53,7 @@ class displayCheckins extends Component {
                 }
             }
         })
+
     }
     
     render() {
@@ -51,8 +61,9 @@ class displayCheckins extends Component {
             <div className='checkin-container'>
                 <p className='section-header'>
                     RECENT CHECK-INS 
-                    <img src={checkMark}/>
+                    <img src={checkMark} className="trail-page-icon"/>
                 </p>
+                <h4 className='no-checkin-msg'>{this.state.no_checkin_msg}</h4>
                 
                 {
                     this.state.checkins_list.map((element)=>{

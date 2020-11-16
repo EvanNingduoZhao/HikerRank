@@ -28,7 +28,7 @@ class AddReview extends Component {
 
     handleFormSubmit = (event) =>{
         return(
-            axios.post('http://127.0.0.1:8000/api/review/',{
+            axios.post('/api/review/',{
                 trail:this.state.trail_id,
                 poster:this.state.userId,
                 rating:parseInt(this.state.rating),
@@ -49,7 +49,7 @@ class AddReview extends Component {
                 <img className='add-review-profile-pic'src={catPic}/>
                 <form onSubmit = {(event)=> this.handleFormSubmit(event)}>
                     <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
-                    <div>
+                    <span className="rating-label">
                         <label>Rating: </label>
                         <select value={this.state.rating} onChange={this.handleRatingChange}>
                             <option>1</option>
@@ -58,7 +58,7 @@ class AddReview extends Component {
                             <option>4</option>
                             <option>5</option>
                         </select>
-                    </div>
+                    </span>
                     <button type='submit' className='add-review-button button'>
                         Add your review
                     </button>

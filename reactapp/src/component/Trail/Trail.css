@@ -1,4 +1,3 @@
-
 .container{
   position:absolute;
   width: 100%;
@@ -8,7 +7,7 @@
   display: grid;
 
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 70px repeat(1fr,auto);
+  grid-template-rows: 70px 1fr 1fr 1fr 1fr 1fr 1fr 70px;
 }
 
 .header-container {
@@ -31,11 +30,13 @@
   grid-column-end: 2;
   grid-row-start:3;
   grid-row-end:4;
-  font-family: Varela Round;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
   line-height: 40px;
+  text-align: left;
+  margin-left: 100px;
 /* or 200% */
 
 text-indent: 1px;
@@ -44,12 +45,13 @@ color: #000000;
 }
 
 .section-header{
-  font-family: Ubuntu;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 23px;
   line-height: 26px;
   text-align: center;
+  margin-right: 10px;
   
   color: #000000;
 }
@@ -78,13 +80,18 @@ color: #000000;
   grid-row-end:5;
 }
 
+.no-checkin-msg{
+  margin-left:80px;
+  margin-right:80px;
+}
 .user-checkin{
   margin-top: 30px;
   margin-bottom: 30px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
 }
 
 .button{
-  background: #219653;
+  /* background: #219653;
   height: 30px;
   width: 160px;
   padding: 0px;
@@ -95,17 +102,51 @@ color: #000000;
   font-size: 17px;
   line-height: 20px;
   letter-spacing: 0.1em;
-
   color: #FFFEFE;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+    border: none;
+    background-color: #219653;
+    color: white;
+    border-radius: 0.3ch;
+    width: 110px;
+    height: 30px;
+}
+
+.add-review-button{
+  width: 150px;
 }
 
 .review-container{
+  margin-right: 80px;
+  text-align: left;
+}
+
+.review-section{
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start:4;
-  grid-row-end:6;
+  grid-row-end:7;
+  display: grid;
+  grid-template-rows: 90px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
+.review-section-header{
+  grid-row-start:1;
+  grid-row-end:2;
+  margin-bottom: 20px;
+}
+.review-container{
+  grid-row-start:2;
+  grid-row-end:7;
+  overflow:scroll;
+}
+
+.add-new-review{
+  grid-row-start:7;
+  grid-row-end:9;
+}
+
 .review{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -126,14 +167,15 @@ color: #000000;
   grid-column-end: 4;
   grid-row-start:1;
   grid-row-end:2;
-  font-family: Varela;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 23px;
   line-height: 30px;
 /* identical to box height */
 
-  text-align: center;
+  text-align: left;
+  margin-left: 10px;
 }
 
 .post-time{
@@ -141,21 +183,22 @@ color: #000000;
   grid-column-end: 4;
   grid-row-start:2;
   grid-row-end:3;
-  font-family: Varela;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 23px;
-  text-align: center;
+  text-align: left;
+  margin-left: 10px;
 
   color: #000000;
 }
 .review-rating{
   grid-column-start: 4;
-  grid-column-end: 5;
+  grid-column-end: 12;
   grid-row-start:2;
   grid-row-end:3;
-  font-family: Varela;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -169,14 +212,16 @@ color: #000000;
   grid-row-start:3;
   grid-row-end:6;
   background: rgba(196, 196, 196, 0.5);;
-  font-family: Varela;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 40px;
+  margin-left: 10px;
   /* identical to box height, or 222% */
 
-  text-align: center;
+  text-align: left;
+  padding: 10px;
 
   color: #000000;
 }
@@ -185,6 +230,8 @@ color: #000000;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+  margin-top: 10px;
+  padding: 10px;
 }
 
 .add-review-profile-pic{
@@ -201,13 +248,14 @@ color: #000000;
   grid-row-start:1;
   grid-row-end:3;
   background: rgba(196, 196, 196, 0.5);;
-  font-family: Varela;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   /* identical to box height, or 222% */
-  text-align: center;
+  text-align: left;
   color: #000000;
+  width: 500px;
 }
 
 .add-review-button{
@@ -220,162 +268,123 @@ color: #000000;
 .events-container{
   grid-column-start: 1;
   grid-column-end: 4;
-  grid-row-start:6;
-  grid-row-end:7;
+  grid-row-start:7;
+  grid-row-end:8;
   margin-top: 50px;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 .event{
   display: grid;
-  grid-template-columns: repeat(1fr,15);
+  grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   margin-top: 30px;
   margin-bottom: 20px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, V;
 }
 
 .calender-pic{
-  grid-column-start: 3;
-  grid-column-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 3;
   grid-row-start:1;
   grid-row-end:3;
 }
 
 .event-date-name{
-  grid-column-start: 4;
-  grid-column-end: 6;
+  grid-column-start: 3;
+  grid-column-end: 15;
   grid-row-start:1;
   grid-row-end:2;
+  text-align: left;
 }
 
 .event-orgnizer{
-  grid-column-start: 4;
-  grid-column-end: 6;
+  grid-column-start: 3;
+  grid-column-end: 15;
   grid-row-start:2;
   grid-row-end:3;
+  text-align: left;
 }
 
 .event-participants{
-  grid-column-start: 6;
-  grid-column-end: 10;
+  grid-column-start: 5;
+  grid-column-end: 9;
   grid-row-start:2;
   grid-row-end:3;
 }
 
 .see-participants-list{
-  grid-column-start: 10;
-  grid-column-end: 13;
+  grid-column-start: 9;
+  grid-column-end: 12;
   grid-row-start:2;
   grid-row-end:3;
 }
 
 .join-event-button{
-  grid-column-start: 13;
-  grid-column-end: 16;
+  grid-column-start: 12;
+  grid-column-end: 15;
   grid-row-start:1;
   grid-row-end:3;
 }
 
-/* .title{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 25px;
+.trail-footer-container{
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.rating-label{
+  margin-right: 30px;
+}
+
+.trail-page-icon{
+  margin-left: 5px;
+}
+
+#event-modal{
+    width: 500px;
+    height: 250px;
     text-align: left;
-    letter-spacing: 0.1em;
-    margin-left: 40%;
-    padding-bottom: 10px;
-    color: #FFFEFE;
-  
-  }
-  
-  .header-container {
-    position: relative;
-    height: 70px;
-    width: 100%;
-    background: #000000;
-    display: inline-flex;
-    text-align: left;
-  }
-  
-  .nav_button {
-    color: #FFFEFE;
-    background: #000000;
-    border: none;
-  }
-  
-  .nav-bar{
-    display: inline-flex;
-    margin-top: 20px;
-    margin-left: 90px;
-  }
+    left:50% !important;
+    top: 30%;
+    position: fixed !important;
+}
 
-  .login-button{
-    text-align: center;
-    background: #085027;
-    color: #FFFEFE;
-    border: none;
-    height: 20px;
-    margin-right: 10px;
-    margin-top: 33px;
-    border-radius: 5%;
-  }
+#edit-apply{
+  width: 80%;
+  height: 80px;
+  margin-bottom: 30px;
+}
 
-  .sign-up-button{
-    text-align: center;
-    background: #085027;
-    color: #FFFEFE;
-    border: none;
-    height: 20px;
-    margin-right: 70px;
-    margin-top: 33px;
-    border-radius: 5%;
-  }
-  
-  .main-content-container{
-    position: relative;
-    width: 100%;
-    height: 90%;
-    
-  }
-  
-  .slogan {
-    position: absolute;
-    top: 140px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 45px;
-    color: #FFFEFE;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  
-  }
-  
-  
-  .sub-slogan {
-    position: absolute;
-    top: 200px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #FFFEFE;
-    letter-spacing: 0.05em;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  
-  }
-  .bg-image{
-    filter: brightness(50%); 
-  }
+#ini-event-btn{
+  width: 150px;
+}
 
-  .content-top-container,.content-middle-container,.content-buttom-container{
-    widows: 100%;
-    height:4em
-  }
+#new-event-modal{
+  width: 500px;
+  height: 400px;
+  text-align: left;
+  left:40% !important;
+  bottom: 30%;
+  position: fixed !important;
+}
 
-  .content-top-container{
-    background:cyan;
-  }
+input#event-name{
+  width: 70%;
+}
 
-  .content-middle-container{
-    background:dodgerblue;
-  }
+input#event-intro{
+  width: 92.1%;
+  height: 70px;
+}
 
-  .content-buttom-container{
-    background:hotpink;
-  } */
+.new-event-input{
+  margin: 5px;
+  line-height: 1.8;
+}
+
+#new-event-btn{
+  margin-top: 10px;
+}

@@ -36,6 +36,8 @@ router.register(r'follow-unfollow', views.FollowUnfollowViewSet)
 router.register(r'checkin', views.CheckinViewSet)
 router.register(r'review', views.ReviewViewSet)
 router.register(r'album', views.AlbumViewSet)
+router.register(r'pending-request', views.PendingRequestViewSet)
+router.register(r'processed-request', views.ProcessedRequestViewSet)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),

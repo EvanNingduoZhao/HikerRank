@@ -62,3 +62,7 @@ p#initiator{
     margin-bottom: 60px;
 }
 
+h3.title a{
+    color: white;
+    text-decoration:none; 
+}

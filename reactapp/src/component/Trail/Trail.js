@@ -3,6 +3,12 @@ import '../../App.css';
 import './Trail.css';
 // import trailPagePic from '../../pictures/TrailPagePic.png';
 import sampleMap from '../../pictures/sample-map.png'
+import checkMark from '../../pictures/checkMark.png'
+import reviewIcon from '../../pictures/reviewIcon.png'
+import maleProfileIcon from '../../pictures/maleProfileIcon.png'
+import femaleProfileIcon from '../../pictures/femaleProfileIcon.png'
+import catPic from '../../pictures/catPic.png'
+import calender from '../../pictures/calender.png'
 import Nav from '../Nav'
 import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
@@ -14,6 +20,7 @@ import DropDownMenu from '../DropDownMenu'
 import DisplayCheckins from "./DisplayCheckins";
 import DisplayReviews from "./DisplayReviews"
 import DisplayEvents from './DisplayEvents'
+import Footer from '../Footer'
 
 
 
@@ -93,11 +100,16 @@ class Trail extends Component {
                 </div>
 
                 <DisplayCheckins trailId = {this.state.trail_id}/>
-    
+            
+         
                 <DisplayReviews trailId = {this.state.trail_id}/>
 
+                
                 <DisplayEvents trailId = {this.state.trail_id}/>
 
+                <div className='trail-footer-container'>
+                    <Footer />
+                </div>
 
             </div>
 

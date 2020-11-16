@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from hikerrank.models import Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album
+from hikerrank.models import (
+    Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
+    PendingRequest, ProcessedRequest
+)
 from django.contrib.auth.models import User
 
 
@@ -27,17 +30,17 @@ class TrailSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-class CheckinSerializer(serializers.ModelSerializer):
+class CheckinSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=CheckIn
         fields='__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Review
         fields='__all__'
 
-class EventSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
@@ -49,11 +52,11 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
-
 
 class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -61,19 +64,19 @@ class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class CheckinSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CheckIn
-        fields = '__all__'
-
-
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'
-
-
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Album
+        fields = '__all__'
+
+
+class PendingRequestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PendingRequest
+        fields = '__all__'
+
+
+class ProcessedRequestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ProcessedRequest
         fields = '__all__'

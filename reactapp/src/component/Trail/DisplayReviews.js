@@ -17,7 +17,7 @@ class displayReviews extends Component {
 
     componentDidMount(){
         var list = new Array()
-        axios.get(`http://127.0.0.1:8000/api/review/`)
+        axios.get(`/api/review/`)
         .then(res=>{
             console.log(res.data)
             var size = Object.keys(res.data).length
@@ -28,13 +28,14 @@ class displayReviews extends Component {
                 console.log(`timestamp is ${fetched_element.time.substring(0,10)}`)
                 console.log(fetched_trail_id)
                 console.log(`current trail id is: ${this.state.trail_id}`)
-                if(fetched_trail_id===this.state.trail_id){
-                    let fetched_user_id = String(fetched_element.poster)
+                if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
+                    let profile_url_splitted_list=fetched_element.poster.split("/")
+                    let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     let review_text=fetched_element.Review_text
                     let review_rating=fetched_element.rating
                     console.log(`The id of this user is ${fetched_user_id}`)
                     var user_name = null;
-                    axios.get(`http://127.0.0.1:8000/api/profile/${fetched_user_id}/`)
+                    axios.get(`/api/profile/${fetched_user_id}/`)
                     .then(res=>{
                         console.log(`the first fetch started`)
                         var review_dict = {}
@@ -61,48 +62,42 @@ class displayReviews extends Component {
     
     render() {
         return (
-            <div className='review-container'>
-                <p className='section-header'>
-                    REVIEW HIGHLIGHTS
-                    <img src={reviewIcon}/>
+            <div className='review-section'>
+                <p className='section-header review-section-header'>
+                        REVIEW HIGHLIGHTS
+                        <img src={reviewIcon}/>
                 </p>
-
-                {
-                    this.state.review_list.map((element)=>{
-                        console.log(`the user name is ${element.user_name}`)
-                        return(
-                            <div>
-                                <div className='review'>
-                                    <img className='reviewer-profile-pic' src={element.profile_pic_url}/>
-                                    {/* to get the username of the poster of a review requires making 
-                                    a seperat axios request but making multiple axios requests in one 
-                                    componentDidMount() function can cause the multiple axios requests
-                                    executed in random orders thus may assign wrong usernames to reviews.
-                                    To avoid this problem, I make DisplayReviewUserName a seperate component
-                                     */}
-                                    <DisplayReviewUserName user_id={element.user_id} profile_url={element.profile_url}/>
-                                    <div className='post-time'>{element.timestamp}</div>
-                                    <div className='review-rating'>{element.rating}</div>
-                                    <p className='review-text'>{element.review_text}</p>
+                <div className='review-container'>
+                    {
+                        this.state.review_list.map((element)=>{
+                            console.log(`the user name is ${element.user_name}`)
+                            return(
+                                <div>
+                                    <div className='review'>
+                                        <img className='reviewer-profile-pic' src={element.profile_pic_url}/>
+                                        {/* to get the username of the poster of a review requires making 
+                                        a seperat axios request but making multiple axios requests in one 
+                                        componentDidMount() function can cause the multiple axios requests
+                                        executed in random orders thus may assign wrong usernames to reviews.
+                                        To avoid this problem, I make DisplayReviewUserName a seperate component
+                                        */}
+                                        <DisplayReviewUserName user_id={element.user_id} profile_url={element.profile_url}/>
+                                        <div className='post-time'>{element.timestamp}</div>
+                                        <div className='review-rating'>Rating: {element.rating}</div>
+                                        <p className='review-text'>{element.review_text}</p>
+                                    </div>
+                                    <hr></hr>
                                 </div>
-                                <hr></hr>
-                            </div>
-                        )
-                    })
-                }
-                <AddReview trail_id={this.state.trail_id}/>
-                {/* <div className='add-new-review'>
-                    <img className='add-review-profile-pic'src={catPic}/>
-                    <p className='add-review-text'>Comment area</p>
-                    <button className='add-review-button button'>
-                        Add your review
-                    </button>
-                </div> */}
+                            )
+                        })
+                    }
+                </div>
+                <div className="add-new-review">
+                    <AddReview trail_id={this.state.trail_id}/>
+                </div>
             </div>
         )
     }
 }
 
 export default displayReviews
-
-
