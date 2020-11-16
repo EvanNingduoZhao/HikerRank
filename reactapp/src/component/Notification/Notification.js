@@ -3,6 +3,9 @@ import Nav from '../Nav'
 import Search from '../Search'
 import CategoryTab from './category_tab'
 import Calendar from 'react-calendar'
+import SignUpButton from '../Signup/SignUpButton'
+import LoginButton from '../Login/LoginButton'
+import DropDownMenu from '../DropDownMenu'
 import Footer from '../Footer'
 import 'react-calendar/dist/Calendar.css';
 
@@ -10,13 +13,44 @@ import './Notification.css'
  
 
 class Notification extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+          login_status: sessionStorage.getItem('login_status'),
+          username: sessionStorage.getItem('username')
+        }
+
+      }
+    
     render() {
+        const renderLoginButton = ()=>{
+            if(this.state.login_status!=='true'){
+              return (
+                  <LoginButton />
+              )
+            } else {
+              return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
+            }
+          }
+      
+          const renderSignupButton = ()=>{
+            if(this.state.login_status!=='true'){
+              return (
+                  <SignUpButton />
+              )
+            } else {
+              return (<DropDownMenu />)
+            }
+          }
         return (
             <div>
                 <div className='header-container'>
                     <div><h3 className='title'>HIKERRANK</h3></div> 
                     <Nav />
                     <Search />
+                    {renderLoginButton()}
+                    {renderSignupButton()}
                 </div>
 
                 <div className='notif-title'>

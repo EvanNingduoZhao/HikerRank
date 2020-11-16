@@ -13,7 +13,7 @@ const images = [
   { source: example1,caption: "Cloud & mountain" }, 
   { source: example2, caption: "Cloud & mountain"}, 
   { source: example3, caption: "Cloud & mountain"},
-  { source:example4,caption: "Cloud & mountain"}];
+  { source: example4,caption: "Cloud & mountain"}];
 
 class Album extends Component {
   constructor(props) {
