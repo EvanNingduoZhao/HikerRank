@@ -10,6 +10,7 @@ import Trail from "./component/Trail/Trail";
 import Event from "./component/Event/Event";
 import Notification from "./component/Notification/Notification"
 import Test from "./Test"
+import TestMap from "./TestMap"
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/event/:id" component={Event} />
                 <Route path="/test" component={Test} />
                 <Route path="/notification" component={Notification} />
+                <Route path="/testmap" component={TestMap} />
                 
             </Switch>
         </Router>

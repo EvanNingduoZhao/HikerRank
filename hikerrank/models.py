@@ -17,6 +17,10 @@ def profile_album_upload_path(instance, filename):
     return '/'.join([str(instance.user.username), filename])
 
 
+def json_default():
+    return {'foo': 'bar'}
+
+
 # id link to user id
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True, default=None, on_delete=models.PROTECT)
@@ -38,7 +42,7 @@ class Trail(models.Model):
     high_altitude = models.FloatField(blank=True)
     low_altitude = models.FloatField(blank=True)
     ratings = models.FloatField(default=0)
-    # map_info = models.JSONField(default=dict)
+    map_info = models.JSONField(default=json_default)
 
 
 class Event(models.Model):
