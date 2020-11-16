@@ -9,9 +9,12 @@ const HomeMap = (props) => {
     console.log(props)
   const mapContainerRef = useRef(null);
 
-  const [lng, setLng] = useState(-80.01);
-  const [lat, setLat] = useState(40.43);
-  const [zoom, setZoom] = useState(10.5);
+  var lgnNum = -80.01
+  var latNum = 40.43
+  var zoomNum = 10.5
+  const [lng, setLng] = useState(lgnNum);
+  const [lat, setLat] = useState(latNum);
+  const [zoom, setZoom] = useState(zoomNum);
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -66,16 +69,7 @@ const HomeMap = (props) => {
     return () => map.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
-    <div>
-      {/* <div className='sidebarStyle'>
-        <div>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-      </div> */}
-      <div className='map-container' ref={mapContainerRef} />
-    </div>
-  );
+  return  <div className='map-holder' ref={mapContainerRef} />
 };
 
 export default HomeMap;

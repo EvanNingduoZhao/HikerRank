@@ -42,19 +42,7 @@ class HomeMapWrapper extends Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>
         } else {
-            return (
-                <div>
-                    {/* <h1>Test Map Features Here</h1>
-                    <div>
-                        {items.map(item => (
-                            <p>{item.map_info.type}</p>
-                        ))}
-                    </div> */}
-                    <div className="test-map">
-                        <Map map_json_list={json_list} />
-                    </div>
-                </div>
-            )
+            return <div className="test-map"><Map map_json_list={json_list} /></div>
         }
         
     }

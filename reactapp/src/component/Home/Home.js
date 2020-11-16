@@ -97,8 +97,8 @@ class Home extends Component {
               <DisplayTrail />
             </div>
             <div className="mapbox">
-              {/* <HomeMapWrapper /> */}
-              <img src={sampleMap} width='770px'></img>
+              <HomeMapWrapper />
+              {/* <img src={sampleMap} width='770px'></img> */}
             </div>
             
           </div>
