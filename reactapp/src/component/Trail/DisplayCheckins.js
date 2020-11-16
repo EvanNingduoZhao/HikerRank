@@ -8,7 +8,8 @@ class displayCheckins extends Component {
         super(props)
         this.state = {
              checkins_list:[],
-             trail_id : this.props.trailId
+             trail_id : this.props.trailId,
+             no_checkin_msg:"No one has been to this trail yet. Why don't you be the first one to check in?"
         }
     }
 
@@ -28,6 +29,9 @@ class displayCheckins extends Component {
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
                     //User id is the second to the last element in the list formed by splitting the url
                     // by "/"
+                    this.setState({
+                        no_checkin_msg:null
+                    })
                     let profile_url_splitted_list=fetched_element.User.split("/")
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     console.log(`The id of this user is ${fetched_user_id}`)
@@ -49,6 +53,7 @@ class displayCheckins extends Component {
                 }
             }
         })
+
     }
     
     render() {
@@ -58,6 +63,7 @@ class displayCheckins extends Component {
                     RECENT CHECK-INS 
                     <img src={checkMark} className="trail-page-icon"/>
                 </p>
+                <h4 className='no-checkin-msg'>{this.state.no_checkin_msg}</h4>
                 
                 {
                     this.state.checkins_list.map((element)=>{

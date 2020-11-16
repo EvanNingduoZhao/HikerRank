@@ -77,7 +77,7 @@ class Review(models.Model):
     poster = models.ForeignKey(Profile, on_delete=models.CASCADE)
     trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=5)
     Review_text = models.TextField(blank=True)
 
 
