@@ -55,7 +55,7 @@ class Event(models.Model):
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
    participants = models.ManyToManyField(User,related_name="participants",blank=True)
-   #******* new change
+
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')

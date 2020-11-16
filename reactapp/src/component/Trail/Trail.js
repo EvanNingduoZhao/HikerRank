@@ -21,7 +21,7 @@ import DisplayCheckins from "./DisplayCheckins";
 import DisplayReviews from "./DisplayReviews"
 import DisplayEvents from './DisplayEvents'
 import Footer from '../Footer'
-
+import TrailMapWrapper from '../TrailMap/TrailMapWrapper'
 
 
 
@@ -66,6 +66,7 @@ class Trail extends Component {
               return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
             }
           }
+
       
           const renderSignupButton = ()=>{
             if(this.state.login_status!=='true'){
@@ -96,7 +97,8 @@ class Trail extends Component {
                 />
 
                 <div className='map-container'>
-                    <img src={sampleMap}/>
+                    <TrailMapWrapper trail_id={this.state.trail_id} />
+                    {/* <img src={sampleMap}/> */}
                 </div>
 
                 <DisplayCheckins trailId = {this.state.trail_id}/>
