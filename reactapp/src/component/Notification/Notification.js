@@ -22,6 +22,7 @@ class Notification extends Component {
         }
 
       }
+      
     
     render() {
         const renderLoginButton = ()=>{
@@ -68,7 +69,7 @@ class Notification extends Component {
                 <div className='calendar-container'>
                         <h3>Event Calendar</h3>
                     <div className="calendar-position">
-                        <Calendar className="calendar" />
+                        <Calendar id="calendar"/>
                     </div>
 
                 </div>
