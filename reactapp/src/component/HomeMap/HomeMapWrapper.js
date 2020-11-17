@@ -5,12 +5,14 @@ import Map from './HomeMap.js'
 class HomeMapWrapper extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             error: null,
             isLoaded: false,
             items: [],
-            json_list: []
+            json_list: [],
         }
+        this.getClickedTrail = this.getClickedTrail.bind(this)
     }
     
     componentDidMount() {
@@ -32,17 +34,60 @@ class HomeMapWrapper extends Component {
                     });
                 }
             )
+        console.log('HomeMapWrapper props.clicked', this.props.clicked, 'clicked trail', this.props.clicked_trail)
+        if (this.props.clicked) {
+            fetch(`/api/trail/${this.props.clicked_trail}/`)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            clicked_trail: result,
+                            clicked: true
+                        })
+                    },
+                    (error) => {
+                        this.setState({
+                            clicked_trail: [],
+                            clicked: false
+                        })
+                    }
+                )
+        }
     }
 
+    async getClickedTrail() {
+        if (this.props.clicked) {
+            var selected_trail = [];
+            await fetch(`/api/trail/${this.props.clicked_trail}/`)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        console.log('HomeMapWrapper, fetch clicked trail', result);
+                        selected_trail = result;
+                    },
+                    (error) => {
+                        selected_trail = {'foo' : 'bar'};
+                    }
+                )
+            console.log('HomeMapWrapper, fetch clicked trail', selected_trail);
+            return selected_trail;
+        } else {
+            return {'foo':'bar'};
+        }
+    }
 
     render() {
         const { error, isLoaded, items, json_list } = this.state
+        const clicked = this.props.clicked_trail
+        console.log('HomeMapWrapper clicked trail', clicked)
+        const click_flag = this.props.clicked;
+        console.log('HomeMapWrapper click_flag', click_flag)
         if (error) {
             return <div>Error: {error.message}</div>
         } else if (!isLoaded) {
             return <div>Loading...</div>
         } else {
-            return <div className="test-map"><Map map_json_list={json_list} /></div>
+            return <div className="test-map"><Map map_json_list={json_list} clicked_trail={clicked} clicked={click_flag}/></div>
         }
         
     }
