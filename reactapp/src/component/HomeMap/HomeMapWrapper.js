@@ -3,6 +3,7 @@ import './HomeMapWrapper.css'
 import Map from './HomeMap.js'
 
 class HomeMapWrapper extends Component {
+
     constructor(props) {
         super(props);
         
@@ -20,7 +21,7 @@ class HomeMapWrapper extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    // console.log(result)
+                    console.log(result)
                     this.setState({
                         isLoaded: true,
                         items: result,
@@ -34,12 +35,22 @@ class HomeMapWrapper extends Component {
                     });
                 }
             )
+        
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
+
+    componentDidUpdate(prevProps) {
         console.log('HomeMapWrapper props.clicked', this.props.clicked, 'clicked trail', this.props.clicked_trail)
-        if (this.props.clicked) {
+        if ((prevProps.clicked_trail != this.props.clicked_trail) && this.props.clicked) {
+            console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch')
             fetch(`/api/trail/${this.props.clicked_trail}/`)
                 .then(res => res.json())
                 .then(
                     (result) => {
+                        console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch', result)
                         this.setState({
                             clicked_trail: result,
                             clicked: true
@@ -77,8 +88,9 @@ class HomeMapWrapper extends Component {
     }
 
     render() {
+        console.log('HomeMapWrapper', this.props);
         const { error, isLoaded, items, json_list } = this.state
-        const clicked = this.props.clicked_trail
+        const clicked = this.state.clicked_trail
         console.log('HomeMapWrapper clicked trail', clicked)
         const click_flag = this.props.clicked;
         console.log('HomeMapWrapper click_flag', click_flag)

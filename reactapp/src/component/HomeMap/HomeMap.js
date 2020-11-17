@@ -9,6 +9,7 @@ const HomeMap = (props) => {
     console.log(props)
   const mapContainerRef = useRef(null);
   const clicked_trail = props.clicked_trail
+  var coordinates;
   // var map;
   
   const calculateZoom = (coordinates) => {
@@ -62,6 +63,7 @@ const HomeMap = (props) => {
   var lgnNum = -80.01;
   var latNum = 40.43;
   var zoomNum = 10;
+
   const [lng, setLng] = useState(lgnNum);
   const [lat, setLat] = useState(latNum);
   const [zoom, setZoom] = useState(zoomNum);
@@ -104,19 +106,25 @@ const HomeMap = (props) => {
   useEffect(() => {
 
     console.log('mount, update, useEffect in HomeMap')
-    
-    updateMapDisplay().then(
-      () => {
-        setLng(lgnNum);
-        setLat(latNum);
-        setZoom(zoomNum);
+    if (props.clicked) {
+      coordinates = clicked_trail.map_info.features[0].geometry.coordinates;
+      zoomNum = 150.0 / (calculateZoom(coordinates)[0] / 3.0 + 9.9);
+      lgnNum = calculateZoom(coordinates)[1];
+      latNum = calculateZoom(coordinates)[2];
+      console.log('After click: lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum)
+    } else {
+      lgnNum = -80.01;
+      latNum = 40.43;
+      zoomNum = 10;
+    }
+ 
         console.log('reset state', lng, lat, zoom);
 
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
           style: 'mapbox://styles/mapbox/outdoors-v11',
-          center: [lng, lat],
-          zoom: zoom
+          center: [lgnNum, latNum],
+          zoom: zoomNum
         });
     
         // Add navigation control (the +/- zoom buttons)
@@ -162,59 +170,7 @@ const HomeMap = (props) => {
 
         // Clean up on unmount
         return () => map.remove();
-      }
-    );
-    
-    // console.log('HomeMap, check state', lng, lat, zoom);
-
-    // const map = new mapboxgl.Map({
-    //   container: mapContainerRef.current,
-    //   style: 'mapbox://styles/mapbox/outdoors-v11',
-    //   center: [lng, lat],
-    //   zoom: zoom
-    // });
-
-    // // Add navigation control (the +/- zoom buttons)
-    // console.log('HomeMap Loading Map...');
-    // map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-    // map.on('move', () => {
-    //   setLng(map.getCenter().lng.toFixed(4));
-    //   setLat(map.getCenter().lat.toFixed(4));
-    //   setZoom(map.getZoom().toFixed(2));
-    // });
-    
-    // var trails = props.map_json_list
-    // console.log(trails)
-    
-    // map.on('load', function () {
-    //     for (let map_json of trails) {
-
-    //         var source_name = map_json.name;
-
-    //         var trail_json = map_json.map_info;
-
-    //         map.addSource( source_name, {
-    //             'type': 'geojson',
-    //             'data': trail_json
-    //         });
-    //         map.addLayer({
-    //             'id': source_name,
-    //             'type': 'line',
-    //             'source': source_name,
-    //             'layout': {
-    //             'line-join': 'round',
-    //             'line-cap': 'round'
-    //             },
-    //             'paint': {
-    //                 'line-color': '#085027',
-    //                 'line-width': zoomNum / 8.0
-    //             }
-    //         });
-    //     }
-        
-    // });
-
+ 
     
   }, [props.clicked_trail]); // eslint-disable-line react-hooks/exhaustive-deps
 
