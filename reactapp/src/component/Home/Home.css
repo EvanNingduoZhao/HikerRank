@@ -193,6 +193,15 @@
   padding-bottom: 5px;
 }
 
+.trail-card-clicked{
+  background-color: #d7f7ab;
+  margin: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 p {
   line-height: 0.7;
 }
@@ -203,11 +212,19 @@ p {
   color: #085027;
 }
 
+.trail-name-red{
+  font-weight: bold;
+  font-size: 15px;
+  color: palevioletred;
+}
+
 .mapbox{
   display: inline;
   margin-left: 10px;
   margin-top: 5px;
   width: 770px;
+  text-align: left;
+  line-height: 400%;
 }
 
 .welcome-msg{
