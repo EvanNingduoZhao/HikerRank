@@ -63,6 +63,12 @@ class HomeMapWrapper extends Component {
                         })
                     }
                 )
+        } else if ((prevProps.clicked_trail != this.props.clicked_trail) && !this.props.clicked) {
+            console.log('HomeMapWrapper, componentDidUpdate, click to not click');
+                this.setState({
+                    clicked_trail: {'foo': 'bar'},
+                    clicked: false
+                })
         }
     }
 

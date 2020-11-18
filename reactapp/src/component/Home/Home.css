@@ -194,7 +194,7 @@
 }
 
 .trail-card-clicked{
-  background-color: #f7e483;
+  background-color: #d7f7ab;
   margin: 5px;
   padding-left: 20px;
   padding-right: 20px;
@@ -223,6 +223,8 @@ p {
   margin-left: 10px;
   margin-top: 5px;
   width: 770px;
+  text-align: left;
+  line-height: 400%;
 }
 
 .welcome-msg{
