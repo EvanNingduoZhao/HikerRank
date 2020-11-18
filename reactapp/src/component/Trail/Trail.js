@@ -22,6 +22,7 @@ import DisplayReviews from "./DisplayReviews"
 import DisplayEvents from './DisplayEvents'
 import Footer from '../Footer'
 import TrailMapWrapper from '../TrailMap/TrailMapWrapper'
+import {Link} from "react-router-dom";
 
 
 
@@ -81,7 +82,7 @@ class Trail extends Component {
         return (
             <div className = 'container'>
                 <div className='header-container'>
-                    <div><h3 className='title'>HIKERRANK</h3></div> 
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
                     <Nav />
                     <Search />
                     {renderLoginButton()}

@@ -46,7 +46,7 @@ class AddReview extends Component {
     render() {
         return (
             <div className='add-new-review'>
-                <img className='add-review-profile-pic'src={catPic}/>
+                {/* <img className='add-review-profile-pic'src={catPic}/> */}
                 <form onSubmit = {(event)=> this.handleFormSubmit(event)}>
                     <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
                     <span className="rating-label">
