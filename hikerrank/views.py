@@ -42,6 +42,7 @@ class EventViewSet(viewsets.ModelViewSet):
         #           'headcount':eventHc,
         #           'initiator':sessionStorage.getItem('id'),
         #           'trail_id':trailId}
+        print(request.data['initiator'])
         name = request.data['name']
         description = request.data['description']
         event_time = request.data['event_time']

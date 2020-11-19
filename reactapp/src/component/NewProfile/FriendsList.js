@@ -23,11 +23,10 @@ class FriendsList extends Component {
                 const element = data[index];
                 let user_url = element['user']
                 let following_url = element['following']
-
                 fetch(user_url)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data['id']);
+                    console.log(data);
                     let fetched_user_id = data['id']
                     if (String(fetched_user_id)===String(this.state.profile_id)) {
                         console.log('fetched')

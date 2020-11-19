@@ -51,7 +51,7 @@ class AddReview extends Component {
                     <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
                     <span className="rating-label">
                         <label>Rating: </label>
-                        <select value={this.state.rating} onChange={this.handleRatingChange}>
+                        <select value={this.state.rating} onChange={this.handleRatingChange} required>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
