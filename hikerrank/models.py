@@ -17,6 +17,10 @@ def profile_album_upload_path(instance, filename):
     return '/'.join([str(instance.user.username), filename])
 
 
+def json_default():
+    return {'foo': 'bar'}
+
+
 # id link to user id
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True, default=None, on_delete=models.PROTECT)
@@ -38,7 +42,7 @@ class Trail(models.Model):
     high_altitude = models.FloatField(blank=True)
     low_altitude = models.FloatField(blank=True)
     ratings = models.FloatField(default=0)
-    # map_info = models.JSONField(default=dict)
+    map_info = models.JSONField(default=json_default)
 
 
 class Event(models.Model):
@@ -51,7 +55,7 @@ class Event(models.Model):
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
    participants = models.ManyToManyField(User,related_name="participants",blank=True)
-   #******* new change
+
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')
@@ -77,7 +81,7 @@ class Review(models.Model):
     poster = models.ForeignKey(Profile, on_delete=models.CASCADE)
     trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=5)
     Review_text = models.TextField(blank=True)
 
 

@@ -10,7 +10,8 @@ class DisplayEvents extends Component {
     
         this.state = {
             event_list:[],
-            trail_id : this.props.trailId
+            trail_id : this.props.trailId,
+            no_event_msg:"Currently, there's no upcoming events for this trail. You can use the button below to initiate a new event and ask your friends to join!"
         }
     }
 
@@ -32,6 +33,9 @@ class DisplayEvents extends Component {
                 console.log(fetched_trail_id)
                 console.log(`current trail id is: ${this.state.trail_id}`)
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
+                    this.setState({
+                        no_event_msg:null
+                    })
                     let profile_url_splitted_list=fetched_element.initiator.split("/")
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     console.log(`The id of this user is ${fetched_user_id}`)
@@ -66,6 +70,7 @@ class DisplayEvents extends Component {
             <span className='section-sub-header'>
                 Join your hikers crew to go for a ride together
             </span>
+            <h4>{this.state.no_event_msg}</h4>
 
             {
                 this.state.event_list.map((element)=>{

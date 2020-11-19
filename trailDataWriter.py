@@ -66,10 +66,10 @@ def writeDataToDB():
 
 def readDataFromDB():
     try:
-        cnx = mysql.connector.connect(user='root', database='test')
+        cnx = mysql.connector.connect(user='root', database='hikerrank')
         print("Connected")
         cursor = cnx.cursor()
-        query = ("select url from trails")
+        query = ("select url from hikerrank_trail")
         cursor.execute(query)
         result = cursor.fetchall()
         for row in result:
@@ -81,7 +81,7 @@ def readDataFromDB():
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
+            print("read: Database does not exist")
         else:
             print(err)
     else:
@@ -116,8 +116,8 @@ def downloadGPX():
             browser.find_element_by_xpath("//*[@id=\"login-modal\"]/div/div/div[2]/div/div[2]/form[2]/button").click()
             browser.implicitly_wait(3)
             browser.find_element_by_xpath("//*[@id=\"toolbox\"]/a[3]").click()
-            src = '/Users/laura/Downloads/' + t_name + '.gpx'
-            dst = '/Users/laura/Downloads/' + t_id + '.gpx'
+            src = '/Users/ariadnebai/Downloads/' + t_name + '.gpx'
+            dst = '/Users/ariadnebai/Downloads/' + t_id + '.gpx'
             print('************')
             print(src)
             os.rename(src, dst)
@@ -145,5 +145,5 @@ def downloadGPX():
 if __name__ == "__main__":
     # fetchData()
     writeDataToDB()
-    # readDataFromDB()
-    # downloadGPX()
+    readDataFromDB()
+    downloadGPX()

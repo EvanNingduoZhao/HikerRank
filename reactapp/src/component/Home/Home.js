@@ -12,6 +12,7 @@ import Filter from '../Filter'
 import UserMenu from '../UserMenu'
 import Footer from '../Footer'
 import DropDownMenu from '../DropDownMenu'
+import HomeMapWrapper from '../HomeMap/HomeMapWrapper'
 
 
 import React, { Component } from 'react';
@@ -23,8 +24,11 @@ class Home extends Component {
     
     this.state = {
       login_status: sessionStorage.getItem('login_status'),
-      username: sessionStorage.getItem('username')
+      username: sessionStorage.getItem('username'),
+      clicked_trail: -1,
+      clicked: false
     }
+    this.handleClickTrailName = this.handleClickTrailName.bind(this)
 
     console.log(this.state) //'true' if logged in, null if not
     console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
@@ -40,9 +44,23 @@ class Home extends Component {
   // }
 
   
-  
+  handleClickTrailName(trail_id) {
+    console.log('from Home Component', trail_id)
+    if (trail_id == this.state.clicked_trail) {
+      this.setState({
+        clicked_trail: -1,
+        clicked: false
+      })
+    } else {
+      this.setState({
+        clicked_trail: trail_id,
+        clicked: true
+      })
+    }
+  }
   
   render() {
+    const clicked = this.state.clicked_trail
     const renderLoginButton = ()=>{
       if(this.state.login_status!=='true'){
         return (
@@ -93,10 +111,11 @@ class Home extends Component {
           <div className='map-container'>
             <div className="trail-info-box">
               <div className="nearby-hint">Trails near you:</div>
-              <DisplayTrail />
+              <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName}/>
             </div>
             <div className="mapbox">
-              <img src={sampleMap} width='770px'></img>
+              <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/>
+              {/* <img src={sampleMap} width='770px'></img> */}
             </div>
             
           </div>

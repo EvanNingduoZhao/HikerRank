@@ -56,7 +56,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username','email']
+        fields = ['id', 'username', 'email']
 
 class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

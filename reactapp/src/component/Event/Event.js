@@ -110,7 +110,7 @@ class Event extends Component {
                   <LoginButton />
               )
             } else {
-              return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>)
+              return (<p className="welcome-msg">Hello, {this.state.username}! :)</p >)
             }
           }
       
