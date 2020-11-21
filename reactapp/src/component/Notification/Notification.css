@@ -108,4 +108,14 @@ td.my_event_date{
     margin-right: auto;
     width: 1000px;
     padding-left: 12%;
+    line-height: 2;
+}
+
+#cancel-event-modal{
+    width: 500px;
+    height: 130px;
+    text-align: center;
+    left:33% !important;
+    position: fixed !important;
+    top: 200px !important;
 }

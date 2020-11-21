@@ -4,6 +4,7 @@ from hikerrank.models import (
     PendingRequest, ProcessedRequest
 )
 from django.contrib.auth.models import User
+from rest_framework.validators import UniqueTogetherValidator
 
 
 class SignupSerializer(serializers.HyperlinkedModelSerializer):
@@ -62,6 +63,13 @@ class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Follow_UnFollow
         fields = '__all__'
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Follow_UnFollow.objects.all(),
+                fields=['user', 'following']
+            )
+        ]
 
 
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):

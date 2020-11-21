@@ -11,7 +11,8 @@ class displayReviews extends Component {
         super(props)
         this.state = {
              review_list:[],
-             trail_id : this.props.trailId
+             trail_id : this.props.trailId,
+             no_review_msg: null
         }
     }
 
@@ -21,6 +22,7 @@ class displayReviews extends Component {
         .then(res=>{
             console.log(res.data)
             var size = Object.keys(res.data).length
+            var review_cnt = 0
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element.trail)
@@ -29,6 +31,7 @@ class displayReviews extends Component {
                 console.log(fetched_trail_id)
                 console.log(`current trail id is: ${this.state.trail_id}`)
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
+                    review_cnt = review_cnt +1
                     let profile_url_splitted_list=fetched_element.poster.split("/")
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     let review_text=fetched_element.Review_text
@@ -57,6 +60,11 @@ class displayReviews extends Component {
                     })
                 }
             }
+            if (review_cnt === 0) {
+                this.setState({
+                    no_review_msg:"No one has reviewed this trail. Be the first to do it!"
+                })
+            }
         })
     }
     
@@ -67,7 +75,9 @@ class displayReviews extends Component {
                         REVIEW HIGHLIGHTS
                         <img src={reviewIcon}/>
                 </p>
+                
                 <div className='review-container'>
+                <h4 className="no-review-msg">{this.state.no_review_msg}</h4>
                     {
                         this.state.review_list.map((element)=>{
                             console.log(`the user name is ${element.user_name}`)

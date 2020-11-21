@@ -71,7 +71,7 @@ class FriendsList extends Component {
          
         return (
             <div className="fl-box">
-                <p className="fl-header">FRIENDS CIRCLE</p>
+                <p className="fl-header">CURRENTLY FOLLOWING</p>
                 <h4>{this.state.no_friend_msg}</h4>
                 {
                     Object.keys(this.state.dict).map((key, index) => (

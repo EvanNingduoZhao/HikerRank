@@ -188,23 +188,17 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
     queryset = Follow_UnFollow.objects.all()
     serializer_class = FollowUnfollowSerializer
 
-    def get(self, request, pk=None):
-        if pk == None:
-            data = Follow_UnFollow.objects.all()
-        else:
-            this_user = User.objects.get(id=pk)
-            data = Follow_UnFollow.objects.filter(user=this_user)
+    def create(self, request,*args, **kwargs):
 
-        queryset = self.filter_queryset(data)
-        page = self.paginate_queryset(queryset)
-
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
+        print(request.data)
+        user_id = int(request.data['user_id'])
+        following_id = int(request.data['following_id'])
+        user = User.objects.get(id=user_id)
+        following = User.objects.get(id=following_id) 
+        new_follow = Follow_UnFollow(user=user,following=following)
+        new_follow.save()
+        return Response({'message': 'success'}, status=200)
+       
 
 class PendingRequestViewSet(viewsets.ModelViewSet):
     queryset = PendingRequest.objects.all()
@@ -225,3 +219,18 @@ class PendingRequestViewSet(viewsets.ModelViewSet):
 class ProcessedRequestViewSet(viewsets.ModelViewSet):
     queryset = ProcessedRequest.objects.all()
     serializer_class = ProcessedRequestSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        user_id = int(request.data['user_id'])
+        event_id = int(request.data['event_id'])
+        status = request.data['status']
+        user = User.objects.get(id=user_id)
+        event = Event.objects.get(id=event_id)
+        processed_request = ProcessedRequest(user=user,event=event,status=status)
+        processed_request.save()
+
+        if status == "Accepted":
+            print("add to participant list")
+            event.participants.add(user)
+        return Response({'message': 'success'}, status=200)

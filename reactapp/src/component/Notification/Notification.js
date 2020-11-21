@@ -7,7 +7,8 @@ import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
 import DropDownMenu from '../DropDownMenu'
 import Footer from '../Footer'
-import 'react-calendar/dist/Calendar.css';
+import 'react-calendar/dist/Calendar.css'
+import {Link} from "react-router-dom"
 
 import './Notification.css'
  
@@ -47,7 +48,7 @@ class Notification extends Component {
         return (
             <div>
                 <div className='header-container'>
-                    <div><h3 className='title'>HIKERRANK</h3></div> 
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                     <Nav />
                     <Search />
                     {renderLoginButton()}
