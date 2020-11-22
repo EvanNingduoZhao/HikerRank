@@ -1,7 +1,3 @@
-/* .event-content > div{
-    width: 33%;
-} */
-
 .event-left{
     padding-top: 10px;
     float: left;
@@ -64,5 +60,14 @@ p#initiator{
 
 h3.title a{
     color: white;
-    text-decoration:none; 
+    text-decoration: none;
+}
+
+div.event-left a {
+    text-decoration: none;
+    color: #000000;
+}
+
+div.event-detail p.trail-location-description {
+    line-height: 20px;
 }
