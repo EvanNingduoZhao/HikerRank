@@ -60,18 +60,16 @@ class Trail(models.Model):
     description = models.TextField(blank=True)
     map_info = models.JSONField(default=dict)
 
-    
 
 class Event(models.Model):
-   initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
-   name         = models.CharField(max_length=200)
-   description  = models.TextField(blank=True)
-   post_time		    = models.DateTimeField(auto_now_add=True)
-   event_time= models.DateTimeField(default=datetime.now)
-   trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
-   headcount    = models.IntegerField(default=0 )
-#  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
-   participants = models.ManyToManyField(User,related_name="participants",blank=True)
+    initiator = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    post_time = models.DateTimeField(auto_now_add=True)
+    event_time = models.DateTimeField(default=datetime.now)
+    trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
+    headcount = models.IntegerField(default=0)
+    participants = models.ManyToManyField(User, related_name="participants", blank=True)
 
 
 class Photo(models.Model):
@@ -109,14 +107,15 @@ class Follow_UnFollow(models.Model):
 
 
 class PendingRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(blank=True)
 
+
 class ProcessedRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10) #accept denied
+    status = models.CharField(max_length=10)  # accept denied
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
