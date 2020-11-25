@@ -28,33 +28,48 @@ class Profile(models.Model):
     picture = models.FileField(default="default-picture.png", max_length=255, upload_to=profile_picture_upload_path)
 
 
+# class Trail(models.Model):
+#     id  =models.PositiveIntegerField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     summary = models.TextField(blank=True)
+#     difficulty = models.CharField(max_length=50)
+#     location = models.CharField(max_length=100)
+#     longitude = models.FloatField()
+#     latitude = models.FloatField()
+#     length = models.FloatField()
+#     ascent = models.FloatField()
+#     descent = models.FloatField()
+#     high_altitude = models.FloatField(blank=True)
+#     low_altitude = models.FloatField(blank=True)
+#     ratings = models.FloatField(default=0)
+#     map_info = models.JSONField(default=json_default)
+
+
 class Trail(models.Model):
-    #    Id  =models.PositiveIntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    summary = models.TextField(blank=True)
-    difficulty = models.CharField(max_length=50)
-    location = models.CharField(max_length=100)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
+    id = models.PositiveIntegerField(primary_key=True)
+    tname = models.CharField(max_length=200)
+    tclass = models.CharField(max_length=100)
+    surface = models.CharField(max_length=100)
     length = models.FloatField()
-    ascent = models.FloatField()
-    descent = models.FloatField()
-    high_altitude = models.FloatField(blank=True)
-    low_altitude = models.FloatField(blank=True)
-    ratings = models.FloatField(default=0)
-    map_info = models.JSONField(default=json_default)
+    backpack = models.CharField(max_length=100)
+    bicycle = models.CharField(max_length=100)
+    mountainbike = models.CharField(max_length=100)
+    ski = models.CharField(max_length=100)
+    width = models.FloatField(default=0)
+    difficulty = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    map_info = models.JSONField(default=dict)
 
 
 class Event(models.Model):
-   initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
-   name         = models.CharField(max_length=200)
-   description  = models.TextField(blank=True)
-   post_time		    = models.DateTimeField(auto_now_add=True)
-   event_time= models.DateTimeField(default=datetime.now)
-   trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
-   headcount    = models.IntegerField(default=0 )
-#  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
-   participants = models.ManyToManyField(User,related_name="participants",blank=True)
+    initiator = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    post_time = models.DateTimeField(auto_now_add=True)
+    event_time = models.DateTimeField(default=datetime.now)
+    trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
+    headcount = models.IntegerField(default=0)
+    participants = models.ManyToManyField(User, related_name="participants", blank=True)
 
 
 class Photo(models.Model):
@@ -92,14 +107,15 @@ class Follow_UnFollow(models.Model):
 
 
 class PendingRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(blank=True)
 
+
 class ProcessedRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10) #accept denied
+    status = models.CharField(max_length=10)  # accept denied
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
