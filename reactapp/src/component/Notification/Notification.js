@@ -7,9 +7,11 @@ import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
 import DropDownMenu from '../DropDownMenu'
 import Footer from '../Footer'
-import 'react-calendar/dist/Calendar.css';
+// import 'react-calendar/dist/Calendar.css'
+import {Link} from "react-router-dom"
 
 import './Notification.css'
+import EventCalendar from './EventCalendar';
  
 
 class Notification extends Component {
@@ -47,7 +49,7 @@ class Notification extends Component {
         return (
             <div>
                 <div className='header-container'>
-                    <div><h3 className='title'>HIKERRANK</h3></div> 
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                     <Nav />
                     <Search />
                     {renderLoginButton()}
@@ -59,21 +61,25 @@ class Notification extends Component {
                     <p>Check your new followers and events here</p>
                 </div>
 
-                <div className='notif-content'>
-                    <div>
-                        <CategoryTab />
-                    </div>
-
+                <div className="notif-left">
+                  <div className='notif-content'>
+                          <CategoryTab />
+                  </div>
                 </div>
+                
 
-                <div className='calendar-container'>
+                {/* <div className='calendar-container'>
                         <h3>Event Calendar</h3>
                     <div className="calendar-position">
                         <Calendar id="calendar"/>
                     </div>
 
+                </div> */}
+                <div className="notif-right">
+                  <h3>Event Calendar</h3>
+                  <EventCalendar />
                 </div>
-
+                
                 <Footer />
 
             </div>

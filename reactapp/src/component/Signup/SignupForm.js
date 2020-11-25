@@ -31,7 +31,7 @@ class SignupForm extends Component {
 
     handleSubmit = event => {
         event.preventDefault()
-        alert(`${this.state.username} ${this.state.email} ${this.state.password2} `)
+        // alert(`${this.state.username} ${this.state.email} ${this.state.password2} `)
         // console.log(this.state)
         if (this.state.password1!==this.state.password2) {
             this.setState({

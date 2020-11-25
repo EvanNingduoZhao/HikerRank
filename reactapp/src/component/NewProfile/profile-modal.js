@@ -7,36 +7,28 @@ import './EditProfileButton.css'
   
   const {
     title, isOpen, askToClose,
-    onAfterOpen, onRequestClose, onChangeInput,profileId,ini_picture
+    onAfterOpen, onRequestClose, onChangeInput,profileId,ini_picture,ini_bio
   } = props;
 
   const [bio, setBio] = useState("");
   const [picture, setPicture] = useState();
- 
 
-  const being_update = false
 
-  const updateProfile = () => {
+  const updateProfile = (event) => {
     const uploadData = new FormData();
 
     uploadData.append('picture',picture, picture.name)
     uploadData.append('bio',bio)
     uploadData.append('user',profileId)
-    // uploadData.append('username',sessionStorage.getItem('username'))
-    alert(`${profileId}`)
-    // var profile_url = '/api/profile/'+profileId+'/'
+
     fetch('/api/profile/',{
       method: 'POST', 
       body: uploadData
     })
     .then(res =>{
-      alert(`${res}`)
-      console.log(res);
-      sessionStorage.setItem('stay_open','false')
+      sessionStorage.setItem('stay_open','true')
     })
     .catch(error => {
-      console.log(error)
-      alert(`${error}`)
       sessionStorage.setItem('stay_open','true')
     })
 
@@ -51,11 +43,11 @@ import './EditProfileButton.css'
       onRequestClose={onRequestClose}
       id="profile-modal">
       <h3>Edit Profile</h3>
-      <img src={ini_picture} width="170px"></img>
+      <img src={ini_picture} style={{width: 170, height: 170, borderRadius: 170/ 2}}></img>
       <form className="edit-profile-form">
-        <input id="edit-bio" type="text" onChange={(event) => setBio(event.target.value)} placeholder="Enter your description here..."/><br></br>
-        <input className="upload-picture" type="file"  accept="image/jpg, image/jpeg, image/png" onChange={(event) => setPicture(event.target.files[0])}></input>
-        <button className="btn btn-primary" onClick={()=> updateProfile()}>Submit</button>
+        <input id="edit-bio" type="text" onChange={(event) => setBio(event.target.value)} placeholder={ini_bio} required/><br></br>
+        <input className="upload-picture" type="file"  accept="image/jpg, image/jpeg, image/png" onChange={(event) => setPicture(event.target.files[0])} required></input>
+        <button className="btn btn-primary" onClick={(event)=> updateProfile()}>Submit</button>
       </form>
       <button className="close-edit-button" onClick={askToClose}>X close</button>
     </Modal>

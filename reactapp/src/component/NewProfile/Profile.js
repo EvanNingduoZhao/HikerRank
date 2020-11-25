@@ -11,6 +11,7 @@ import UserCheckins from './UserCheckins'
 import FriendsList from './FriendsList'
 import Footer from '../Footer'
 import Album from './Album'
+import {Link} from "react-router-dom";
 
 class Profile extends Component {
     constructor(props) {
@@ -74,7 +75,7 @@ class Profile extends Component {
           const renderEditButton = ()=>{
             if(this.state.profile_id===sessionStorage.getItem('id')){
               return (
-                <EditProfileButton profileId={this.state.profile_id} ini_picture={this.state.profile_picture}/>
+                <EditProfileButton profileId={this.state.profile_id} ini_picture={this.state.profile_picture} ini_bio={this.state.profile_bio}/>
               )
             } else {
               return (<AddFriendButton profileId={this.state.profile_id}/>)
@@ -84,7 +85,7 @@ class Profile extends Component {
         return (
             <div>
                 <div className='header-container'>
-                    <div><h3 className='title'>HIKERRANK</h3></div> 
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                     <Nav />
                     <Search />
                     {renderLoginButton()}
@@ -94,7 +95,7 @@ class Profile extends Component {
                 <div className='content'>
                     <div className='left'>
                         <p id="username">{this.state.profile_username}</p>
-                        <img src={this.state.profile_picture} alt="image" width="170px" ></img>
+                        <img id="profile-page-profile-picture" src={this.state.profile_picture} alt="image" style={{width: 170, height: 170, borderRadius: 170/ 2}} ></img>
                         <div className="bio-box">
                             <p id="bio">{this.state.profile_bio}</p>
                         </div>

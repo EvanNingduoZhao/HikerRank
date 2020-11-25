@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import Modal from 'react-modal';
 import MyModal from './NewEvent-modal';
+import { withRouter } from 'react-router-dom';
 
 const MODAL_A = 'modal_a';
 
@@ -35,6 +36,9 @@ class NewEventButton extends Component {
 
 
       toggleModal = key => event => {
+        if (this.state.userId===null){
+          this.props.history.push('/login')
+        }
         console.log(this.state)
         // alert(`${this.props.ini_picture}`)
         event.preventDefault();
@@ -92,4 +96,4 @@ class NewEventButton extends Component {
     }
 }
 
-export default NewEventButton
+export default withRouter(NewEventButton)

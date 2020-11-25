@@ -81,13 +81,13 @@
 
 .sub-slogan {
   position: absolute;
-  top: 200px;
+  top: 230px;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #FFFEFE;
   letter-spacing: 0.05em;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+  line-height: 1.5;
 }
 
 .bg-image{
