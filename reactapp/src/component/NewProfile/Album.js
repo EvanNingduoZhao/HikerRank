@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import './Album.css'
-import example1 from '../../pictures/album-example-1.jpg'
-import example2 from '../../pictures/album-example-2.jpg'
-import example3 from '../../pictures/album-example-3.jpg'
-import example4 from '../../pictures/album-example-4.jpg'
+import welcome from '../../pictures/welcome-image.jpg'
+
 import UploadPhotoButton from './UploadPhotoButton'
 import Modal from 'react-modal';
 import Carousel from 'react-images';
 
 
 const images = [
-  { source: example1,caption: "Cloud & mountain" }, 
-  { source: example2, caption: "Cloud & mountain"}, 
-  { source: example3, caption: "Cloud & mountain"},
-  { source: example4,caption: "Cloud & mountain"}];
+  { source: welcome,caption: "Welcome!" },];
 
 class Album extends Component {
   constructor(props) {

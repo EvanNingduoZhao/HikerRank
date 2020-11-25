@@ -87,19 +87,24 @@ class Trail extends Component {
                     {renderLoginButton()}
                     {renderSignupButton()}
                 </div>
-                <PicSlogan name={this.state.trail.name} summary={this.state.trail.summary}/>
+
+                <PicSlogan name={this.state.trail.name} summary={this.state.trail.description}/>
 
                 <div className='trail-info-and-map-section'>
-                    <TrailInfo location={this.state.trail.location} 
-                                length={this.state.trail.length}
-                                high={this.state.trail.high_altitude}
-                                low={this.state.trail.low_altitude}
-                                difficulty={this.state.trail.difficulty}
-                                rating={this.state.trail.ratings}
-                    />
+                    <TrailInfo type={this.state.trail.tclass} 
+                            surface={this.state.trail.surface}
+                            length={this.state.trail.length}
+                            backpack={this.state.trail.backpack}
+                            bicycle={this.state.trail.bicycle}
+                            mountainbike={this.state.trail.mountainbike}
+                            ski={this.state.trail.ski}
+                            width={this.state.trail.width}
+                            difficulty={this.state.trail.difficulty}
+                  />
                     <div className='trail-map-container'>
                         <TrailMapWrapper trail_id={this.state.trail_id} />
                     </div>
+
                 </div>
 
                 <div className="checkin-and-review-section">

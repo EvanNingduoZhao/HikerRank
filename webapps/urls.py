@@ -38,6 +38,7 @@ router.register(r'review', views.ReviewViewSet)
 router.register(r'album', views.AlbumViewSet)
 router.register(r'pending-request', views.PendingRequestViewSet)
 router.register(r'processed-request', views.ProcessedRequestViewSet)
+router.register(r'broadcast-message', views.BroadcastMessageViewSet)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),

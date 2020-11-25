@@ -7,7 +7,7 @@ import './EditProfileButton.css'
   
   const {
     isOpen, askToClose,
-    onAfterOpen, onRequestClose, onChangeInput,profileId,ini_picture
+    onAfterOpen, onRequestClose, onChangeInput,profileId
   } = props;
 
   const [caption, setCaption] = useState("");
@@ -28,13 +28,11 @@ import './EditProfileButton.css'
       body: uploadData
     })
     .then(res =>{
-      // alert(`${res}`)
       console.log(res);
-      sessionStorage.setItem('upload_modal_stay_open','false')
+      sessionStorage.setItem('upload_modal_stay_open','true')
     })
     .catch(error => {
       console.log(error)
-      // alert(`${error}`)
       sessionStorage.setItem('upload_modal_stay_open','true')
     })
 

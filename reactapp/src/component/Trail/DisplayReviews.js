@@ -21,6 +21,7 @@ class displayReviews extends Component {
         .then(res=>{
             console.log(res.data)
             var size = Object.keys(res.data).length
+            var review_cnt = 0
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element.trail)
@@ -60,6 +61,11 @@ class displayReviews extends Component {
                     })
                 }
             }
+            if (review_cnt === 0) {
+                this.setState({
+                    no_review_msg:"No one has reviewed this trail. Be the first to do it!"
+                })
+            }
         })
     }
 
@@ -96,6 +102,7 @@ class displayReviews extends Component {
                         REVIEW HIGHLIGHTS
                         <img src={reviewIcon}/>
                 </p>
+
                 <h4 className='no-review-msg'>{this.state.no_review_msg}</h4>
                 <AddReview trail_id={this.state.trail_id}/>
                 
@@ -109,6 +116,7 @@ class displayReviews extends Component {
                 </p>
                 <div className='review-container'>
                     <h4 className='no-review-msg'>{this.state.no_review_msg}</h4>
+
                     {
                         this.state.review_list.map((element)=>{
                             console.log(`the user name is ${element.user_name}`)

@@ -26,7 +26,6 @@ function App() {
                 <Route path="/test" component={Test} />
                 <Route path="/notification" component={Notification} />
                 <Route path="/testmap" component={TestMap} />
-                
             </Switch>
         </Router>
     </div>
