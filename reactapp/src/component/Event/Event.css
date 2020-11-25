@@ -71,3 +71,7 @@ div.event-left a {
 div.event-detail p.trail-location-description {
     line-height: 20px;
 }
+
+a {
+    text-decoration: none;
+}

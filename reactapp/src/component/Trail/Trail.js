@@ -105,6 +105,9 @@ class Trail extends Component {
                         <TrailMapWrapper trail_id={this.state.trail_id} />
                     </div>
 
+                <div className='map-container'>
+                    {/*<TrailMapWrapper trail_id={this.state.trail_id} />*/}
+                    {/* <img src={sampleMap}/> */}
                 </div>
 
                 <div className="checkin-and-review-section">
