@@ -5,12 +5,16 @@ import DropDownMenu from '../DropDownMenu'
 import ProfilePic from '../../pictures/profile-picture.png'
 import SignUpButton from '../Signup/SignUpButton'
 import LoginButton from '../Login/LoginButton'
-import ApplyIcon from '../../pictures/apply-icon.png'
 import AddfavIcon from '../../pictures/addfav-icon.png'
 import GroupChatIcon from '../../pictures/groupchat-icon.png'
 import Footer from '../Footer'
 import './Event.css'
 import {Link} from "react-router-dom";
+import JoinEventButton from "./JoinEventButton";
+import ApplyIcon from "../../pictures/apply-icon.png";
+
+let accessToken = 'pk.eyJ1IjoiamVycnlwZW5nMDIiLCJhIjoiY2tndHZwaGl5MDBhejJxcXBodW1wN3R3NyJ9.RS9i9jjvaZElQugyd9CJXQ';
+
 
 class Event extends Component {
     constructor(props) {
@@ -43,9 +47,20 @@ class Event extends Component {
                     fetch(trail_url)
                         .then(res => res.json())
                         .then(result => {
+                            const mapinfo = result['map_info'];
+                            const firstCoord = mapinfo['data']['geometry']['coordinates'][0];
+                            const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + firstCoord[0] +
+                                ',' + firstCoord[1] + '.json?types=poi&access_token=' + accessToken;
+                            fetch(url)
+                                .then(res => res.json())
+                                .then(result => {
+                                    console.log(result['features'][0]['place_name'])
+                                    this.setState({
+                                        trail_location: result['features'][0]['place_name']
+                                    })
+                                })
                             this.setState({
-                                trail_name: result['name'],
-                                trail_location: result['location']
+                                trail_name: result['tname']
                             })
                         })
 
@@ -76,7 +91,6 @@ class Event extends Component {
                         fetch(participant_urls[i])
                             .then(res => res.json())
                             .then(result => {
-                                // participants_nameid.push(result['username'])
                                 participants_nameid[result['username']] = result['id']
                                 this.setState({
                                     ...this.state
@@ -140,8 +154,8 @@ class Event extends Component {
                             <h4 id="username">{this.state.initiator_name}</h4>
                             < img src={ProfilePic} width="170px"></img>
                             <div className="bio-box">
-                            <p id="bio">{this.state.initiator_bio}</p >
-                        </div>
+                                <p id="bio">{this.state.initiator_bio}</p >
+                            </div>
                         </Link>
 
                         <br></br>
@@ -162,34 +176,34 @@ class Event extends Component {
                         <div className="event-detail">
                             <h3>EVENT DETAIL</h3>
                             <h4>Location</h4>
-                            <p>{this.state.trail_name}, {this.state.trail_location}</p >
+                            <p className="trail-location-description">{this.state.trail_name}, {this.state.trail_location}</p>
                             <h4>Date</h4>
-                            <p>{this.state.time}</p >
+                            <p>{this.state.time}</p>
                             <h4>Headcount</h4>
                             <p>Expected: {this.state.headcount} |
                                 Confirmed: {Object.keys(this.state.participants).length} |
                                 Status: {(Object.keys(this.state.participants).length === this.state.headcount) ?
                                     'CLOSE' : 'OPEN'}</p >
                             <h4>Contact Information</h4>
-                            <p>Phone: 412-999-9999   |   Email: {this.state.initiator_email}</p >
+                            <p>Phone: 412-999-9999 | Email: {this.state.initiator_email}</p>
                         </div>
                     </div>
 
                     <div className="event-right">
                         <div className="apply-option">
-                            < img src={ApplyIcon} width="90px"></img>
-                            <h3>Request and Join</h3>
+                            <img src={ApplyIcon} width="90px"></img>
+                            <JoinEventButton event_id={this.state.event_id} />
                         </div>
 
-                        <div className="addfav-option">
-                            < img src={AddfavIcon} width="170px"></img>
-                            <h3>Add to My Favorite</h3>
-                        </div>
+                        {/*<div className="addfav-option">*/}
+                        {/*    < img src={AddfavIcon} width="170px"></img>*/}
+                        {/*    <h3>Add to My Favorite</h3>*/}
+                        {/*</div>*/}
 
-                        <div className="groupchat-option">
-                            < img src={GroupChatIcon} width="85px"></img>
-                            <h3>Join Group Chat</h3>
-                        </div>
+                        {/*<div className="groupchat-option">*/}
+                        {/*    < img src={GroupChatIcon} width="85px"></img>*/}
+                        {/*    <h3>Join Group Chat</h3>*/}
+                        {/*</div>*/}
                     </div>
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import catPic from '../../pictures/catPic.png'
+import { withRouter } from 'react-router-dom';
 
 class AddReview extends Component {
     constructor(props) {
@@ -10,8 +11,29 @@ class AddReview extends Component {
              comment:'',
              userId : sessionStorage.getItem('id'),
              trail_id:this.props.trail_id,
-             rating:''
+             rating:'',
+             user_profile_pic_url:''
         }
+    }
+    componentDidMount(){
+        axios.get(`/api/profile/`)
+        .then(res=>{
+            console.log(res.data)
+            var size = Object.keys(res.data).length
+            for(let i=0;i<size;i++){
+                const fetched_element = res.data[i]
+                let fetched_user_url = String(fetched_element.url)
+                let fetched_url_splitted_list=fetched_user_url.split("/")
+                let fetched_user_id = String(fetched_url_splitted_list[fetched_url_splitted_list.length-2])
+                console.log(fetched_user_id)
+                if(String(fetched_user_id)===String(this.state.userId)){
+                    this.setState({
+                        user_profile_pic_url:fetched_element.picture
+                    })
+                    console.log(this.state)
+                }
+            }
+        })
     }
 
     handleCommentChange = (event) =>{
@@ -27,6 +49,9 @@ class AddReview extends Component {
     }
 
     handleFormSubmit = (event) =>{
+        if (this.state.userId===null){
+            this.props.history.push('/login')
+        }
         return(
             axios.post('/api/review/',{
                 trail:this.state.trail_id,
@@ -42,30 +67,49 @@ class AddReview extends Component {
             })
         )
     }
+
+    renderUserPic(){
+        if(this.state.userId===null){
+            console.log("i am in if")
+            return (
+                <img className='add-review-profile-pic'src={catPic}/>
+            )
+        }
+        else{
+            console.log("I am in else")
+            return(
+                <img className='add-review-profile-pic'src={this.state.user_profile_pic_url}/>
+            )
+        }
+    }
     
     render() {
         return (
             <div className='add-new-review'>
-                <img className='add-review-profile-pic'src={catPic}/>
                 <form onSubmit = {(event)=> this.handleFormSubmit(event)}>
-                    <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
-                    <span className="rating-label">
-                        <label>Rating: </label>
-                        <select value={this.state.rating} onChange={this.handleRatingChange} required>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </span>
-                    <button type='submit' className='add-review-button button'>
-                        Add your review
-                    </button>
+                    <div className='profile-pic-and-review-text'>
+                        {this.renderUserPic()}
+                        <textarea className='add-review-text' value={this.state.comment} onChange={this.handleCommentChange}></textarea>
+                    </div>
+                    <div className='rating-and-submit-button'>
+                        <span className="rating-label">
+                            <label>Rating: </label>
+                            <select value={this.state.rating} onChange={this.handleRatingChange}>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </span>
+                        <button type='submit' className='add-review-button button'>
+                            Add your review
+                        </button>
+                    </div>
                 </form>
             </div>
         )
     }
 }
 
-export default AddReview
+export default withRouter(AddReview)

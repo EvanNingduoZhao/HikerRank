@@ -22,13 +22,13 @@ import DisplayReviews from "./DisplayReviews"
 import DisplayEvents from './DisplayEvents'
 import Footer from '../Footer'
 import TrailMapWrapper from '../TrailMap/TrailMapWrapper'
+import {Link} from "react-router-dom";
 
 
 
 class Trail extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
             login_status: sessionStorage.getItem('login_status'),
             username: sessionStorage.getItem('username'),
@@ -81,15 +81,17 @@ class Trail extends Component {
         return (
             <div className = 'container'>
                 <div className='header-container'>
-                    <div><h3 className='title'>HIKERRANK</h3></div> 
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
                     <Nav />
                     <Search />
                     {renderLoginButton()}
                     {renderSignupButton()}
                 </div>
-                <PicSlogan name={this.state.trail.tname} summary={this.state.trail.description}/>
 
-                <TrailInfo type={this.state.trail.tclass} 
+                <PicSlogan name={this.state.trail.name} summary={this.state.trail.description}/>
+
+                <div className='trail-info-and-map-section'>
+                    <TrailInfo type={this.state.trail.tclass} 
                             surface={this.state.trail.surface}
                             length={this.state.trail.length}
                             backpack={this.state.trail.backpack}
@@ -98,18 +100,17 @@ class Trail extends Component {
                             ski={this.state.trail.ski}
                             width={this.state.trail.width}
                             difficulty={this.state.trail.difficulty}
-                />
+                  />
+                    <div className='trail-map-container'>
+                        <TrailMapWrapper trail_id={this.state.trail_id} />
+                    </div>
 
-                <div className='map-container'>
-                    {/* <TrailMapWrapper trail_id={this.state.trail_id} /> */}
-                    <img src={sampleMap}/>
                 </div>
 
-                <DisplayCheckins trailId = {this.state.trail_id}/>
-            
-         
-                <DisplayReviews trailId = {this.state.trail_id}/>
-
+                <div className="checkin-and-review-section">
+                    <DisplayCheckins trailId = {this.state.trail_id}/>
+                    <DisplayReviews trailId = {this.state.trail_id}/>
+                </div>
                 
                 <DisplayEvents trailId = {this.state.trail_id}/>
 

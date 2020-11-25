@@ -20,7 +20,7 @@ import './EditProfileButton.css'
     uploadData.append('picture',picture, picture.name)
     uploadData.append('bio',bio)
     uploadData.append('user',profileId)
-    
+
     fetch('/api/profile/',{
       method: 'POST', 
       body: uploadData
