@@ -13,6 +13,7 @@ import UserMenu from '../UserMenu'
 import Footer from '../Footer'
 import DropDownMenu from '../DropDownMenu'
 import HomeMapWrapper from '../HomeMap/HomeMapWrapper'
+import { geolocated } from "react-geolocated"
 
 
 import React, { Component } from 'react';
@@ -34,15 +35,17 @@ class Home extends Component {
     console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
 
-  // componentWillUnmount(){
-  //   this.setUserStatus()
-  // }
-
-  // setUserStatus(){
-  //   var userStatus = sessionStorage.getItem('login_status')
-  //   console.log(userStatus)
-  // }
-
+  componentDidMount() {
+    if ("geolocation" in navigator) {
+      console.log("geolocation availabe");
+      navigator.geolocation.getCurrentPosition(function(position) {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+      });
+    } else {
+      console.log("geolocation not available");
+    }
+  }
   
   handleClickTrailName(trail_id) {
     console.log('from Home Component', trail_id)
@@ -81,6 +84,42 @@ class Home extends Component {
       }
     }
 
+    const geolocation = ()=>{
+      return !this.props.isGeolocationAvailable ? (
+        <div>Your browser does not support Geolocation</div>
+      ) : !this.props.isGeolocationEnabled ? (
+        <div>Geolocation is not enabled</div>
+      ) : this.props.coords ? (
+        <table>
+            <tbody>
+                <tr>
+                    <td>latitude</td>
+                    <td>{this.props.coords.latitude}</td>
+                </tr>
+                <tr>
+                    <td>longitude</td>
+                    <td>{this.props.coords.longitude}</td>
+                </tr>
+                <tr>
+                    <td>altitude</td>
+                    <td>{this.props.coords.altitude}</td>
+                </tr>
+                <tr>
+                    <td>heading</td>
+                    <td>{this.props.coords.heading}</td>
+                </tr>
+                <tr>
+                    <td>speed</td>
+                    <td>{this.props.coords.speed}</td>
+                </tr>
+            </tbody>
+        </table>
+      ) : (
+        <div>Getting the location data&hellip; </div>
+      );
+    }
+
+
     return (
       <div className='home-container'>
         <div className='header-container'>
@@ -114,7 +153,8 @@ class Home extends Component {
               <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName}/>
             </div>
             <div className="mapbox">
-              <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/>
+              {geolocation()}
+              {/* <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/> */}
               {/* <img src={sampleMap} width='770px'></img> */}
             </div>
             
