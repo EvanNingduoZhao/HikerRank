@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
@@ -38,6 +38,12 @@ router.register(r'review', views.ReviewViewSet)
 router.register(r'album', views.AlbumViewSet)
 router.register(r'pending-request', views.PendingRequestViewSet)
 router.register(r'processed-request', views.ProcessedRequestViewSet)
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('chat/', views.index, name='index'),
+#     path('chat/<str:room_name>/', views.room, name='room'),
+# ]
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
