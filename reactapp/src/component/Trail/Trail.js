@@ -29,7 +29,6 @@ import {Link} from "react-router-dom";
 class Trail extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
             login_status: sessionStorage.getItem('login_status'),
             username: sessionStorage.getItem('username'),
@@ -89,24 +88,24 @@ class Trail extends Component {
                     {renderSignupButton()}
                 </div>
                 <PicSlogan name={this.state.trail.name} summary={this.state.trail.summary}/>
-                <TrailInfo location={this.state.trail.location} 
-                            length={this.state.trail.length}
-                            high={this.state.trail.high_altitude}
-                            low={this.state.trail.low_altitude}
-                            difficulty={this.state.trail.difficulty}
-                            rating={this.state.trail.ratings}
-                />
 
-                <div className='map-container'>
-                    <TrailMapWrapper trail_id={this.state.trail_id} />
-                    {/* <img src={sampleMap}/> */}
+                <div className='trail-info-and-map-section'>
+                    <TrailInfo location={this.state.trail.location} 
+                                length={this.state.trail.length}
+                                high={this.state.trail.high_altitude}
+                                low={this.state.trail.low_altitude}
+                                difficulty={this.state.trail.difficulty}
+                                rating={this.state.trail.ratings}
+                    />
+                    <div className='trail-map-container'>
+                        <TrailMapWrapper trail_id={this.state.trail_id} />
+                    </div>
                 </div>
 
-                <DisplayCheckins trailId = {this.state.trail_id}/>
-            
-         
-                <DisplayReviews trailId = {this.state.trail_id}/>
-
+                <div className="checkin-and-review-section">
+                    <DisplayCheckins trailId = {this.state.trail_id}/>
+                    <DisplayReviews trailId = {this.state.trail_id}/>
+                </div>
                 
                 <DisplayEvents trailId = {this.state.trail_id}/>
 

@@ -85,7 +85,7 @@ class DisplayEvents extends Component {
                         <a href={element.profile_url}>{element.initiator_name}</a>
                     </div>
                     <div className='event-participants'>Current number of participants: {element.participants_count}</div>
-                                <a className='see-participants-list' href=''>See participants list</a>
+                                {/* <a className='see-participants-list' href=''>See participants list</a> */}
                                 <JoinEventButton event_id={element.event_id}/>
                             </div>
                             <hr></hr>

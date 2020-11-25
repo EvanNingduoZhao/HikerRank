@@ -23,7 +23,7 @@ import Modal from 'react-modal';
       body: JSON.stringify(data)
       })
     .then(res =>{
-      alert(`${res}`)
+      // alert(`${res}`)
       console.log(res);
       sessionStorage.setItem('new_event_stay_open','false')
     })

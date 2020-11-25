@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import Modal from 'react-modal';
 import MyModal from './Event-modal';
+import { withRouter } from 'react-router-dom';
 
 const MODAL_A = 'modal_a';
 
@@ -38,6 +39,9 @@ class JoinEventButton extends Component {
 
 
       toggleModal = key => event => {
+        if (this.state.userId===null){
+          this.props.history.push('/login')
+        }
         console.log(this.state)
         // alert(`${this.props.ini_picture}`)
         event.preventDefault();
@@ -95,4 +99,4 @@ class JoinEventButton extends Component {
     }
 }
 
-export default JoinEventButton
+export default withRouter(JoinEventButton)

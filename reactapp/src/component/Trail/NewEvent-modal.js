@@ -24,7 +24,7 @@ import Modal from 'react-modal';
                   'initiator':sessionStorage.getItem('id'),
                   'trail_id':trailId}
                   console.log(data)
-    alert(`${eventDate}`)
+    // alert(`${eventDate}`)
     fetch('/api/event/',{
       method: 'POST', 
       headers: {
@@ -33,13 +33,13 @@ import Modal from 'react-modal';
       body: JSON.stringify(data)
       })
     .then(res =>{
-      alert(`${res}`)
+      // alert(`${res}`)
       console.log(res);
       sessionStorage.setItem('stay_open','false')
     })
     .catch(error => {
       console.log(error)
-      alert(`${error}`)
+      // alert(`${error}`)
       sessionStorage.setItem('stay_open','true')
     // })
     })

@@ -21,7 +21,7 @@ class LoginForm extends Component {
 
     handleLogin = event => {
         event.preventDefault()
-        alert(`${this.state.username} ${this.state.password}`)
+        // alert(`${this.state.username} ${this.state.password}`)
 
         this.postLogin()
     }

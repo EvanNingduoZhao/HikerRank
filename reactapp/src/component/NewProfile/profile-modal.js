@@ -23,20 +23,20 @@ import './EditProfileButton.css'
     uploadData.append('bio',bio)
     uploadData.append('user',profileId)
     // uploadData.append('username',sessionStorage.getItem('username'))
-    alert(`${profileId}`)
+    // alert(`${profileId}`)
     // var profile_url = '/api/profile/'+profileId+'/'
     fetch('/api/profile/',{
       method: 'POST', 
       body: uploadData
     })
     .then(res =>{
-      alert(`${res}`)
+      // alert(`${res}`)
       console.log(res);
       sessionStorage.setItem('stay_open','false')
     })
     .catch(error => {
       console.log(error)
-      alert(`${error}`)
+      // alert(`${error}`)
       sessionStorage.setItem('stay_open','true')
     })
 
