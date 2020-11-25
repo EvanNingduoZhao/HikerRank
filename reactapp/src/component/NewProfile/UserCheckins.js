@@ -31,7 +31,7 @@ class UserCheckins extends Component {
                         fetch(fetched_trail_url)
                         .then(res => res.json())
                         .then(data => {
-                            var trail_name = data['name']
+                            var trail_name = data['tname']
                             var trail_dict = {}
                             trail_dict['trail_name'] = trail_name
                             trail_dict['timestamp'] = timestamp

@@ -5,22 +5,46 @@ import Modal from 'react-modal';
   
   const { isOpen, askToClose, onAfterOpen, onRequestClose, cancel_url} = props;
 
+  const event_id = String(cancel_url).split("/")[5]
+
   const cancel = (event) => {
+    // get the info about this event
+    var event_name = "";
+    var event_participants = [];
+
     fetch(cancel_url,{
-      method: 'DELETE', 
+      method: 'PUT', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({'event_id':event_id,'status':"cancelled"})
     })
     .then(res =>{
       console.log(res)
     })
     .then(data => {
-      console.log(data)
-      alert("Event canceled")
-      window.location.reload();
+      alert("The event is cancelled")
+      window.location.reload()
     })
     .catch((error) => {
       console.error('Error: ', error)
     });
     
+    // send broadcast message to audience
+    // var message = "The event \"" + event_name +"\" has been cancelled by the initiator."
+    // const data = {'message':message, 'messageType': "cancelevent", 'audience':event_participants}
+    // fetch('/api/broadcast-message/', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data)
+    // })
+    //     .then(res => res.json())
+    //     .then(data => console.log('Success: ', data))
+    //     .catch((error) => {
+    //         console.error('Error: ', error)
+    //     });
   }
 
   return (

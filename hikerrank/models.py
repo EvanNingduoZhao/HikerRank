@@ -72,6 +72,7 @@ class Event(models.Model):
    headcount    = models.IntegerField(default=0 )
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
    participants = models.ManyToManyField(User,related_name="participants",blank=True)
+   status = models.CharField(max_length=10,default="normal") #accept denied
 
 
 class Photo(models.Model):
@@ -118,6 +119,13 @@ class ProcessedRequest(models.Model):
     event = models.ForeignKey(Event,on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10) #accept denied
+    time = models.DateTimeField(auto_now_add=True)
+
+
+class BroadcastMessage(models.Model):
+    audience = models.ManyToManyField(User,related_name="audience",blank=True)
+    message = models.TextField(blank=True)
+    messageType = models.TextField(blank=True) # cancelevent, acceptrequest, declinerequest
     time = models.DateTimeField(auto_now_add=True)
 
 

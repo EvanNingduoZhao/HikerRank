@@ -20,6 +20,8 @@ class category_tab extends Component {
           my_request_list_msg:null,
           my_event_list:[],
           my_event_list_msg: null,
+          event_update_msg_list:[],
+          event_update_msg_list_msg: null,
           received_request_list:[],
           received_request_list_msg: null
         }
@@ -27,44 +29,92 @@ class category_tab extends Component {
     }
 
     componentDidMount(){
+        var currentDate = new Date()
+        // var eventDate = new Date("2020-11-21T09:38:00Z")
+        // console.log(currentDate)
+        // console.log(eventDate)
+        // console.log(currentDate>=eventDate)
 
-        //new followers:
-        var new_follower_list = new Array();
-
-        fetch('/api/follow-unfollow/')
+        // ****************************** Tab1: initiated event ******************************
+        var my_event_list = new Array();
+        fetch('/api/event/')
         .then(res => res.json())
         .then(data => {
             var data_size = Object.keys(data).length
-            var new_follower_cnt = 0
+            var my_event_cnt = 0
             for (let index = 0; index < data_size; index++) {
                 const element = data[index];
-                
-                if (element['following'].split("/").includes(String(this.state.id)) ){
-                    new_follower_cnt = new_follower_cnt +1
-                    fetch(element['user'])
-                    .then(res => res.json())
-                    .then(data =>{
-                        var follower_dict = {}
-                        follower_dict['follower_name'] = data['username']
-                        follower_dict['follower_profile_url'] = '/profile/'+ String(data['id'])+'/'
-                        new_follower_list.push(follower_dict)
-                        this.setState({
-                            ...this.state,
-                            new_follower_list: new_follower_list,
-                            new_follower_list_msg: null
-                        },console.log(this.state))
-                    })
+                if (element['initiator'].split("/").includes(String(this.state.id)) && element['status']=='normal') {
+                    my_event_cnt = my_event_cnt + 1
+                    var my_event_dict = {}
+                    var event_id = String(element['url']).split("/")[5]
+                    my_event_dict['event_url'] = '/event/'+event_id+'/'
+                    my_event_dict['cancel_url'] = element['url']
+                    my_event_dict['name'] = element['name']
+                    my_event_dict['time'] = String(element['event_time']).substring(0,10)
+                    var eventDate = new Date(String(element['event_time']))
+                    // if this event is in the past
+                    if(eventDate<currentDate){
+                        my_event_dict['status'] = "past"
+                    } else {
+                        my_event_dict['status'] = "upcoming"
+                    }
+
+                    my_event_list.push(my_event_dict)
+                    this.setState({
+                        ...this.state,
+                        my_event_list: my_event_list,
+                        my_event_list_msg: null
+                    },console.log(this.state))
                 }
             }
-            if (new_follower_cnt==0) {
+            if (my_event_cnt===0) {
                 this.setState({
                     ...this.state,
-                    new_follower_list_msg: "You have no new followers today"
+                    my_event_list_msg: "You have not initiated an event yet"
                 },console.log(this.state))
             }  
         })
 
-        //my requests
+        // ****************************** Tab2: event request received ******************************
+        var received_request_list = new Array();
+        fetch('/api/pending-request/')
+        .then(res => res.json())
+        .then(data => {
+            var data_size = Object.keys(data).length
+            var received_request_cnt = 0
+            for (let index = 0; index < data_size; index++) {
+                const element = data[index];
+                fetch(element['event']).then(res=>res.json())
+                .then(data => {
+                    var event_name = data['name']
+                    if (data['initiator'].split("/").includes(String(this.state.id))){
+                        received_request_cnt = received_request_cnt +1
+                        var received_request_dict = {}
+                        fetch(element['user']).then(res=>res.json())
+                        .then(data=>{ 
+                            received_request_dict['requester_name']=data['username']
+                            received_request_dict['text'] = element['text']
+                            received_request_dict['event_name'] = event_name
+                            received_request_dict['pending_request_url'] = element['url']
+                            received_request_list.push(received_request_dict)
+                            this.setState({
+                                received_request_list: received_request_list,
+                                received_request_list_msg: null
+                            },console.log(this.state))
+                        })
+                    }
+                })
+            } 
+            if (received_request_cnt===0) {
+                this.setState({
+                    ...this.state,
+                    received_request_list_msg: "You have no event requests"
+                },console.log(this.state))
+            } 
+        })
+
+        // ****************************** Tab3: my requests ******************************
         var my_request_cnt = 0
         var my_request_list = new Array();
         fetch('/api/pending-request/')
@@ -130,77 +180,74 @@ class category_tab extends Component {
             }  
         })
 
-
-
-        // initiated event
-        var my_event_list = new Array();
-        fetch('/api/event/')
+        var event_update_msg_list = new Array()
+        var broadcast_msg_cnt = 0
+        fetch('/api/broadcast-message/')
         .then(res => res.json())
         .then(data => {
             var data_size = Object.keys(data).length
-            var my_event_cnt = 0
             for (let index = 0; index < data_size; index++) {
                 const element = data[index];
-                if (element['initiator'].split("/").includes(String(this.state.id))) {
-                    my_event_cnt = my_event_cnt + 1
-                    var my_event_dict = {}
-                    var event_id = String(element['url']).split("/")[5]
-                    my_event_dict['event_url'] = '/event/'+event_id+'/'
-                    my_event_dict['cancel_url'] = element['url']
-                    my_event_dict['name'] = element['name']
-                    my_event_dict['time'] = String(element['event_time']).substring(0,10)
-                    my_event_list.push(my_event_dict)
+                var audience = element['audience']
+              // if the user is an audience of this message
+                audience.forEach(e => {
+                if (String(e).split('/').includes(this.state.id)) {
+                    broadcast_msg_cnt = broadcast_msg_cnt+1
+                    var event_update_msg_dict = {}
+                    event_update_msg_dict['msg'] = element['message']
+                    event_update_msg_dict['time'] = String(element['time']).substring(0,10)
+                    event_update_msg_list.push(event_update_msg_dict);
                     this.setState({
                         ...this.state,
-                        my_event_list: my_event_list,
-                        my_event_list_msg: null
-                    },console.log(this.state))
+                        event_update_msg_list: event_update_msg_list,
+                        event_update_msg_list_msg: null
+                    },()=>{console.log(this.state)})
                 }
+                })
             }
-            if (my_event_cnt===0) {
-                this.setState({
-                    ...this.state,
-                    my_event_list_msg: "You have not initiated an event yet"
-                },console.log(this.state))
-            }  
         })
 
-        //event request received
-        var received_request_list = new Array();
-        fetch('/api/pending-request/')
+        if (broadcast_msg_cnt==0) {
+            this.setState({
+                ...this.state,
+                event_update_msg_list_msg: "No recent updates"
+            },console.log(this.state))
+        }  
+
+        // ****************************** Tab4: new followers ******************************
+        var new_follower_list = new Array();
+
+        fetch('/api/follow-unfollow/')
         .then(res => res.json())
         .then(data => {
             var data_size = Object.keys(data).length
-            var received_request_cnt = 0
+            var new_follower_cnt = 0
             for (let index = 0; index < data_size; index++) {
                 const element = data[index];
-                fetch(element['event']).then(res=>res.json())
-                .then(data => {
-                    var event_name = data['name']
-                    if (data['initiator'].split("/").includes(String(this.state.id))){
-                        received_request_cnt = received_request_cnt +1
-                        var received_request_dict = {}
-                        fetch(element['user']).then(res=>res.json())
-                        .then(data=>{ 
-                            received_request_dict['requester_name']=data['username']
-                            received_request_dict['text'] = element['text']
-                            received_request_dict['event_name'] = event_name
-                            received_request_dict['pending_request_url'] = element['url']
-                            received_request_list.push(received_request_dict)
-                            this.setState({
-                                received_request_list: received_request_list,
-                                received_request_list_msg: null
-                            },console.log(this.state))
-                        })
-                    }
-                })
-            } 
-            if (received_request_cnt===0) {
+                
+                if (element['following'].split("/").includes(String(this.state.id)) ){
+                    new_follower_cnt = new_follower_cnt +1
+                    fetch(element['user'])
+                    .then(res => res.json())
+                    .then(data =>{
+                        var follower_dict = {}
+                        follower_dict['follower_name'] = data['username']
+                        follower_dict['follower_profile_url'] = '/profile/'+ String(data['id'])+'/'
+                        new_follower_list.push(follower_dict)
+                        this.setState({
+                            ...this.state,
+                            new_follower_list: new_follower_list,
+                            new_follower_list_msg: null
+                        },console.log(this.state))
+                    })
+                }
+            }
+            if (new_follower_cnt==0) {
                 this.setState({
                     ...this.state,
-                    received_request_list_msg: "You have no event requests"
+                    new_follower_list_msg: "You have no new followers today"
                 },console.log(this.state))
-            } 
+            }  
         })
     }
 
@@ -221,18 +268,47 @@ class category_tab extends Component {
                     <TabPanel>
                     <h4>{this.state.my_event_list_msg}</h4>
                     <div id="my-event-table">
+                        <h4>Upcoming events:</h4>
                         <table className="my-event-box">
                         {
                         this.state.my_event_list.map(function(element,index){
                             return (
-                                <tr> <td className="my-event-name"><span className="bold-font">Event: </span><a href={element['event_url']}>{element['name']}</a></td>
-                                    <td className="my-event-time"><span className="bold-font">Date: </span><span>{element['time']}</span></td>
-                                    <CancelEventButton cancel_url={element['cancel_url']}/>
-                                </tr>
-                            )
+                                <div>
+                                    {element['status'] == 'upcoming'
+                                    ? (<div>
+                                        <tr> <td className="my-event-name"><span className="bold-font">Event: </span><a href={element['event_url']}>{element['name']}</a></td>
+                                            <td className="my-event-time"><span className="bold-font">Date: </span><span>{element['time']}</span></td>
+                                            <CancelEventButton cancel_url={element['cancel_url']}/>
+                                        </tr>
+                                    </div>)
+                                    : <td></td>
+                                    }
+                                </div>)
+                        })
+                        }
+                        <br></br>
+                        </table>
+                        {this.state.my_event_list_msg != null? <p>None</p> : <p></p>}
+
+                        <h4>Past events:</h4>
+                        <table className="my-event-box">
+                        {
+                        this.state.my_event_list.map(function(element,index){
+                            return (
+                                <div>
+                                    {element['status'] == 'past'
+                                    ? (<div>
+                                        <tr> <td className="my-event-name"><span className="bold-font">Event: </span><a href={element['event_url']}>{element['name']}</a></td>
+                                            <td className="my-event-time"><span className="bold-font">Date: </span><span>{element['time']}</span></td>
+                                        </tr>
+                                    </div>)
+                                    : <td></td>
+                                    }
+                                </div>)
                         })
                         }
                         </table>
+                        {this.state.my_event_list_msg != null? <p>None</p> : <p></p>}
                     </div>
                     </TabPanel>
 
@@ -243,6 +319,7 @@ class category_tab extends Component {
                         {
                         this.state.received_request_list.map(function(element,index){
                             return (
+                                
                                 <div className="received-request-content">
                                 <tr>
                                     <td className="request-event-name"><span className="bold-font">Event: </span><span>{element['event_name']}</span></td>
@@ -278,6 +355,15 @@ class category_tab extends Component {
                         }
                         </table>
                     </div>
+
+                    <br></br>
+                    <h4>Event update</h4>
+                        {
+                        this.state.event_update_msg_list.map(function(element,index){
+                            return <p>{element['time']}: {element['msg']}</p>
+                        })
+                        }
+                    
                     </TabPanel>
 
                     <TabPanel>

@@ -15,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest
+    PendingRequest, ProcessedRequest, BroadcastMessage
 )
 from django.contrib.auth.models import User
 from .models import Trail
@@ -24,7 +24,7 @@ from .serializers import TrailSerializer
 from hikerrank.serializers import (
     SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,
     FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer,AlbumSerializer,
-    PendingRequestSerializer, ProcessedRequestSerializer
+    PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer
 )
 
 
@@ -36,12 +36,6 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        # const data = {'name':eventName, 
-        #           'description': eventIntro, 
-        #           'event_time': eventDate, 
-        #           'headcount':eventHc,
-        #           'initiator':sessionStorage.getItem('id'),
-        #           'trail_id':trailId}
         print(request.data['initiator'])
         name = request.data['name']
         description = request.data['description']
@@ -55,6 +49,24 @@ class EventViewSet(viewsets.ModelViewSet):
             event_time=event_time,trail=trail,headcount=headcount)
         event.save()
         return Response({'message': 'success'}, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        # update in event api
+        status = request.data['status']
+        event_id = request.data['event_id']
+        Event.objects.filter(id=event_id).update(status=status)
+
+        # update in broadcast-message api
+        audience = Event.objects.get(id=event_id).participants.all()
+        message = "The event \"" + Event.objects.get(id=event_id).name +"\" has been cancelled by the initiator."
+        messageType = "cancelevent"
+        msg = BroadcastMessage(message=message,messageType=messageType)
+        msg.save()
+        msg.audience.set(audience)
+        print(audience)
+        return Response({'message': 'success'}, status=200)
+
 
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
@@ -214,6 +226,12 @@ class PendingRequestViewSet(viewsets.ModelViewSet):
         new_request = PendingRequest(user=user, event=event,text=text)
         new_request.save()
         return Response({'message': 'success'}, status=200)
+
+
+class BroadcastMessageViewSet(viewsets.ModelViewSet):
+    queryset = BroadcastMessage.objects.all()
+    serializer_class = BroadcastMessageSerializer
+
 
 
 class ProcessedRequestViewSet(viewsets.ModelViewSet):
