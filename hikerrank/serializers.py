@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage
+    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message
 )
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueTogetherValidator
@@ -24,22 +24,35 @@ class SignupSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
+class ChatSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Chat
+        fields = '__all__'
+
+
+# class MessageSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Message
+#         fields = '__all__'
+
+
 class TrailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Trail
         fields = '__all__'
 
 
-
 class CheckinSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model=CheckIn
-        fields='__all__'
+        model = CheckIn
+        fields = '__all__'
+
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model=Review
-        fields='__all__'
+        model = Review
+        fields = '__all__'
+
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -53,11 +66,11 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+
 
 class FollowUnfollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

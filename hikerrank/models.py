@@ -5,7 +5,6 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 from datetime import datetime
 
 
@@ -19,6 +18,16 @@ def profile_album_upload_path(instance, filename):
 
 def json_default():
     return {'foo': 'bar'}
+
+
+class Message(models.Model):
+    user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Chat(models.Model):
+    messages = models.ForeignKey(Message, blank=True)
 
 
 # id link to user id
@@ -62,18 +71,15 @@ class Trail(models.Model):
 
 
 class Event(models.Model):
-
-   initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
-   name         = models.CharField(max_length=200)
-   description  = models.TextField(blank=True)
-   post_time		    = models.DateTimeField(auto_now_add=True)
-   event_time= models.DateTimeField(default=datetime.now)
-   trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
-   headcount    = models.IntegerField(default=0 )
-#  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
-   participants = models.ManyToManyField(User,related_name="participants",blank=True)
-   status = models.CharField(max_length=10,default="normal") #accept denied
-
+    initiator = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    post_time = models.DateTimeField(auto_now_add=True)
+    event_time = models.DateTimeField(default=datetime.now)
+    trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
+    headcount = models.IntegerField(default=0)
+    participants = models.ManyToManyField(User, related_name="participants", blank=True)
+    status = models.CharField(max_length=10, default="normal")  # accept denied
 
 
 class Photo(models.Model):
@@ -120,16 +126,15 @@ class PendingRequest(models.Model):
 class ProcessedRequest(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10) #accept denied
+    status = models.CharField(max_length=10)  # accept denied
     time = models.DateTimeField(auto_now_add=True)
 
 
 class BroadcastMessage(models.Model):
-    audience = models.ManyToManyField(User,related_name="audience",blank=True)
+    audience = models.ManyToManyField(User, related_name="audience", blank=True)
     message = models.TextField(blank=True)
-    messageType = models.TextField(blank=True) # cancelevent, acceptrequest, declinerequest
+    messageType = models.TextField(blank=True)  # cancelevent, acceptrequest, declinerequest
     time = models.DateTimeField(auto_now_add=True)
-
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

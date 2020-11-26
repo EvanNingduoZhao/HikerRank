@@ -193,6 +193,7 @@ class Event extends Component {
                                 </div>
                             </div>
 
+                            {/*if user already approved for the event, should not be able to join again*/}
                             <div className="event-right">
                                 <div className="apply-option">
                                     <img src={ApplyIcon} width="90px"></img>
@@ -204,6 +205,7 @@ class Event extends Component {
                                 {/*    <h3>Add to My Favorite</h3>*/}
                                 {/*</div>*/}
 
+                                {/*only approved user can enter the group chat*/}
                                 <div className="groupchat-option">
                                     <Link to="/chat/test">
                                         < img src={GroupChatIcon} width="85px"></img>

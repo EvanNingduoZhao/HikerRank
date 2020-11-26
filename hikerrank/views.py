@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse
-from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework import viewsets, permissions
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -15,16 +15,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage
+    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message
 )
 from django.contrib.auth.models import User
-from .models import Trail
-from .serializers import TrailSerializer
 
 from hikerrank.serializers import (
-    SignupSerializer,EventSerializer, ProfileSerializer,UserSerializer,
-    FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer,AlbumSerializer,
-    PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer
+    SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
+    FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
+    PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer,
+    TrailSerializer, ChatSerializer,
+    # MessageSerializer
 )
 
 
@@ -36,6 +36,24 @@ from hikerrank.serializers import (
 #     return render(request, 'hikerrank/room.html', {
 #         'room_name': room_name
 #     })
+
+def get_last_10_messages(chatId):
+    chat = get_object_or_404(Chat, id=chatId)
+    return chat.messages.order_by('-timestamp').all()[:10]
+
+
+def get_current_chat(chatId):
+    return get_object_or_404(Chat, id=chatId)
+
+
+# class MessageViewSet(viewsets.ModelViewSet):
+#     queryset = Message.objects.all()
+#     serializer_class = MessageSerializer
+
+
+class ChatViewSet(viewsets.ModelViewSet):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -56,7 +74,7 @@ class EventViewSet(viewsets.ModelViewSet):
                       event_time=event_time, trail=trail, headcount=headcount)
         event.save()
         return Response({'message': 'success'}, status=200)
-    
+
     def update(self, request, *args, **kwargs):
         print(request.data)
         # update in event api
@@ -66,14 +84,13 @@ class EventViewSet(viewsets.ModelViewSet):
 
         # update in broadcast-message api
         audience = Event.objects.get(id=event_id).participants.all()
-        message = "The event \"" + Event.objects.get(id=event_id).name +"\" has been cancelled by the initiator."
+        message = "The event \"" + Event.objects.get(id=event_id).name + "\" has been cancelled by the initiator."
         messageType = "cancelevent"
-        msg = BroadcastMessage(message=message,messageType=messageType)
+        msg = BroadcastMessage(message=message, messageType=messageType)
         msg.save()
         msg.audience.set(audience)
         print(audience)
         return Response({'message': 'success'}, status=200)
-
 
 
 class TrailViewSet(viewsets.ModelViewSet):
@@ -211,17 +228,16 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
     queryset = Follow_UnFollow.objects.all()
     serializer_class = FollowUnfollowSerializer
 
-    def create(self, request,*args, **kwargs):
-
+    def create(self, request, *args, **kwargs):
         print(request.data)
         user_id = int(request.data['user_id'])
         following_id = int(request.data['following_id'])
         user = User.objects.get(id=user_id)
-        following = User.objects.get(id=following_id) 
-        new_follow = Follow_UnFollow(user=user,following=following)
+        following = User.objects.get(id=following_id)
+        new_follow = Follow_UnFollow(user=user, following=following)
         new_follow.save()
         return Response({'message': 'success'}, status=200)
-       
+
 
 class PendingRequestViewSet(viewsets.ModelViewSet):
     queryset = PendingRequest.objects.all()
@@ -244,11 +260,10 @@ class BroadcastMessageViewSet(viewsets.ModelViewSet):
     serializer_class = BroadcastMessageSerializer
 
 
-
 class ProcessedRequestViewSet(viewsets.ModelViewSet):
     queryset = ProcessedRequest.objects.all()
     serializer_class = ProcessedRequestSerializer
-    
+
     def create(self, request, *args, **kwargs):
         print(request.data)
         user_id = int(request.data['user_id'])
@@ -256,7 +271,7 @@ class ProcessedRequestViewSet(viewsets.ModelViewSet):
         status = request.data['status']
         user = User.objects.get(id=user_id)
         event = Event.objects.get(id=event_id)
-        processed_request = ProcessedRequest(user=user,event=event,status=status)
+        processed_request = ProcessedRequest(user=user, event=event, status=status)
         processed_request.save()
 
         if status == "Accepted":
