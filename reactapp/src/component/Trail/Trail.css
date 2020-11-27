@@ -37,6 +37,10 @@
   line-height: 40px;
   text-align: left;
   margin-left: 130px;
+  margin-right: 8%;
+  margin-top: 50px;
+  margin-bottom: 100px;
+  vertical-align:top;
 /* or 200% */
 
 text-indent: 1px;
