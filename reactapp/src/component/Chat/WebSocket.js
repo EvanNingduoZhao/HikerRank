@@ -1,5 +1,3 @@
-import { SOCKET_URL } from "./settings";
-
 class WebSocketService {
   static instance = null;
   callbacks = {};

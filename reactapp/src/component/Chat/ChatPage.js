@@ -13,10 +13,6 @@ class ChatPage extends Component {
         );
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
             <div className="chat-page">

@@ -129,7 +129,7 @@ class Chat extends Component {
     }
 
     render() {
-        const renderLoginButton = ()=>{
+        const renderLoginButton = () => {
             if(this.state.login_status!=='true'){
                 return (
                     <LoginButton />
@@ -139,7 +139,7 @@ class Chat extends Component {
             }
         }
 
-        const renderSignupButton = ()=>{
+        const renderSignupButton = () => {
             if(this.state.login_status!=='true'){
                 return (
                     <SignUpButton />
