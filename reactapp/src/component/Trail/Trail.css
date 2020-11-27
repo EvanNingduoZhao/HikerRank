@@ -47,15 +47,8 @@
   margin-top: 50px;
   margin-bottom: 100px;
   vertical-align:top;
-<<<<<<< HEAD
-=======
-
->>>>>>> 9fadda03148310430a85d80456be3a9692f37617
-/* or 200% */
-
-text-indent: 1px;
-
-color: #000000;
+  text-indent: 1px;
+  color: #000000;
 }
 
 .section-header{
