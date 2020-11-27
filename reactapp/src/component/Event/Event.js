@@ -8,7 +8,7 @@ import AddfavIcon from '../../pictures/addfav-icon.png'
 import GroupChatIcon from '../../pictures/groupchat-icon.png'
 import Footer from '../Footer'
 import './Event.css'
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import JoinEventButton from "./JoinEventButton";
 import ApplyIcon from "../../pictures/apply-icon.png";
 
@@ -36,7 +36,8 @@ class Event extends Component {
             trail_name: '',
             trail_location: '',
             headcount: 0,
-            participants: {}
+            participants: {},
+            chat_id: ''
         }
     }
 
@@ -114,7 +115,8 @@ class Event extends Component {
                         description: result['description'],
                         time: displayTime,
                         headcount: result['headcount'],
-                        participants: participants_nameid
+                        participants: participants_nameid,
+                        chat_id: result['chat']['id']
                     })
                 }
             )
@@ -134,6 +136,25 @@ class Event extends Component {
                 return (<SignUpButton />);
             } else {
                 return (<DropDownMenu />);
+            }
+        }
+
+        const renderJoinChat = () => {
+            if(this.state.participants.indexOf(this.state.username) > -1 && this.state.login_status === 'true') {
+                return (
+                    <div className="groupchat-option">
+                        <Link to={'/chat/' + this.state.chat_id + '/'}>
+                            < img src={GroupChatIcon} width="85px"></img>
+                            <h3>Join Group Chat</h3>
+                        </Link>
+                    </div>
+                );
+            } else {
+                if(this.state.login_status !== 'true') {
+                    return (<Redirect to='/login'/>);
+                } else {
+                    alert("You have not been approved for joining this event yet!");
+                }
             }
         }
 
@@ -205,21 +226,12 @@ class Event extends Component {
                                 {/*    <h3>Add to My Favorite</h3>*/}
                                 {/*</div>*/}
 
-                                {/*only approved user can enter the group chat*/}
-                                <div className="groupchat-option">
-                                    <Link to="/chat/test">
-                                        < img src={GroupChatIcon} width="85px"></img>
-                                        <h3>Join Group Chat</h3>
-                                    </Link>
-                                </div>
+                                {renderJoinChat()}
+
                             </div>
 
-
                         </div>
-
                         <Footer />
-
-
                     </div>
                 );
             } else {

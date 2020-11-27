@@ -80,6 +80,7 @@ class Event(models.Model):
     headcount = models.IntegerField(default=0)
     participants = models.ManyToManyField(User, related_name="participants", blank=True)
     status = models.CharField(max_length=10, default="normal")  # accept denied
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
 
 class Photo(models.Model):
