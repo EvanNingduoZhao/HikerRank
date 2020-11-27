@@ -48,6 +48,7 @@ class DisplayEvents extends Component {
                         event_dict['event_name']=event_name
                         event_dict['participants_count']=participants_count
                         event_dict['event_id']=event_id
+                        event_dict['event_url']=`/event/${event_id}/`
                         list.push(event_dict)
                         console.log(event_dict)
                         this.setState({
@@ -78,13 +79,13 @@ class DisplayEvents extends Component {
                         <div>
                             <div className='event'>
                                 <img className='calender-pic'src={calender}/>
-                    <div className='event-date-name'>{element.event_date} - {element.event_name}</div>
+                    <div className='event-date-name'>{element.event_date} - <a href = {element.event_url}>{element.event_name}</a></div>
                     <div className='event-orgnizer'>
                         <span>Initiated by: </span>
                         <a href={element.profile_url}>{element.initiator_name}</a>
                     </div>
                     <div className='event-participants'>Current number of participants: {element.participants_count}</div>
-                                <a className='see-participants-list' href=''>See participants list</a>
+                                {/* <a className='see-participants-list' href=''>See participants list</a> */}
                                 <JoinEventButton event_id={element.event_id}/>
                             </div>
                             <hr></hr>

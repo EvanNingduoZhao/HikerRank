@@ -62,9 +62,9 @@ class Trail(models.Model):
     description = models.TextField(blank=True)
     map_info = models.JSONField(default=dict)
 
-    
 
 class Event(models.Model):
+
    initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
    name         = models.CharField(max_length=200)
    description  = models.TextField(blank=True)
@@ -75,6 +75,7 @@ class Event(models.Model):
 #  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
    participants = models.ManyToManyField(User,related_name="participants",blank=True)
    status = models.CharField(max_length=10,default="normal") #accept denied
+
 
 
 class Photo(models.Model):
@@ -112,13 +113,14 @@ class Follow_UnFollow(models.Model):
 
 
 class PendingRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(blank=True)
     time = models.DateTimeField(auto_now_add=True)
 
+
 class ProcessedRequest(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10) #accept denied
     time = models.DateTimeField(auto_now_add=True)
@@ -129,6 +131,7 @@ class BroadcastMessage(models.Model):
     message = models.TextField(blank=True)
     messageType = models.TextField(blank=True) # cancelevent, acceptrequest, declinerequest
     time = models.DateTimeField(auto_now_add=True)
+
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

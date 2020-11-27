@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 class CheckinButton extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
              userId : sessionStorage.getItem('id'),
              trail_id:this.props.trail_id
@@ -13,8 +13,10 @@ class CheckinButton extends Component {
         console.log(`this trail id is: ${this.state.trail_id}`)
     }
     
-
     handleCheckin = (event)=>{
+        if (this.state.userId===null){
+            this.props.history.push('/login')
+        }
         return(
             axios.post('/api/checkin/',{
                 trail:this.state.trail_id,
@@ -38,5 +40,4 @@ class CheckinButton extends Component {
         )
     }
 }
-
-export default CheckinButton
+export default withRouter(CheckinButton)

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
-import Modal from 'react-modal';
 import MyModal from './Event-modal';
-import { withRouter } from 'react-router-dom';
+import './JoinEventButton.css'
+import ApplyIcon from "../../pictures/apply-icon.png";
 
 const MODAL_A = 'modal_a';
 
@@ -17,8 +16,8 @@ class JoinEventButton extends Component {
             event_id:this.props.event_id,
             participants:[]
         }
-        console.log(this.state)
-        console.log(`this event id is: ${this.state.event_id}`)
+        // console.log(this.state)
+        // console.log(`this event id is: ${this.state.event_id}`)
     }
 
     
@@ -33,15 +32,12 @@ class JoinEventButton extends Component {
           this.setState({
             currentModal: null,
             modal_stay_open: false
-          },()=>console.log(this.state))
+          })
         }
       }
 
 
       toggleModal = key => event => {
-        if (this.state.userId===null){
-          this.props.history.push('/login')
-        }
         console.log(this.state)
         // alert(`${this.props.ini_picture}`)
         event.preventDefault();
@@ -84,8 +80,10 @@ class JoinEventButton extends Component {
     render() {
         const { currentModal } = this.state;
         return (
-            <div className="join-event-button">
-                <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)}>Join this event</button>
+            <div>
+                <button type="button" className="request-join-button" onClick={this.toggleModal(MODAL_A)}>
+                    <h3>Request and Join</h3>
+                </button>
                 <MyModal
                     isOpen={currentModal == MODAL_A || this.modal_stay_open}
                     onAfterOpen={this.handleOnAfterOpenModal}
@@ -99,4 +97,4 @@ class JoinEventButton extends Component {
     }
 }
 
-export default withRouter(JoinEventButton)
+export default JoinEventButton
