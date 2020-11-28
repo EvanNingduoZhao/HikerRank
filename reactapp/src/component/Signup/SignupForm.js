@@ -31,7 +31,6 @@ class SignupForm extends Component {
 
     handleSubmit = event => {
         event.preventDefault()
-        // alert(`${this.state.username} ${this.state.email} ${this.state.password2} `)
         // console.log(this.state)
         if (this.state.password1!==this.state.password2) {
             this.setState({
@@ -58,12 +57,17 @@ class SignupForm extends Component {
         })
         .then(res => res.json())
         .then(data => {
-            if (data['username']!==this.state.username) {
+            if (data['username']!=null) {
                 this.setState({
-                    errorMessage: "Oops, this username is already taken.",
+                    errorMessage: data['username'],
                     status: false
                 });
                 console.log(this.state)
+            } else if (data['email']!=null){
+                this.setState({
+                    errorMessage: data['email'],
+                    status: false
+                });
             } else {
                 sessionStorage.setItem('login_status','true');
                 sessionStorage.setItem('username',this.state.username);
@@ -95,8 +99,8 @@ class SignupForm extends Component {
                 <form className="signup-form" onSubmit={this.handleSubmit}>
                     <input type="text" className="signup-input" name="username" placeholder="Username" required="required" value={this.state.username} onChange={this.handleUsernameInput}/>
                     <input type="text" className="signup-input" name="email" placeholder="Email" required="required" value={this.state.email} onChange={this.handleEmailInput}/>
-                    <input type="text" className="signup-input" name="password1" placeholder="Password" required="required" value={this.state.password1} onChange={this.handleP1Input}/>
-                    <input type="text" className="signup-input" name="password2" placeholder="Confirm Password" required="required" value={this.state.password2} onChange={this.handleP2Input}/>
+                    <input type="password" className="signup-input" name="password1" placeholder="Password" required="required" value={this.state.password1} onChange={this.handleP1Input}/>
+                    <input type="password" className="signup-input" name="password2" placeholder="Confirm Password" required="required" value={this.state.password2} onChange={this.handleP2Input}/>
                 <br></br>
                 <button type="submit" class="signup-btn">SIGN UP</button>
                 </form>
