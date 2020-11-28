@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'hikerrank',
     'rest_framework.authtoken',
-    'django_filters'
+    'django_filters',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +155,13 @@ CORS_ALLOW_ALL_ORIGINS=True
 MEDIA_ROOT = os.path.join(BASE_DIR,'pictures')
 MEDIA_URL = '/pictures/'
 
+ASGI_APPLICATION = "webapps.asgi.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

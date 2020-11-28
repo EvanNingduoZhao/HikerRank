@@ -41,6 +41,7 @@ router.register(r'processed-request', views.ProcessedRequestViewSet)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path('chat/', include('chat.urls',namespace='chat')),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('api/', include(router.urls)),
                   path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
