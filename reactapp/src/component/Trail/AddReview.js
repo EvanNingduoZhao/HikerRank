@@ -52,20 +52,23 @@ class AddReview extends Component {
         if (this.state.userId===null){
             this.props.history.push('/login')
         }
-        return(
-            axios.post('/api/review/',{
-                trail:this.state.trail_id,
-                poster:this.state.userId,
-                rating:parseInt(this.state.rating),
-                Review_text:this.state.comment
-            })
-            .then(response => {
-                console.log(JSON.stringify(response))
-            })
-            .catch(error => {
-                console.log(JSON.stringify(error.response))
-            })
-        )
+        else{
+            return(
+                axios.post('/api/review/',{
+                    trail:this.state.trail_id,
+                    poster:this.state.userId,
+                    rating:parseInt(this.state.rating),
+                    Review_text:this.state.comment
+                })
+                .then(response => {
+                    console.log(JSON.stringify(response))
+                })
+                .catch(error => {
+                    console.log(JSON.stringify(error.response))
+                })
+            )
+        }
+       
     }
 
     renderUserPic(){

@@ -34,7 +34,8 @@ class Trail extends Component {
             username: sessionStorage.getItem('username'),
             trail:{},
             checkins:{},
-            trail_id:this.props.match.params['id']
+            trail_id:this.props.match.params['id'],
+            trail_exist:false
         }
         console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
     }
@@ -45,6 +46,7 @@ class Trail extends Component {
                 console.log(res.data)
                 this.setState({
                     trail:res.data,
+                    trail_exist:true
                 })
             })
         axios.get(`http://127.0.0.1:8000/api/checkin/`)
@@ -78,8 +80,33 @@ class Trail extends Component {
             }
           }
 
-        return (
-            <div className = 'container'>
+        if(this.state.trail_exist===false){
+            console.log("trail does not exist")
+            return(
+                <div className = 'container'>
+                <div className='header-container'>
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
+                    <Nav />
+                    {/* <Search /> */}
+                    <div className="welcome-or-buttons">
+                    {renderLoginButton()}
+                    {renderSignupButton()}
+                    </div>
+                </div>
+
+                <p>Sorry! This trail does not exist.</p>
+
+                <div className='trail-footer-container'>
+                    <Footer />
+                </div>
+
+            </div>
+
+            )
+        }else{
+            console.log("trail exist")
+            return(
+                <div className = 'container'>
                 <div className='header-container'>
                     <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
                     <Nav />
@@ -123,7 +150,8 @@ class Trail extends Component {
 
             </div>
 
-        );
+            )
+        }
     }
 }
 

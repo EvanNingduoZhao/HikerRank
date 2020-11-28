@@ -282,6 +282,7 @@ class Event extends Component {
                         </div>
 
                         <div className='event-page-content'>
+
                             <div className="event-left">
                                 <h3>EVENT INITIATOR</h3>
                                 <h4 id="username"></h4>
