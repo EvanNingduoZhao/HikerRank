@@ -57,13 +57,13 @@ class SignupForm extends Component {
         })
         .then(res => res.json())
         .then(data => {
-            if (data['username']!=null) {
+            if (data['username']!=this.state.username) {
                 this.setState({
                     errorMessage: data['username'],
                     status: false
                 });
                 console.log(this.state)
-            } else if (data['email']!=null){
+            } else if (data['email']!=this.state.email){
                 this.setState({
                     errorMessage: data['email'],
                     status: false
