@@ -75,3 +75,7 @@ div.event-detail p.trail-location-description {
 a {
     text-decoration: none;
 }
+
+.event-page-content{
+    height: 670px;
+}

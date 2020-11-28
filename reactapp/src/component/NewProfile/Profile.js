@@ -39,10 +39,17 @@ class Profile extends Component {
         .then(
             result =>{
                 console.log(result);
-                this.setState({
-                    profile_bio:result['bio'],
-                    profile_picture:result['picture'],
-                },()=>{console.log(this.state)})
+                if (result['detail']==='Not found.') {
+                    this.setState({
+                        error: "No such user"
+                    });
+                    return;
+                } else {
+                    this.setState({
+                        profile_bio:result['bio'],
+                        profile_picture:result['picture'],
+                    },()=>{console.log(this.state)})
+                }
             }
         )
         
@@ -94,7 +101,13 @@ class Profile extends Component {
                     </div>
                 </div>
 
-                <div className='content'>
+                { this.state.error!=null ?
+                    (
+                        <h3 className="no-such-user-msg">No such user</h3>
+                    )
+                    :
+                    (
+                        <div className='content'>
                     <div className='left'>
                         <p id="username">{this.state.profile_username}</p>
                         <img id="profile-page-profile-picture" src={this.state.profile_picture} alt="image" style={{width: 170, height: 170, borderRadius: 170/ 2}} ></img>
@@ -111,6 +124,10 @@ class Profile extends Component {
                         <Album profileId={this.state.profile_id}/>
                     </div>
                 </div>
+                    )
+                    
+                }
+                
 
                 <Footer />
             </div>

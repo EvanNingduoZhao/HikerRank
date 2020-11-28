@@ -149,7 +149,7 @@ class Event extends Component {
                             {renderSignupButton()}
                         </div>
 
-                        <div className='content'>
+                        <div className='event-page-content'>
                             <div className="event-left">
                                 <Link to={'/profile/' + this.state.initiator_id + '/'}>
                                     <h3>EVENT INITIATOR</h3>
@@ -231,7 +231,7 @@ class Event extends Component {
                             {renderSignupButton()}
                         </div>
 
-                        <div className='content'>
+                        <div className='event-page-content'>
                             <div className="event-left">
                                 <h3>EVENT INITIATOR</h3>
                                 <h4 id="username"></h4>
@@ -281,7 +281,8 @@ class Event extends Component {
                             {renderSignupButton()}
                         </div>
 
-                        <div className='content'>
+                        <div className='event-page-content'>
+
                             <div className="event-left">
                                 <h3>EVENT INITIATOR</h3>
                                 <h4 id="username"></h4>
