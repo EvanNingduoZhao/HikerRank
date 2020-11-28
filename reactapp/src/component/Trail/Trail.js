@@ -94,7 +94,7 @@ class Trail extends Component {
                     </div>
                 </div>
 
-                <p>Sorry! This trail does not exist.</p>
+                <p className="no-such-trail-msg">Sorry! This trail does not exist.</p>
 
                 <div className='trail-footer-container'>
                     <Footer />

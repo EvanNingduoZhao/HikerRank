@@ -432,3 +432,8 @@ input#event-intro{
 #new-event-btn{
   margin-top: 10px;
 }
+
+.no-such-trail-msg{
+  margin-top: 300px;
+  margin-bottom: 340px;
+}
