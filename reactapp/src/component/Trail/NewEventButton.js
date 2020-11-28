@@ -39,18 +39,21 @@ class NewEventButton extends Component {
         if (this.state.userId===null){
           this.props.history.push('/login')
         }
-        console.log(this.state)
-        // alert(`${this.props.ini_picture}`)
-        event.preventDefault();
-        if (this.state.currentModal) {
-          this.handleModalCloseRequest();
-          return;
+        else{
+          console.log(this.state)
+          // alert(`${this.props.ini_picture}`)
+          event.preventDefault();
+          if (this.state.currentModal) {
+            this.handleModalCloseRequest();
+            return;
+          }
+      
+          this.setState({
+            ...this.state,
+            currentModal: key,
+          },()=>{console.log(this.state)});
         }
-    
-        this.setState({
-          ...this.state,
-          currentModal: key,
-        },()=>{console.log(this.state)});
+        
         
       }
     
