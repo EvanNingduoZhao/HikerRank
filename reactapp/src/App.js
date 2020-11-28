@@ -12,6 +12,7 @@ import About from "./component/About/About";
 import Notification from "./component/Notification/Notification"
 import Test from "./Test"
 import TestMap from "./TestMap"
+import Chat from "./component/Chat/Chat";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/notification" component={Notification} />
                 <Route path="/testmap" component={TestMap} />
                 <Route path="/about" component={About} />
+                <Route path="/chat/test" component={Chat} />
             </Switch>
         </Router>
     </div>
