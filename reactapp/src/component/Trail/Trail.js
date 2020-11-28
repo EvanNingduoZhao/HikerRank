@@ -83,12 +83,14 @@ class Trail extends Component {
                 <div className='header-container'>
                     <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
                     <Nav />
-                    <Search />
+                    {/* <Search /> */}
+                    <div className="welcome-or-buttons">
                     {renderLoginButton()}
                     {renderSignupButton()}
+                    </div>
                 </div>
 
-                <PicSlogan name={this.state.trail.name} summary={this.state.trail.description}/>
+                <PicSlogan name={this.state.trail.tname} summary={this.state.trail.description}/>
 
                 <div className='trail-info-and-map-section'>
                     <TrailInfo type={this.state.trail.tclass} 
@@ -102,7 +104,8 @@ class Trail extends Component {
                             difficulty={this.state.trail.difficulty}
                   />
                     <div className='trail-map-container'>
-                        <TrailMapWrapper trail_id={this.state.trail_id} />
+                        {/* <TrailMapWrapper trail_id={this.state.trail_id} /> */}
+                        <img src={sampleMap}></img>
                     </div>
 
                 </div>
