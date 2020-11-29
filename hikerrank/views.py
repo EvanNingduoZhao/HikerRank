@@ -62,6 +62,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data['initiator'])
+        print("an event was just create yeah")
         name = request.data['name']
         description = request.data['description']
         event_time = request.data['event_time']
@@ -73,6 +74,8 @@ class EventViewSet(viewsets.ModelViewSet):
         event = Event(name=name, initiator=initiator, description=description,
                       event_time=event_time, trail=trail, headcount=headcount)
         event.save()
+        chat=Chat(event=event)
+        chat.save()
         return Response({'message': 'success'}, status=200)
 
     def update(self, request, *args, **kwargs):
