@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Trail, Event, Photo, CheckIn, Review, Follow_UnFollow,Chat
+from .models import Profile, Trail, Event, Photo, CheckIn, Review, Follow_UnFollow
 
 # Register your models here.
 admin.site.register(Profile)
@@ -9,4 +9,3 @@ admin.site.register(Photo)
 admin.site.register(CheckIn)
 admin.site.register(Review)
 admin.site.register(Follow_UnFollow)
-admin.site.register(Chat)

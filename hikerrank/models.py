@@ -20,6 +20,14 @@ def json_default():
     return {'foo': 'bar'}
 
 
+class Message(models.Model):
+    user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Chat(models.Model):
+    messages = models.ForeignKey(Message, blank=True)
 
 
 # id link to user id
@@ -72,16 +80,8 @@ class Event(models.Model):
     headcount = models.IntegerField(default=0)
     participants = models.ManyToManyField(User, related_name="participants", blank=True)
     status = models.CharField(max_length=10, default="normal")  # accept denied
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
-class Message(models.Model):
-    user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-
-class Chat(models.Model):
-    event=models.OneToOneField(Event,primary_key=True,default=None,on_delete=models.CASCADE)
-    messages = models.ForeignKey(Message, blank=True,null=True,on_delete=models.DO_NOTHING)
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')
