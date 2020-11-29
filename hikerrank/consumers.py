@@ -2,16 +2,17 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import get_object_or_404
 
-from hikerrank.models import Message
-from hikerrank.views import get_current_chat, get_last_10_messages
+from hikerrank.models import Message, last_10_messages
+# from hikerrank.views import get_current_chat, get_last_10_messages
 
 
 class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
-        messages = get_last_10_messages(data['chatId'])
+        # messages = get_last_10_messages(data['chatId'])
+        messages = last_10_messages()
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(messages)
@@ -19,13 +20,15 @@ class ChatConsumer(WebsocketConsumer):
         self.send_message(content)
 
     def new_message(self, data):
-        user = get_object_or_404(User, username=data['from'])
+        # user = get_object_or_404(User, username=data['from'])
+        author = data['from']
+        author_user = User.objects.filter(username=author)[0]
         message = Message.objects.create(
-            user=user,
+            author=author_user,
             content=data['message'])
-        current_chat = get_current_chat(data['chatId'])
-        current_chat.messages.add(message)
-        current_chat.save()
+        # current_chat = get_current_chat(data['chatId'])
+        # current_chat.messages.add(message)
+        # current_chat.save()
         content = {
             'command': 'new_message',
             'message': self.message_to_json(message)
@@ -41,7 +44,7 @@ class ChatConsumer(WebsocketConsumer):
     def message_to_json(self, message):
         return {
             'id': message.id,
-            'author': message.user.username,
+            'author': message.author.username,
             'content': message.content,
             'timestamp': str(message.timestamp)
         }

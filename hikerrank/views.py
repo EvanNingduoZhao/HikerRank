@@ -23,7 +23,8 @@ from hikerrank.serializers import (
     SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
     PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer,
-    TrailSerializer, ChatSerializer,
+    TrailSerializer,
+    # ChatSerializer,
     # MessageSerializer
 )
 
@@ -37,13 +38,13 @@ from hikerrank.serializers import (
 #         'room_name': room_name
 #     })
 
-def get_last_10_messages(chatId):
-    chat = get_object_or_404(Chat, id=chatId)
-    return chat.messages.order_by('-timestamp').all()[:10]
-
-
-def get_current_chat(chatId):
-    return get_object_or_404(Chat, id=chatId)
+# def get_last_10_messages(chatId):
+#     chat = get_object_or_404(Chat, id=chatId)
+#     return chat.messages.order_by('-timestamp').all()[:10]
+#
+#
+# def get_current_chat(chatId):
+#     return get_object_or_404(Chat, id=chatId)
 
 
 # class MessageViewSet(viewsets.ModelViewSet):
@@ -51,9 +52,9 @@ def get_current_chat(chatId):
 #     serializer_class = MessageSerializer
 
 
-class ChatViewSet(viewsets.ModelViewSet):
-    queryset = Chat.objects.all()
-    serializer_class = ChatSerializer
+# class ChatViewSet(viewsets.ModelViewSet):
+#     queryset = Chat.objects.all()
+#     serializer_class = ChatSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -73,6 +74,8 @@ class EventViewSet(viewsets.ModelViewSet):
         event = Event(name=name, initiator=initiator, description=description,
                       event_time=event_time, trail=trail, headcount=headcount)
         event.save()
+        chat = Chat(event=event)
+        chat.save()
         return Response({'message': 'success'}, status=200)
 
     def update(self, request, *args, **kwargs):

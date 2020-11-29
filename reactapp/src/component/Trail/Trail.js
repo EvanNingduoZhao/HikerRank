@@ -104,6 +104,7 @@ class Trail extends Component {
                     <div className='trail-map-container'>
                         <TrailMapWrapper trail_id={this.state.trail_id} />
                     </div>
+                </div>
 
                 <div className='map-container'>
                     {/*<TrailMapWrapper trail_id={this.state.trail_id} />*/}
@@ -120,7 +121,6 @@ class Trail extends Component {
                 <div className='trail-footer-container'>
                     <Footer />
                 </div>
-
             </div>
 
         );
