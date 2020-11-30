@@ -6,9 +6,10 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // login_status: sessionStorage.getItem('login_status'),
-            // username: sessionStorage.getItem('username'),
-            // message: "",
+            login_status: sessionStorage.getItem('login_status'),
+            username: sessionStorage.getItem('username'),
+            messages: [],
+            message: ''
         }
         this.initializeChat();
     }
@@ -25,7 +26,7 @@ class Chat extends Component {
             this.setMessages.bind(this),
             this.addMessage.bind(this)
         )
-        WebSocketInstance.fetchMessages(this.props.username);
+        WebSocketInstance.fetchMessages(sessionStorage.getItem('username'));
 
     }
 
@@ -44,7 +45,15 @@ class Chat extends Component {
     }
 
     addMessage(message) {
-        this.setState({ messages: [...this.state.messages, message]});
+        console.log(this.state.messages);
+        console.log(message);
+        const listMessages = this.state.messages;
+        listMessages.push(message);
+        console.log(listMessages)
+        this.setState({
+            messages: listMessages
+        });
+        // this.setState({ messages: [message]});
     }
 
     setMessages(messages) {
@@ -60,7 +69,7 @@ class Chat extends Component {
     sendMessageHandler = e => {
         e.preventDefault();
         const messageObject = {
-            from: this.props.username,
+            from: this.state.username,
             content: this.state.message,
             // chatId: this.props.match.params.chatID
         };
@@ -114,8 +123,9 @@ class Chat extends Component {
     //     ));
     // };
     renderMessages = (messages) => {
-        const currentUser = "admin";
-        return messages.map((message, i) => (
+        const currentUser = this.state.username;
+        console.log(messages);
+        return messages.map(message => (
             <li
                 key={message.id}
                 className={message.author === currentUser ? 'sent' : 'replies'}>

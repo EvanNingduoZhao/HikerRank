@@ -43,6 +43,9 @@ class WebSocketService {
   socketNewMessage(data) {
     const parsedData = JSON.parse(data);
     const command = parsedData.command;
+    console.log(parsedData);
+    console.log(parsedData.command);
+    console.log(parsedData.message);
     if (Object.keys(this.callbacks).length === 0) {
       return;
     }
@@ -50,6 +53,7 @@ class WebSocketService {
       this.callbacks[command](parsedData.messages);
     }
     if (command === "new_message") {
+      console.log(this.callbacks[command]);
       this.callbacks[command](parsedData.message);
     }
   }
@@ -63,17 +67,17 @@ class WebSocketService {
   // }
   fetchMessages(username) {
     this.sendMessage({
-      'command': "fetch_messages",
-      'username': username,
+      command: "fetch_messages",
+      username: username
       // chatId: chatId
     });
   }
 
   newChatMessage(message) {
     this.sendMessage({
-      'command': "new_message",
-      'from': message.from,
-      'message': message.content,
+      command: "new_message",
+      from: message.from,
+      message: message.content
       // chatId: message.chatId
     });
   }
@@ -84,6 +88,7 @@ class WebSocketService {
   }
 
   sendMessage(data) {
+    console.log(data);
     try {
       this.socketRef.send(JSON.stringify({ ...data }));
     } catch (err) {
