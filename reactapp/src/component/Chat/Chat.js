@@ -130,9 +130,12 @@ class Chat extends Component {
                 key={message.id}
                 className={message.author === currentUser ? 'sent' : 'replies'}>
                 <img src="http://emilcarlsson.se/assets/mikeross.png" />
-                <p>{message.content}
+                <p>
+                    <small>{message.author}</small>
                     <br />
-                    <small className={message.author === currentUser ? 'sent' : 'replies'}>
+                    {message.content}
+                    <br />
+                    <small className={message.author === this.state.username ? 'sent' : 'replies'}>
                     {Math.round((new Date().getTime() - new Date(message.timestamp).getTime())/60000)} minutes ago
                     </small>
                 </p>
