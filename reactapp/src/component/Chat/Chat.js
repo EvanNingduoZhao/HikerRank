@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import WebSocketInstance from "./WebSocket";
-import Hoc from "./hoc";
 
 class Chat extends Component {
     constructor(props) {
