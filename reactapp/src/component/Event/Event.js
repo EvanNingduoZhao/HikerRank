@@ -11,6 +11,9 @@ import './Event.css'
 import {Link, Redirect} from "react-router-dom";
 import JoinEventButton from "./JoinEventButton";
 import ApplyIcon from "../../pictures/apply-icon.png";
+import ChatPage from "../Chat/ChatPage";
+import Login from "../Login/Login";
+import history from "../history";
 
 let accessToken = 'pk.eyJ1IjoiamVycnlwZW5nMDIiLCJhIjoiY2tndHZwaGl5MDBhejJxcXBodW1wN3R3NyJ9.RS9i9jjvaZElQugyd9CJXQ';
 
@@ -138,24 +141,9 @@ class Event extends Component {
             }
         }
 
-        // const renderJoinChat = () => {
-        //     if(Object.keys(this.state.participants).indexOf(this.state.username) > -1 && this.state.login_status === 'true') {
-        //         return (
-        //             <div className="groupchat-option">
-        //                 <Link to={'/chat/' + this.state.chat_id + '/'}>
-        //                     < img src={GroupChatIcon} width="85px"></img>
-        //                     <h3>Join Group Chat</h3>
-        //                 </Link>
-        //             </div>
-        //         );
-        //     } else {
-        //         if(this.state.login_status !== 'true') {
-        //             return (<Redirect to='/login'/>);
-        //         } else {
-        //             alert("You have not been approved for joining this event yet!");
-        //         }
-        //     }
-        // }
+        function refreshPage() {
+            window.location.reload();
+        }
 
         const renderEventPage = () => {
             console.log(this.state);
@@ -226,9 +214,21 @@ class Event extends Component {
                                 {/*    <h3>Add to My Favorite</h3>*/}
                                 {/*</div>*/}
 
-                                {/*{renderJoinChat()}*/}
                                 <div className="groupchat-option">
-                                    <Link to={'/chat/' + this.state.chat_id + '/'}>
+                                    <Link onClick={() => {
+                                        if((Object.keys(this.state.participants).indexOf(this.state.username) === 0)
+                                            && (this.state.login_status === 'true')) {
+                                            history.push('/chat/' + this.state.chat_id + '/');
+                                            refreshPage();
+                                        } else {
+                                            if(this.state.login_status !== 'true') {
+                                                history.push('/login');
+                                                refreshPage();
+                                            } else {
+                                                alert("You have not been approved for joining this event yet!");
+                                            }
+                                        }
+                                    }}>
                                         < img src={GroupChatIcon} width="85px"></img>
                                         <h3>Join Group Chat</h3>
                                     </Link>

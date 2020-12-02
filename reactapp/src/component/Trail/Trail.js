@@ -40,14 +40,14 @@ class Trail extends Component {
     }
 
     componentDidMount(){
-        axios.get(`http://127.0.0.1:8000/api/trail/${this.state.trail_id}/`)
+        axios.get(`/api/trail/${this.state.trail_id}/`)
             .then(res=>{
                 console.log(res.data)
                 this.setState({
                     trail:res.data,
                 })
             })
-        axios.get(`http://127.0.0.1:8000/api/checkin/`)
+        axios.get(`/api/checkin/`)
             .then(res=>{
                 this.setState({
                     checkins:res.data.filter(a=>a.trail==this.state.trail_id)
