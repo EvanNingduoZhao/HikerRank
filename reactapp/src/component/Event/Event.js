@@ -8,11 +8,9 @@ import AddfavIcon from '../../pictures/addfav-icon.png'
 import GroupChatIcon from '../../pictures/groupchat-icon.png'
 import Footer from '../Footer'
 import './Event.css'
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import JoinEventButton from "./JoinEventButton";
 import ApplyIcon from "../../pictures/apply-icon.png";
-import ChatPage from "../Chat/ChatPage";
-import Login from "../Login/Login";
 import history from "../history";
 
 let accessToken = 'pk.eyJ1IjoiamVycnlwZW5nMDIiLCJhIjoiY2tndHZwaGl5MDBhejJxcXBodW1wN3R3NyJ9.RS9i9jjvaZElQugyd9CJXQ';
@@ -147,7 +145,7 @@ class Event extends Component {
 
         const renderEventPage = () => {
             console.log(this.state);
-            if(this.state.event_status !== 'cancelled') {
+            if(this.state.event_status === 'normal') {
                 return (
                     <div>
                         <div className='header-container'>
@@ -158,21 +156,21 @@ class Event extends Component {
                             {renderSignupButton()}
                         </div>
 
-                        <div className='content'>
+                        <div className='event-page-content'>
                             <div className="event-left">
                                 <Link to={'/profile/' + this.state.initiator_id + '/'}>
                                     <h3>EVENT INITIATOR</h3>
                                     <h4 id="username">{this.state.initiator_name}</h4>
-                                    <img src={this.state.initiator_profile_picture} alt="image" width="170px"></img>
+                                    < img src={this.state.initiator_profile_picture} alt="image" width="170px"></img>
                                     <div className="bio-box">
-                                        <p id="bio">{this.state.initiator_bio}</p>
+                                        <p id="bio">{this.state.initiator_bio}</p >
                                     </div>
                                 </Link>
 
                                 <br></br>
                                 <h3>PARTICIPANTS</h3>
                                 {Object.keys(this.state.participants).map(name => (
-                                    <p><Link to={'/profile/' + this.state.participants[name] + '/'}>{name}</Link></p>
+                                    <p><Link to={'/profile/' + this.state.participants[name] + '/'}>{name}</Link></p >
                                 ))}
 
                             </div>
@@ -188,24 +186,23 @@ class Event extends Component {
                                     <h3>EVENT DETAIL</h3>
                                     <h4>Location</h4>
                                     <Link to={'/trail/' + this.state.trail_id}>
-                                        <p className="trail-location-description">{this.state.trail_name}, {this.state.trail_location}</p>
+                                        <p className="trail-location-description">{this.state.trail_name}, {this.state.trail_location}</p >
                                     </Link>
                                     <h4>Date</h4>
-                                    <p>{this.state.time}</p>
+                                    <p>{this.state.time}</p >
                                     <h4>Headcount</h4>
                                     <p>Expected: {this.state.headcount} |
                                         Confirmed: {Object.keys(this.state.participants).length} |
                                         Status: {(Object.keys(this.state.participants).length === this.state.headcount) ?
-                                            'CLOSE' : 'OPEN'}</p>
+                                            'CLOSE' : 'OPEN'}</p >
                                     <h4>Contact Information</h4>
-                                    <p>Email: {this.state.initiator_email}</p>
+                                    <p>Email: {this.state.initiator_email}</p >
                                 </div>
                             </div>
 
-                            {/*if user already approved for the event, should not be able to join again*/}
                             <div className="event-right">
                                 <div className="apply-option">
-                                    <img src={ApplyIcon} width="90px"></img>
+                                    < img src={ApplyIcon} width="90px"></img>
                                     <JoinEventButton event_id={this.state.event_id} />
                                 </div>
 
@@ -216,7 +213,7 @@ class Event extends Component {
 
                                 <div className="groupchat-option">
                                     <Link onClick={() => {
-                                        if((Object.keys(this.state.participants).indexOf(this.state.username) === 0)
+                                        if((Object.keys(this.state.participants).indexOf(this.state.username) > -1)
                                             && (this.state.login_status === 'true')) {
                                             history.push('/chat/' + this.state.chat_id + '/');
                                             refreshPage();
@@ -233,14 +230,17 @@ class Event extends Component {
                                         <h3>Join Group Chat</h3>
                                     </Link>
                                 </div>
-
                             </div>
 
+
                         </div>
+
                         <Footer />
+
+
                     </div>
                 );
-            } else {
+            } else if(this.state.event_status === 'cancelled') {
                 return (
                     <div>
                         <div className='header-container'>
@@ -251,12 +251,12 @@ class Event extends Component {
                             {renderSignupButton()}
                         </div>
 
-                        <div className='content'>
+                        <div className='event-page-content'>
                             <div className="event-left">
                                 <h3>EVENT INITIATOR</h3>
                                 <h4 id="username"></h4>
                                 <div className="bio-box">
-                                    <p id="bio"></p>
+                                    <p id="bio"></p >
                                 </div>
 
                                 <br></br>
@@ -274,18 +274,69 @@ class Event extends Component {
                                 <div className="event-detail">
                                     <h3>EVENT DETAIL</h3>
                                     <h4>Location</h4>
-                                    <p className="trail-location-description"></p>
+                                    <p className="trail-location-description"></p >
                                     <h4>Date</h4>
-                                    <p></p>
+                                    <p></p >
                                     <h4>Headcount</h4>
-                                    <p>Expected: | Confirmed: | Status: </p>
+                                    <p>Expected: | Confirmed: | Status: </p >
                                     <h4>Contact Information</h4>
-                                    <p></p>
+                                    <p></p >
                                 </div>
                             </div>
                         </div>
 
                         <Footer />
+
+
+                    </div>
+                );
+            } else if(this.state.event_status === '') {
+                return (
+                    <div>
+                        <div className='header-container'>
+                            <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
+                            <Nav/>
+                            <Search/>
+                            {renderLoginButton()}
+                            {renderSignupButton()}
+                        </div>
+
+                        <div className='event-page-content'>
+
+                            <div className="event-left">
+                                <h3>EVENT INITIATOR</h3>
+                                <h4 id="username"></h4>
+                                <div className="bio-box">
+                                    <p id="bio"></p >
+                                </div>
+
+                                <br></br>
+                                <h3>PARTICIPANTS</h3>
+
+                            </div>
+
+                            <div className="event-middle">
+                                <h2></h2>
+                                <div className="event-description">
+                                    <div className="description-box">
+                                        <span id="event-description">No such event!</span>
+                                    </div>
+                                </div>
+                                <div className="event-detail">
+                                    <h3>EVENT DETAIL</h3>
+                                    <h4>Location</h4>
+                                    <p className="trail-location-description"></p >
+                                    <h4>Date</h4>
+                                    <p></p >
+                                    <h4>Headcount</h4>
+                                    <p>Expected: | Confirmed: | Status: </p >
+                                    <h4>Contact Information</h4>
+                                    <p></p >
+                                </div>
+                            </div>
+                        </div>
+
+                        <Footer/>
 
 
                     </div>
