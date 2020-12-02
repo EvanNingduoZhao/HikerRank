@@ -15,13 +15,18 @@ class ChatConsumer(WebsocketConsumer):
             'command': 'messages',
             'messages': self.messages_to_json(messages)
         }
+        # send_message packages content dict into json format and send
+        # where send is a method of WebsocketConsumer that send data to frontend
         self.send_message(content)
 
     def new_message(self, data):
+        # receive data from frontend as a paramter
+        #identify the author of the message, create a message instance in the database
         author_user = get_object_or_404(User, username=data['from'])
         message = Message.objects.create(
             author=author_user,
             content=data['message'])
+        # identify the chat instance that the message instance should belong to and added it to chat
         current_chat = get_object_or_404(Chat, event_id=data['chat_id'])
         current_chat.messages.add(message)
         current_chat.save()
@@ -31,12 +36,14 @@ class ChatConsumer(WebsocketConsumer):
         }
         return self.send_chat_message(content)
 
+    # convert a list of messages to a list of json objects
     def messages_to_json(self, messages):
         result = []
         for message in messages:
             result.append(self.message_to_json(message))
         return result
 
+    # convert one message to a json object
     def message_to_json(self, message):
         return {
             'id': message.id,
