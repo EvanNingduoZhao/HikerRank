@@ -27,8 +27,7 @@ function App() {
                 <Route path="/test" component={Test} />
                 <Route path="/notification" component={Notification} />
                 <Route path="/testmap" component={TestMap} />
-                {/*<Route path="/chat/:chatID" component={ChatPage} />*/}
-                <Route path="/chat/test" component={ChatPage} />
+                <Route path="/chat/:chatID" component={ChatPage} />
             </Switch>
         </Router>
     </div>

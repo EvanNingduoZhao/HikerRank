@@ -15,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message
+    PendingRequest, ProcessedRequest, BroadcastMessage, Chat,
 )
 from django.contrib.auth.models import User
 
@@ -24,37 +24,7 @@ from hikerrank.serializers import (
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
     PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer,
     TrailSerializer,
-    # ChatSerializer,
-    # MessageSerializer
 )
-
-
-# def index(request):
-#     return render(request, 'hikerrank/index.html', {})
-#
-#
-# def room(request, room_name):
-#     return render(request, 'hikerrank/room.html', {
-#         'room_name': room_name
-#     })
-
-# def get_last_10_messages(chatId):
-#     chat = get_object_or_404(Chat, id=chatId)
-#     return chat.messages.order_by('-timestamp').all()[:10]
-#
-#
-# def get_current_chat(chatId):
-#     return get_object_or_404(Chat, id=chatId)
-
-
-# class MessageViewSet(viewsets.ModelViewSet):
-#     queryset = Message.objects.all()
-#     serializer_class = MessageSerializer
-
-
-# class ChatViewSet(viewsets.ModelViewSet):
-#     queryset = Chat.objects.all()
-#     serializer_class = ChatSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -99,11 +69,6 @@ class EventViewSet(viewsets.ModelViewSet):
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
-
-
-class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -157,11 +122,6 @@ def signup_view(request):
         else:
             data = serializer.errors
         return Response(data)
-
-
-class TrailViewSet(viewsets.ModelViewSet):
-    queryset = Trail.objects.all()
-    serializer_class = TrailSerializer
 
 
 class CheckinViewSet(viewsets.ModelViewSet):

@@ -6,30 +6,23 @@ import Sidepanel from "./Sidepanel";
 import {Link} from "react-router-dom";
 import Nav from "../Nav";
 import Search from "../Search";
-import Hoc from "./hoc";
 import Footer from "../Footer";
 import LoginButton from "../Login/LoginButton";
 import SignUpButton from "../Signup/SignUpButton";
 import DropDownMenu from "../DropDownMenu";
 
 class ChatPage extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     WebSocketInstance.addCallbacks(
-    //         this.props.setMessages.bind(this),
-    //         this.props.addMessage.bind(this)
-    //     );
-    // }
     constructor(props) {
         super(props);
         this.state = {
             login_status: sessionStorage.getItem('login_status'),
-            username: sessionStorage.getItem('username')
+            username: sessionStorage.getItem('username'),
+            chat_id: this.props.match.params['chatID']
         }
     }
 
     componentDidMount() {
-        WebSocketInstance.connect();
+        WebSocketInstance.connect(this.state.chat_id);
     }
 
     render() {
@@ -65,7 +58,7 @@ class ChatPage extends Component {
                 <div className="chat-page">
                     <div id="frame">
                         <Sidepanel />
-                        <Chat />
+                        <Chat chat_id = {this.state.chat_id} />
                     </div>
                 </div>
                 <Footer />

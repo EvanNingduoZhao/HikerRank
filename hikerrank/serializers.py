@@ -24,18 +24,6 @@ class SignupSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
-# class ChatSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Chat
-#         fields = '__all__'
-
-
-# class MessageSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Message
-#         fields = '__all__'
-
-
 class TrailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Trail

@@ -37,7 +37,7 @@ class Event extends Component {
             trail_location: '',
             headcount: 0,
             participants: {},
-            chat_id: ''
+            chat_id: this.props.match.params['id']
         }
     }
 
@@ -116,7 +116,6 @@ class Event extends Component {
                         time: displayTime,
                         headcount: result['headcount'],
                         participants: participants_nameid,
-                        chat_id: result['chat']['id']
                     })
                 }
             )
@@ -139,26 +138,27 @@ class Event extends Component {
             }
         }
 
-        const renderJoinChat = () => {
-            if(this.state.participants.indexOf(this.state.username) > -1 && this.state.login_status === 'true') {
-                return (
-                    <div className="groupchat-option">
-                        <Link to={'/chat/' + this.state.chat_id + '/'}>
-                            < img src={GroupChatIcon} width="85px"></img>
-                            <h3>Join Group Chat</h3>
-                        </Link>
-                    </div>
-                );
-            } else {
-                if(this.state.login_status !== 'true') {
-                    return (<Redirect to='/login'/>);
-                } else {
-                    alert("You have not been approved for joining this event yet!");
-                }
-            }
-        }
+        // const renderJoinChat = () => {
+        //     if(Object.keys(this.state.participants).indexOf(this.state.username) > -1 && this.state.login_status === 'true') {
+        //         return (
+        //             <div className="groupchat-option">
+        //                 <Link to={'/chat/' + this.state.chat_id + '/'}>
+        //                     < img src={GroupChatIcon} width="85px"></img>
+        //                     <h3>Join Group Chat</h3>
+        //                 </Link>
+        //             </div>
+        //         );
+        //     } else {
+        //         if(this.state.login_status !== 'true') {
+        //             return (<Redirect to='/login'/>);
+        //         } else {
+        //             alert("You have not been approved for joining this event yet!");
+        //         }
+        //     }
+        // }
 
         const renderEventPage = () => {
+            console.log(this.state);
             if(this.state.event_status !== 'cancelled') {
                 return (
                     <div>
@@ -226,7 +226,13 @@ class Event extends Component {
                                 {/*    <h3>Add to My Favorite</h3>*/}
                                 {/*</div>*/}
 
-                                {renderJoinChat()}
+                                {/*{renderJoinChat()}*/}
+                                <div className="groupchat-option">
+                                    <Link to={'/chat/' + this.state.chat_id + '/'}>
+                                        < img src={GroupChatIcon} width="85px"></img>
+                                        <h3>Join Group Chat</h3>
+                                    </Link>
+                                </div>
 
                             </div>
 
@@ -287,7 +293,7 @@ class Event extends Component {
             }
         }
 
-        return (renderEventPage);
+        return (renderEventPage());
     }
 }
 

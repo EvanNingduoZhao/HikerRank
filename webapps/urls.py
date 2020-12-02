@@ -39,15 +39,6 @@ router.register(r'album', views.AlbumViewSet)
 router.register(r'pending-request', views.PendingRequestViewSet)
 router.register(r'processed-request', views.ProcessedRequestViewSet)
 router.register(r'broadcast-message', views.BroadcastMessageViewSet)
-# router.register(r'chat', views.ChatViewSet)
-# router.register(r'message', views.MessageViewSet)
-
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('chat/', views.index, name='index'),
-#     path('chat/<str:room_name>/', views.room, name='room'),
-# ]
 
 urlpatterns = [
                 path('admin/', admin.site.urls),

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import WebSocketInstance from "./WebSocket";
 
 class Chat extends Component {
@@ -7,6 +7,7 @@ class Chat extends Component {
         this.state = {
             login_status: sessionStorage.getItem('login_status'),
             username: sessionStorage.getItem('username'),
+            chat_id: this.props.chat_id,
             messages: [],
             message: ''
         }
@@ -14,18 +15,14 @@ class Chat extends Component {
     }
 
     initializeChat() {
-        // this.waitForSocketConnection(() => {
-        //     WebSocketInstance.fetchMessages(
-        //         this.props.username,
-        //         this.props.match.params.chatID
-        //     );
-        // });
-        // WebSocketInstance.connect(this.props.match.params.chatID);
         WebSocketInstance.addCallbacks(
             this.setMessages.bind(this),
             this.addMessage.bind(this)
         )
-        WebSocketInstance.fetchMessages(sessionStorage.getItem('username'));
+        WebSocketInstance.fetchMessages(
+            this.state.username,
+            this.state.chat_id
+        );
 
     }
 
@@ -44,15 +41,11 @@ class Chat extends Component {
     }
 
     addMessage(message) {
-        console.log(this.state.messages);
-        console.log(message);
         const listMessages = this.state.messages;
         listMessages.push(message);
-        console.log(listMessages)
         this.setState({
             messages: listMessages
         });
-        // this.setState({ messages: [message]});
     }
 
     setMessages(messages) {
@@ -70,7 +63,7 @@ class Chat extends Component {
         const messageObject = {
             from: this.state.username,
             content: this.state.message,
-            // chatId: this.props.match.params.chatID
+            chat_id: this.state.chat_id,
         };
         WebSocketInstance.newChatMessage(messageObject);
         this.setState({
@@ -78,155 +71,62 @@ class Chat extends Component {
         });
     };
 
-    // renderTimestamp = timestamp => {
-    //     let prefix = "";
-    //     const timeDiff = Math.round(
-    //         (new Date().getTime() - new Date(timestamp).getTime()) / 60000
-    //     );
-    //     if (timeDiff < 1) {
-    //         // less than one minute ago
-    //         // prefix = "just now...";
-    //     } else if (timeDiff < 60 && timeDiff > 1) {
-    //         // less than sixty minutes ago
-    //         prefix = `${timeDiff} minutes ago`;
-    //     } else if (timeDiff < 24 * 60 && timeDiff > 60) {
-    //         // less than 24 hours ago
-    //         prefix = `${Math.round(timeDiff / 60)} hours ago`;
-    //     } else if (timeDiff < 31 * 24 * 60 && timeDiff > 24 * 60) {
-    //         // less than 7 days ago
-    //         prefix = `${Math.round(timeDiff / (60 * 24))} days ago`;
-    //     } else {
-    //         prefix = `${new Date(timestamp)}`;
-    //     }
-    //     return prefix;
-    // };
+    renderTimestamp = timestamp => {
+        let time = new Date(timestamp);
+        return (time.getHours() < 10 ? '0' : '')
+            + (time.getHours() % 12 === 0 ? 12 : (time.getHours() % 12)) + ':'
+            + (time.getMinutes() < 10 ? '0' : '')
+            + time.getMinutes() + (time.getHours() < 12 ? 'AM' : 'PM')
+    };
 
-    // renderMessages = messages => {
-    //     const currentUser = this.props.username;
-    //     return messages.map((message, i, arr) => (
-    //         <li
-    //             key={message.id}
-    //             style={{ marginBottom: arr.length - 1 === i ? "300px" : "15px" }}
-    //             className={message.author === currentUser ? "sent" : "replies"}
-    //         >
-    //             <img
-    //                 src="http://emilcarlsson.se/assets/mikeross.png"
-    //                 alt="profile-pic"
-    //             />
-    //             <p>
-    //                 {message.content}
-    //                 <br />
-    //                 <small>{this.renderTimestamp(message.timestamp)}</small>
-    //             </p>
-    //         </li>
-    //     ));
-    // };
-    renderMessages = (messages) => {
+    renderMessages = messages => {
         const currentUser = this.state.username;
-        console.log(messages);
-        return messages.map(message => (
+        return messages.map((message, i, arr) => (
             <li
                 key={message.id}
-                className={message.author === currentUser ? 'sent' : 'replies'}>
-                <img src="http://emilcarlsson.se/assets/mikeross.png" />
+                style={{ marginBottom: arr.length - 1 === i ? "300px" : "15px" }}
+                className={message.author === currentUser ? "sent" : "replies"}
+            >
+                <img
+                    src="http://emilcarlsson.se/assets/mikeross.png"
+                    alt="profile-pic"
+                />
                 <p>
                     <small>{message.author}</small>
                     <br />
                     {message.content}
                     <br />
-                    <small className={message.author === this.state.username ? 'sent' : 'replies'}>
-                    {Math.round((new Date().getTime() - new Date(message.timestamp).getTime())/60000)} minutes ago
-                    </small>
+                    <small>{this.renderTimestamp(message.timestamp)}</small>
                 </p>
             </li>
         ));
+    };
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    };
+
+    componentDidMount() {
+        this.scrollToBottom();
     }
 
-    // scrollToBottom = () => {
-    //     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    // };
-    //
-    // componentDidMount() {
-    //     this.scrollToBottom();
-    // }
-    //
-    // componentDidUpdate() {
-    //     this.scrollToBottom();
-    // }
-
-    // componentWillReceiveProps(newProps) {
-    //     if (this.props.match.params.chatID !== newProps.match.params.chatID) {
-    //         WebSocketInstance.disconnect();
-    //         this.waitForSocketConnection(() => {
-    //             WebSocketInstance.fetchMessages(
-    //                 this.props.username,
-    //                 newProps.match.params.chatID
-    //             );
-    //         });
-    //         WebSocketInstance.connect(newProps.match.params.chatID);
-    //     }
-    // }
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
 
     render() {
-        // return (
-        //     <div>
-        //         <div className='header-container'>
-        //             <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
-        //             <Nav />
-        //             <Search />
-        //             {renderLoginButton()}
-        //             {renderSignupButton()}
-        //         </div>
-        //         <Hoc>
-        //             <div className="messages">
-        //                 <ul id="chat-log">
-        //                     {this.props.messages && this.renderMessages(this.props.messages)}
-        //                     <div
-        //                         style={{ float: "left", clear: "both" }}
-        //                         ref={el => {this.messagesEnd = el;}}
-        //                     />
-        //                 </ul>
-        //             </div>
-        //             <div className="message-input">
-        //                 <form onSubmit={this.sendMessageHandler}>
-        //                     <div className="wrap">
-        //                         <input
-        //                             onChange={this.messageChangeHandler}
-        //                             value={this.state.message}
-        //                             required
-        //                             id="chat-message-input"
-        //                             type="text"
-        //                             placeholder="Write your message..."
-        //                         />
-        //                         <i className="fa fa-paperclip attachment" aria-hidden="true" />
-        //                         <button id="chat-message-submit" className="submit">
-        //                             <i className="fa fa-paper-plane" aria-hidden="true" />
-        //                         </button>
-        //                     </div>
-        //                 </form>
-        //             </div>
-        //         </Hoc>
-        //
-        //         <Footer />
-        //     </div>
-        // )
         return (
             <div className="content">
-                {/*<div className="messages">*/}
-                {/*    <ul id="chat-log">*/}
-                {/*        {this.props.messages && this.renderMessages(this.props.messages)}*/}
-                {/*        <div*/}
-                {/*            style={{ float: "left", clear: "both" }}*/}
-                {/*            ref={el => {this.messagesEnd = el;}}*/}
-                {/*        />*/}
-                {/*    </ul>*/}
-                {/*</div>*/}
                 <div className="messages">
                     <ul id="chat-log">
-                    {
-                        this.state.messages &&
-                        this.renderMessages(this.state.messages)
-                    }
+                        {
+                            this.state.messages &&
+                            this.renderMessages(this.state.messages)
+                        }
+                        <div
+                            style={{ float: "left", clear: "both" }}
+                            ref={el => {this.messagesEnd = el;}}
+                        />
                     </ul>
                 </div>
                 <div className="message-input">

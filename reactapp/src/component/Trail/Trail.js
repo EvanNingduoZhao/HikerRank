@@ -102,7 +102,7 @@ class Trail extends Component {
                             difficulty={this.state.trail.difficulty}
                   />
                     <div className='trail-map-container'>
-                        <TrailMapWrapper trail_id={this.state.trail_id} />
+                        {/*<TrailMapWrapper trail_id={this.state.trail_id} />*/}
                     </div>
                 </div>
 

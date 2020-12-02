@@ -20,32 +20,11 @@ def json_default():
     return {'foo': 'bar'}
 
 
-def last_10_messages():
-    return Message.objects.order_by('-timestamp').all()[:10]
-
-
 # id link to user id
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True, default=None, on_delete=models.PROTECT)
     bio = models.TextField(default="Tell me about yourself...", blank=True)
     picture = models.FileField(default="default-picture.png", max_length=255, upload_to=profile_picture_upload_path)
-
-
-# class Trail(models.Model):
-#     id  =models.PositiveIntegerField(primary_key=True)
-#     name = models.CharField(max_length=100)
-#     summary = models.TextField(blank=True)
-#     difficulty = models.CharField(max_length=50)
-#     location = models.CharField(max_length=100)
-#     longitude = models.FloatField()
-#     latitude = models.FloatField()
-#     length = models.FloatField()
-#     ascent = models.FloatField()
-#     descent = models.FloatField()
-#     high_altitude = models.FloatField(blank=True)
-#     low_altitude = models.FloatField(blank=True)
-#     ratings = models.FloatField(default=0)
-#     map_info = models.JSONField(default=json_default)
 
 
 class Trail(models.Model):
@@ -74,7 +53,6 @@ class Event(models.Model):
     headcount = models.IntegerField(default=0)
     participants = models.ManyToManyField(User, related_name="participants", blank=True)
     status = models.CharField(max_length=10, default="normal")  # accept denied
-    # chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
 
 class Message(models.Model):
@@ -85,12 +63,12 @@ class Message(models.Model):
 
 class Chat(models.Model):
     event = models.OneToOneField(Event, primary_key=True, default=None, on_delete=models.CASCADE)
-    messages = models.ForeignKey(Message, blank=True, on_delete=models.CASCADE)
+    messages = models.ManyToManyField(Message, blank=True)
 
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')
-    content_type = models.CharField(max_length=50, default='image/jpeg');
+    content_type = models.CharField(max_length=50, default='image/jpeg')
     Trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
     Event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
