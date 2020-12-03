@@ -7,7 +7,6 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
-
 from datetime import datetime
 
 
@@ -30,23 +29,6 @@ class Profile(models.Model):
     picture = models.FileField(default="default-picture.png", max_length=255, upload_to=profile_picture_upload_path)
 
 
-# class Trail(models.Model):
-#     id  =models.PositiveIntegerField(primary_key=True)
-#     name = models.CharField(max_length=100)
-#     summary = models.TextField(blank=True)
-#     difficulty = models.CharField(max_length=50)
-#     location = models.CharField(max_length=100)
-#     longitude = models.FloatField()
-#     latitude = models.FloatField()
-#     length = models.FloatField()
-#     ascent = models.FloatField()
-#     descent = models.FloatField()
-#     high_altitude = models.FloatField(blank=True)
-#     low_altitude = models.FloatField(blank=True)
-#     ratings = models.FloatField(default=0)
-#     map_info = models.JSONField(default=json_default)
-
-
 class Trail(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     tname = models.CharField(max_length=200)
@@ -64,23 +46,31 @@ class Trail(models.Model):
 
 
 class Event(models.Model):
+    initiator = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    post_time = models.DateTimeField(auto_now_add=True)
+    event_time = models.DateTimeField(default=datetime.now)
+    trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
+    headcount = models.IntegerField(default=0)
+    participants = models.ManyToManyField(User, related_name="participants", blank=True)
+    status = models.CharField(max_length=10, default="normal")  # accept denied
 
-   initiator    = models.ForeignKey(User, default=None, on_delete=models.PROTECT, related_name="initiator")
-   name         = models.CharField(max_length=200)
-   description  = models.TextField(blank=True)
-   post_time		    = models.DateTimeField(auto_now_add=True)
-   event_time= models.DateTimeField(default=datetime.now)
-   trail	    = models.ForeignKey(Trail,on_delete=models.CASCADE)
-   headcount    = models.IntegerField(default=0 )
-#  Organizer =models.ForeignKey(Profile,on_delete=models.CASCADE)
-   participants = models.ManyToManyField(User,related_name="participants",blank=True)
-   status = models.CharField(max_length=10,default="normal") #accept denied
 
+class Message(models.Model):
+    author = models.ForeignKey(User, related_name='author_messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Chat(models.Model):
+    event = models.OneToOneField(Event, primary_key=True, default=None, on_delete=models.CASCADE)
+    messages = models.ManyToManyField(Message, blank=True)
 
 
 class Photo(models.Model):
     picture = models.FileField(upload_to='')
-    content_type = models.CharField(max_length=50, default='image/jpeg');
+    content_type = models.CharField(max_length=50, default='image/jpeg')
     Trail = models.ForeignKey(Trail, on_delete=models.CASCADE)
     Event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
@@ -122,16 +112,15 @@ class PendingRequest(models.Model):
 class ProcessedRequest(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10) #accept denied
+    status = models.CharField(max_length=10)  # accept denied
     time = models.DateTimeField(auto_now_add=True)
 
 
 class BroadcastMessage(models.Model):
-    audience = models.ManyToManyField(User,related_name="audience",blank=True)
+    audience = models.ManyToManyField(User, related_name="audience", blank=True)
     message = models.TextField(blank=True)
-    messageType = models.TextField(blank=True) # cancelevent, acceptrequest, declinerequest
+    messageType = models.TextField(blank=True)  # cancelevent, acceptrequest, declinerequest
     time = models.DateTimeField(auto_now_add=True)
-
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

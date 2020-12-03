@@ -13,11 +13,13 @@ class WebSocketService {
     this.socketRef = null;
   }
 
-  connect() {
-    const path = 'ws://127.0.0.1:8000/ws/chat/test/';
+  connect(chat_id) {
+    // const path = 'ws://127.0.0.1:8000/ws/chat/' + chat_id + '/';
+    const path = "ws://" + window.location.hostname + ":" + window.location.port + "/ws/chat/" + chat_id + "/";
+    console.log(path);
     this.socketRef = new WebSocket(path);
     this.socketRef.onopen = () => {
-      console.log('WebSocket open');
+      console.log("WebSocket open");
     };
     this.socketNewMessage(JSON.stringify({
       command: 'fetch_messages'
@@ -34,38 +36,52 @@ class WebSocketService {
     };
   }
 
+  disconnect() {
+    this.socketRef.close();
+  }
+
   socketNewMessage(data) {
     const parsedData = JSON.parse(data);
     const command = parsedData.command;
     if (Object.keys(this.callbacks).length === 0) {
       return;
     }
-    if (command === 'messages') {
+    if (command === "messages") {
       this.callbacks[command](parsedData.messages);
     }
-    if (command === 'new_message') {
+    if (command === "new_message") {
+      console.log(this.callbacks[command]);
       this.callbacks[command](parsedData.message);
     }
   }
 
-  fetchMessages(username) {
-    this.sendMessage({ command: 'fetch_messages', username: username });
+  fetchMessages(username, chat_id) {
+    this.sendMessage({
+      command: "fetch_messages",
+      username: username,
+      chat_id: chat_id
+    });
   }
 
   newChatMessage(message) {
-    this.sendMessage({ command: 'new_message', from: message.from, message: message.content });
+    this.sendMessage({
+      command: "new_message",
+      from: message.from,
+      message: message.content,
+      chat_id: message.chat_id
+    });
   }
 
   addCallbacks(messagesCallback, newMessageCallback) {
-    this.callbacks['messages'] = messagesCallback;
-    this.callbacks['new_message'] = newMessageCallback;
+    this.callbacks["messages"] = messagesCallback;
+    this.callbacks["new_message"] = newMessageCallback;
   }
 
   sendMessage(data) {
+    console.log(data);
     try {
       this.socketRef.send(JSON.stringify({ ...data }));
-    }
-    catch(err) {
+    } catch (err) {
       console.log(err.message);
     }
   }
@@ -73,7 +89,6 @@ class WebSocketService {
   state() {
     return this.socketRef.readyState;
   }
-
 }
 
 const WebSocketInstance = WebSocketService.getInstance();

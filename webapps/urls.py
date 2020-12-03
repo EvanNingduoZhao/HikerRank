@@ -40,18 +40,12 @@ router.register(r'pending-request', views.PendingRequestViewSet)
 router.register(r'processed-request', views.ProcessedRequestViewSet)
 router.register(r'broadcast-message', views.BroadcastMessageViewSet)
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('chat/', views.index, name='index'),
-#     path('chat/<str:room_name>/', views.room, name='room'),
-# ]
-
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-                  path('api/', include(router.urls)),
-                  path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
-                  path('auth/login', views.AuthTokenView.as_view(), name="login"),
+                path('admin/', admin.site.urls),
+                path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                path('api/', include(router.urls)),
+                path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
+                path('auth/login', views.AuthTokenView.as_view(), name="login"),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [url(r'^', TemplateView.as_view(template_name='index.html'))]
