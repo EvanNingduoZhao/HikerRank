@@ -134,7 +134,6 @@ class Trail extends Component {
                         {/* <TrailMapWrapper trail_id={this.state.trail_id} /> */}
                         {/* <img src={sampleMap}></img> */}
                     </div>
-                </div>
 
                 </div>
 
