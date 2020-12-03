@@ -144,7 +144,6 @@ class Event extends Component {
         }
 
         const renderEventPage = () => {
-            console.log(this.state);
             if(this.state.event_status === 'normal') {
                 return (
                     <div>
@@ -213,8 +212,9 @@ class Event extends Component {
 
                                 <div className="groupchat-option">
                                     <Link onClick={() => {
-                                        if((Object.keys(this.state.participants).indexOf(this.state.username) > -1)
-                                            && (this.state.login_status === 'true')) {
+                                        if(((Object.keys(this.state.participants).indexOf(this.state.username) > -1)
+                                            && (this.state.login_status === 'true'))
+                                            || (this.state.username === this.state.initiator_name)) {
                                             history.push('/chat/' + this.state.chat_id + '/');
                                             refreshPage();
                                         } else {
