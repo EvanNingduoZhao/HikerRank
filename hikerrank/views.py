@@ -10,6 +10,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.views.decorators.csrf import csrf_exempt
 
+
 from django.http.response import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -26,6 +27,8 @@ from hikerrank.serializers import (
     FollowUnfollowSerializer,CheckinSerializer,ReviewSerializer,AlbumSerializer,
     PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer
 )
+
+import math
 
 
 # def index(request):
@@ -79,6 +82,101 @@ class EventViewSet(viewsets.ModelViewSet):
 class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
+
+
+# class TrailSearchViewSet(viewsets.ModelViewSet):
+#     # query_params = request.query_params
+#     # print(query_params)
+#     queryset = Trail.objects.all()[:5]
+#     serializer_class = TrailSerializer
+
+# helper functions for calculating distance between two coordinates
+def degreesToRadians(degrees):
+        return degrees * math.pi / 180.0
+    
+
+def distanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2):
+    earthRadiusKM = 6371
+
+    dLat = degreesToRadians(lat2-lat1)
+    dLon = degreesToRadians(lon2-lon1)
+
+    lat1 = degreesToRadians(lat1)
+    lat2 = degreesToRadians(lat2)
+    a = math.sin(dLat / 2.0) * math.sin(dLat / 2.0) + math.sin(dLon / 2.0) * math.sin(dLon / 2.0) * math.cos(lat1) * math.cos(lat2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    # return distance in miles
+    return earthRadiusKM * c / 1.609344
+
+
+class TrailList(ListAPIView):
+    serializer_class = TrailSerializer
+
+    def get_queryset(self):
+        print('test')
+        print(self.request.query_params)
+
+        # start with name filter
+        queryset = Trail.objects.all()
+        if 'name' in self.request.query_params:
+            filter_name = self.request.query_params['name']
+            # print(filter_name)
+            queryset = queryset.filter(tname__icontains=filter_name) 
+
+        # difficulty filter
+        # Easiest, More Difficult, Most Diffecult, Unknown, not set
+        if 'difficulty' in self.request.query_params:
+            filter_diff = self.request.query_params['difficulty']
+            queryset = queryset.filter(difficulty=filter_diff)
+
+        # paving type filter
+        if 'type' in self.request.query_params:
+            filter_type = self.request.query_params['type']
+            if filter_type == 'backpack':
+                queryset = queryset.filter(backpack="Supported")
+            if filter_type == 'bicycle':
+                queryset = queryset.filter(bicycle="Supported")
+            if filter_type == 'moutainbike':
+                queryset = queryset.filter(mountainbike="Supported")
+            if filter_type == 'ski':
+                queryset = queryset.filter(ski="Supported")
+        
+        # max length filter
+        if 'maxlength' in self.request.query_params:
+            filter_mlen = float(self.request.query_params['maxlength'])
+            print(filter_mlen)
+            queryset = queryset.filter(length__lte=filter_mlen)
+
+        # queryset = Trail.objects.all()[:10]
+        # print(distanceBetweenTwoCoordinates(51.5, 0, 38.8, -77.1))
+        # print(queryset)
+        checked_queryset = set()
+        for trail_obj in queryset:
+            # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
+            coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
+            if type(coordinates[0]) == type([1, 2, 3]):
+                # in this case, the trail consists of multiple sub-trails
+                coordinates = coordinates[0]
+            if type(coordinates[0]) == type(0.123):
+                lon_trail = float(coordinates[0])
+                lat_trail = float(coordinates[1])
+                lon_map = float(self.request.query_params['longtitude'])
+                lat_map = float(self.request.query_params['latitude'])
+
+                distance = distanceBetweenTwoCoordinates(lat_trail, lon_trail, lat_map, lon_map)
+                # print(distance)
+
+                if 'dislimit' in self.request.query_params:
+                    dislimit = float(self.request.query_params['dislimit'])
+                else:
+                    dislimit = 100.0
+                
+                if distance <= dislimit:
+                    checked_queryset.add(trail_obj)
+        
+        print(len(queryset))
+        print(len(checked_queryset))
+        return checked_queryset
 
 
 class ReviewViewSet(viewsets.ModelViewSet):

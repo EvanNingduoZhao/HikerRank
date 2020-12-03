@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "/Users/ariadnebai/Desktop/CMU20F/17637WebApp/my_env/bin/python",
+    "python.autoComplete.extraPaths": ["./Users/ariadnebai/Desktop/CMU20F/17637WebApp/team6"],
+    "emmet.excludeLanguages": [
+
+        "markdown"
+    ]
+}

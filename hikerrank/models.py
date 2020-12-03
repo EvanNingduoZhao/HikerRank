@@ -123,7 +123,7 @@ class ProcessedRequest(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10) #accept denied
-    time = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField(auto_now_add=True, blank=True)
 
 
 class BroadcastMessage(models.Model):

@@ -12,6 +12,7 @@ import UserMenu from '../UserMenu'
 import Footer from '../Footer'
 import DropDownMenu from '../DropDownMenu'
 import HomeMapWrapper from '../HomeMap/HomeMapWrapper'
+import sampleMap from '../../pictures/sample-map.png'
 
 
 import React, { Component } from 'react';
@@ -25,7 +26,11 @@ class Home extends Component {
       login_status: sessionStorage.getItem('login_status'),
       username: sessionStorage.getItem('username'),
       clicked_trail: -1,
-      clicked: false
+      clicked: false,
+      // default coordinates is cmu address
+      longtitude: -79.94227,
+      latitude: 40.44508,
+      searchFilters: new Object()
     }
     this.handleClickTrailName = this.handleClickTrailName.bind(this)
 
@@ -33,16 +38,7 @@ class Home extends Component {
     console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
 
-  // componentWillUnmount(){
-  //   this.setUserStatus()
-  // }
 
-  // setUserStatus(){
-  //   var userStatus = sessionStorage.getItem('login_status')
-  //   console.log(userStatus)
-  // }
-
-  
   handleClickTrailName(trail_id) {
     console.log('from Home Component', trail_id)
     if (trail_id == this.state.clicked_trail) {
@@ -105,7 +101,8 @@ class Home extends Component {
           </div>
 
           <div class='search-criteria'>
-              <PrettierSearch />
+              {/* <PrettierSearch /> */}
+              
               <Filter />
           </div>
 
@@ -115,8 +112,8 @@ class Home extends Component {
               <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName}/>
             </div>
             <div className="mapbox">
-              <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/>
-              {/* <img src={sampleMap} width='770px'></img> */}
+              {/* <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/> */}
+              <img src={sampleMap} width='770px'></img>
             </div>
             
           </div>

@@ -39,6 +39,8 @@ router.register(r'album', views.AlbumViewSet)
 router.register(r'pending-request', views.PendingRequestViewSet)
 router.register(r'processed-request', views.ProcessedRequestViewSet)
 router.register(r'broadcast-message', views.BroadcastMessageViewSet)
+# router.register(r'trail-search', views.TrailSearchViewSet)
+# router.register(r'^trail-list/(?P<lontitude>.+)/$', views.TrailList)
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
@@ -50,6 +52,7 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('api/', include(router.urls)),
+                  path('trail-list/', views.TrailList.as_view(), name="trail-list"),
                   path('auth/signup', csrf_exempt(views.signup_view), name="signup"),
                   path('auth/login', views.AuthTokenView.as_view(), name="login"),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
