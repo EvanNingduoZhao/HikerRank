@@ -51,9 +51,11 @@ class Notification extends Component {
                 <div className='header-container'>
                     <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                     <Nav />
-                    <Search />
+                    {/* <Search /> */}
+                    <div className="welcome-or-buttons">
                     {renderLoginButton()}
                     {renderSignupButton()}
+                    </div>
                 </div>
 
                 <div className='notif-title'>

@@ -127,7 +127,7 @@ class Event extends Component {
             if(this.state.login_status !== 'true'){
                 return (<LoginButton />);
             } else {
-                return (<p className="welcome-msg">Hello, {this.state.username}! :)</p>);
+                return (<p className="welcome-msg">Hello, {this.state.username}! :)</p >);
             }
         }
 
