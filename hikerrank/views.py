@@ -84,12 +84,6 @@ class TrailViewSet(viewsets.ModelViewSet):
     serializer_class = TrailSerializer
 
 
-# class TrailSearchViewSet(viewsets.ModelViewSet):
-#     # query_params = request.query_params
-#     # print(query_params)
-#     queryset = Trail.objects.all()[:5]
-#     serializer_class = TrailSerializer
-
 # helper functions for calculating distance between two coordinates
 def degreesToRadians(degrees):
         return degrees * math.pi / 180.0
@@ -147,13 +141,12 @@ class TrailList(ListAPIView):
             print(filter_mlen)
             queryset = queryset.filter(length__lte=filter_mlen)
 
-        # queryset = Trail.objects.all()[:10]
         # print(distanceBetweenTwoCoordinates(51.5, 0, 38.8, -77.1))
-        # print(queryset)
+        
         checked_queryset = set()
         for trail_obj in queryset:
-            # if len(checked_queryset) >= 100:
-            #     break
+            if len(checked_queryset) >= 200:
+                break
 
             # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
             coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
@@ -167,12 +160,11 @@ class TrailList(ListAPIView):
                 lat_map = float(self.request.query_params['latitude'])
 
                 distance = distanceBetweenTwoCoordinates(lat_trail, lon_trail, lat_map, lon_map)
-                # print(distance)
 
                 if 'dislimit' in self.request.query_params and self.request.query_params['dislimit'] != 'null':
                     dislimit = float(self.request.query_params['dislimit'])
                 else:
-                    dislimit = 75.0
+                    dislimit = 70.0
                 
                 if distance <= dislimit:
                     checked_queryset.add(trail_obj)

@@ -43,12 +43,18 @@ class Home extends Component {
     this.handleClickTrailName = this.handleClickTrailName.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleSearchResults = this.handleSearchResults.bind(this)
+    this.setSearchCenter = this.setSearchCenter.bind(this)
 
-    console.log(this.state) //'true' if logged in, null if not
-    console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
+    // console.log(this.state) //'true' if logged in, null if not
+    // console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
 
-
+  setSearchCenter(lon, lat) {
+    this.setState({
+      longtitude: lon,
+      latitude: lat
+    })
+  }
 
   handleClickTrailName(trail_id) {
     console.log('from Home Component', trail_id)
@@ -138,14 +144,15 @@ class Home extends Component {
 
           <div className='map-container'>
             <div className="trail-info-box">
-              {/* <div className="nearby-hint">Trails near you:</div> */}
+              
               <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName} 
               longtitude={longtitude} latitude={latitude}
               search_filters={searchFilters}
               onSearchResults={this.handleSearchResults}/>
             </div>
             <div className="mapbox">
-              <HomeMapWrapper trails={trails} clicked_trail={clicked} clicked={this.state.clicked}/>
+              <HomeMapWrapper setSearchCenter={this.setSearchCenter} display_lon={this.state.longtitude} display_lat={this.state.latitude}
+              trails={trails} clicked_trail={clicked} clicked={this.state.clicked}/>
               {/* <img src={sampleMap} width='770px'></img> */}
             </div>
             

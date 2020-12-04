@@ -3,9 +3,57 @@ import React, { Component } from 'react';
 class Filter extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
+        // console.log(this.props)
+        this.state = {
+            name: 'null',
+            difficulty: 'null',
+            type: 'null',
+            maxLength: 'null',
+            dislimit: 'null'
+        }
+
         this.handleClickSearch = this.handleClickSearch.bind(this)
         this.handleClickClear = this.handleClickClear.bind(this)
+        this.handleName = this.handleName.bind(this)
+        this.handleDifficulty = this.handleDifficulty.bind(this)
+        this.handleType = this.handleType.bind(this)
+        this.handleMaxLength = this.handleMaxLength.bind(this)
+        this.handleDistance = this.handleDistance.bind(this)
+    }
+    
+    handleName(e) {
+        var nameC = document.getElementById("name_filter").value
+        this.setState({
+            name: nameC
+        })
+    }
+
+    handleDifficulty(e) {
+        var diffC = document.getElementById("difficulty_filter").value
+        this.setState({
+            difficulty: diffC
+        })
+    }
+
+    handleType(e) {
+        var typeC = document.getElementById("type_filter").value
+        this.setState({
+            type: typeC
+        })
+    }
+
+    handleMaxLength(e) {
+        var lenC = document.getElementById("maxLength_filter").value
+        this.setState({
+            maxLength: lenC
+        })
+    }
+
+    handleDistance(e) {
+        var disC = document.getElementById("dislimit_filter").value
+        this.setState({
+            dislimit: disC
+        })
     }
 
     handleClickClear(e) {
@@ -14,6 +62,13 @@ class Filter extends Component {
         document.getElementById("maxLength_filter").value = ""
         document.getElementById("dislimit_filter").value = ""
         document.getElementById("type_filter").value = "null"
+        this.setState({
+            name: 'null',
+            difficulty: 'null',
+            type: 'null',
+            maxLength: 'null',
+            dislimit: 'null' 
+        })
         var filters = {
             name: 'null',
             difficulty: 'null',
@@ -33,11 +88,11 @@ class Filter extends Component {
             maxLength: 'null',
             dislimit: 'null' 
         }
-        var name = document.getElementById("name_filter").value
-        var difficulty = document.getElementById("difficulty_filter").value
-        var maxLength = document.getElementById("maxLength_filter").value
-        var dislimit = document.getElementById("dislimit_filter").value
-        var type = document.getElementById("type_filter").value
+        var name = this.state.name
+        var difficulty = this.state.difficulty
+        var maxLength = this.state.maxLength
+        var dislimit = this.state.dislimit
+        var type = this.state.type
 
         filters.name = name
         filters.difficulty = difficulty
@@ -57,10 +112,10 @@ class Filter extends Component {
         return (
             <div className="trail-filter">
                 <label className="filter-name" for="name_filter">Trail Name</label>
-                <input className="filter-choice" type="text" placeholder="Find trails by name" id="name_filter"/>
+                <input className="filter-choice" type="text" placeholder="Find trails by name" id="name_filter" onChange={this.handleName}/>
                 
                 <label className="filter-name" for="difficulty_filter">Difficulty</label>
-                <select className="filter-choice" name="difficulty" id="difficulty_filter">
+                <select className="filter-choice" name="difficulty" id="difficulty_filter" onChange={this.handleDifficulty}>
                     <option value="null">All</option>
                     <option value="Easiest">Easiest</option>
                     <option value="More Difficult">More Difficult</option>
@@ -68,29 +123,15 @@ class Filter extends Component {
                 </select>
 
                 <label className="filter-name" for="maxLength_filter">Length</label>
-                <input className="filter-choice" type="text" placeholder="trail max length in miles" id="maxLength_filter"/>
-                {/* <select className="filter-choice" name="maxLength" id="maxLength_filter">
-                    <option value="All">All</option>
-                    <option value="< 2 mi"> &lt; 5 mi</option>
-                    <option value="2 ~ 5 mi">5 ~ 10 mi</option>
-                    <option value="5 ~ 20 mi">10 ~ 20 mi</option>
-                    <option value="20 ~ 40 mi">20 ~ 40 mi</option>
-                    <option value="> 40 mi">&gt; 40 mi</option>
-                </select> */}
+                <input className="filter-choice" type="text" placeholder="trail max length in miles" id="maxLength_filter" onChange={this.handleMaxLength}/>
+
 
                 <label className="filter-name" for="distance_filter">Distance</label>
-                <input className="filter-choice" type="text" placeholder="distance to trail start" id="dislimit_filter"/>
-                {/* <select className="filter-choice" name="distance" id="distance">
-                    <option value="All">All</option>
-                    <option value="< 10 mi"> &lt; 10 mi</option>
-                    <option value="< 30 mi">&lt; 30 mi</option>
-                    <option value="< 50 mi">&lt; 50 mi</option>
-                    <option value="< 100 mi">&lt; 100 mi</option>
-                    <option value="< 200 mi">&lt; 200 mi</option>
-                </select> */}
+                <input className="filter-choice" type="text" placeholder="distance to trail start" id="dislimit_filter" onChange={this.handleDistance}/>
+
 
                 <label className="filter-name" for="type_filter">Trail Type</label>
-                <select className="filter-choice" name="trail-type" id="type_filter">
+                <select className="filter-choice" name="trail-type" id="type_filter" onChange={this.handleType}>
                     <option value="null">All</option>
                     <option value="Backpack">Backpack</option>
                     <option value="Bicycle">Bicycle</option>
@@ -98,19 +139,8 @@ class Filter extends Component {
                     <option value="Ski">Ski</option>
                 </select>
 
-                {/* <label className="filter-name" for="rating">Rating</label>
-                <select className="filter-choice" name="rating" id="rating">
-                    <option value="All">All</option>
-                    <option value="0 ~ 1">0 ~ 1</option>
-                    <option value="1 ~ 2">1 ~ 2</option>
-                    <option value="2 ~ 3">2 ~ 3</option>
-                    <option value="3 ~ 4">3 ~ 4</option>
-                    <option value="4 ~ 5">4 ~ 5</option>
-                </select> */}
-
-                <button className="clear-filter" onClick={this.handleClickSearch}>Search</button>
                 <button className="clear-filter" onClick={this.handleClickClear}>Clear Filter</button>
-                {/* <button className="clear-filter">Show Trails on Map</button> */}
+                <button className="search-button" onClick={this.handleClickSearch}>Search</button>
             </div>
         );
     }

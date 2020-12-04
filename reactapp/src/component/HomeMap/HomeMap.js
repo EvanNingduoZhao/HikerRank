@@ -71,8 +71,8 @@ const HomeMap = (props) => {
     }
   }
 
-  var lgnNum = -80.01;
-  var latNum = 40.43;
+  var lgnNum = props.display_lon;
+  var latNum = props.display_lat;
   var zoomNum = 10;
 
   const [lng, setLng] = useState(lgnNum);
@@ -125,23 +125,29 @@ const HomeMap = (props) => {
             zoomNum = 120.0 / (calculateZoom(coordinates)[0] / 3.0 + 9.9);
             lgnNum = calculateZoom(coordinates)[1];
             latNum = calculateZoom(coordinates)[2];
+            props.reportCenter(lgnNum, latNum);
         } else if (typeof(clicked_json.map_info.data.geometry.coordinates[0][0][0]) == typeof(0.123)) {
             coordinates = clicked_json.map_info.data.geometry.coordinates[0];
             zoomNum = 120.0 / (calculateZoom(coordinates)[0] / 3.0 + 9.9);
             lgnNum = calculateZoom(coordinates)[1];
             latNum = calculateZoom(coordinates)[2];
+            props.reportCenter(lgnNum, latNum);
         } else {
-            console.log('HomeMap, unclicked, to original nums');
-            lgnNum = -79.56556;
-            latNum = 40.58439;
-            zoomNum = 7.0;
+            // console.log('HomeMap, unclicked, to original nums');
+            // lgnNum = -79.56556;
+            // latNum = 40.58439;
+            lgnNum = props.display_lon
+            latNum = props.display_lat
+            zoomNum = 7.5;
         }
-        console.log('After click: lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum)
+        // console.log('After click: lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum)
       } else {
-        console.log('HomeMap, unclicked, to original nums');
-        lgnNum = -79.56556;
-        latNum = 40.58439;
-        zoomNum = 7.0;
+        // console.log('HomeMap, unclicked, to original nums');
+        // lgnNum = -79.56556;
+        // latNum = 40.58439;
+        lgnNum = props.display_lon
+        latNum = props.display_lat
+        zoomNum = 7.5;
       }
 
 
@@ -167,11 +173,13 @@ const HomeMap = (props) => {
         search_bar
       );
   
-      // map.on('move', () => {
-      //   setLng(map.getCenter().lng.toFixed(4));
-      //   setLat(map.getCenter().lat.toFixed(4));
-      //   setZoom(map.getZoom().toFixed(2));
-      // });
+      map.on('move', () => {
+        // setLng(map.getCenter().lng.toFixed(4));
+        // setLat(map.getCenter().lat.toFixed(4));
+        // setZoom(map.getZoom().toFixed(2));
+        console.log(props)
+        props.reportCenter(map.getCenter().lng, map.getCenter().lat);
+      });
 
       var trails = props.map_json_list
       console.log(trails)
@@ -369,7 +377,7 @@ const HomeMap = (props) => {
       return () => map.remove();
  
     
-  }, [props.clicked_trail, props.map_json_list]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.clicked_trail, props.map_json_list, props.display_lon, props.display_lat]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return  <div className='map-holder' ref={mapContainerRef} />
 };
