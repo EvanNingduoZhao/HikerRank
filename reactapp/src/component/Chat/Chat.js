@@ -1,12 +1,4 @@
-import React, { Component } from "react";
-import LoginButton from "../Login/LoginButton";
-import SignUpButton from "../Signup/SignUpButton";
-import DropDownMenu from "../DropDownMenu";
-import {Link} from "react-router-dom";
-import Nav from "../Nav";
-import Search from "../Search";
-import Footer from "../Footer";
-import './Chat.css'
+import React, {Component} from "react";
 import WebSocketInstance from "./WebSocket";
 
 class Chat extends Component {
@@ -15,71 +7,145 @@ class Chat extends Component {
         this.state = {
             login_status: sessionStorage.getItem('login_status'),
             username: sessionStorage.getItem('username'),
+            chat_id: this.props.chat_id,
+            messages: [],
+            message: ''
         }
+        this.initializeChat();
     }
 
-    // componentDidMount() {
-    //     WebSocketInstance.connect();
-    // }
+    initializeChat() {
+        WebSocketInstance.addCallbacks(
+            this.setMessages.bind(this),
+            this.addMessage.bind(this)
+        )
+        WebSocketInstance.fetchMessages(
+            this.state.username,
+            this.state.chat_id
+        );
+
+    }
+
+    waitForSocketConnection(callback) {
+        const component = this;
+        setTimeout(function() {
+            if (WebSocketInstance.state() === 1) {
+                console.log("Connection is made");
+                callback();
+                return;
+            } else {
+                console.log("wait for connection...");
+                component.waitForSocketConnection(callback);
+            }
+            }, 100);
+    }
+
+    addMessage(message) {
+        const listMessages = this.state.messages;
+        listMessages.push(message);
+        this.setState({
+            messages: listMessages
+        });
+    }
+
+    setMessages(messages) {
+        this.setState({ messages: messages.reverse()});
+    }
+
+    messageChangeHandler = event => {
+        this.setState({
+            message: event.target.value
+        });
+    };
+
+    sendMessageHandler = e => {
+        e.preventDefault();
+        const messageObject = {
+            from: this.state.username,
+            content: this.state.message,
+            chat_id: this.state.chat_id,
+        };
+        WebSocketInstance.newChatMessage(messageObject);
+        this.setState({
+            message: ''
+        });
+    };
+
+    renderTimestamp = timestamp => {
+        let time = new Date(timestamp);
+        return (time.getHours() < 10 ? '0' : '')
+            + (time.getHours() % 12 === 0 ? 12 : (time.getHours() % 12)) + ':'
+            + (time.getMinutes() < 10 ? '0' : '')
+            + time.getMinutes() + (time.getHours() < 12 ? 'AM' : 'PM')
+    };
+
+    renderMessages = messages => {
+        const currentUser = this.state.username;
+        return messages.map((message, i, arr) => (
+            <li
+                key={message.id}
+                style={{ marginBottom: arr.length - 1 === i ? "300px" : "15px" }}
+                className={message.author === currentUser ? "sent" : "replies"}
+            >
+                <img
+                    src="http://emilcarlsson.se/assets/mikeross.png"
+                    alt="profile-pic"
+                />
+                <p>
+                    <small>{message.author}</small>
+                    <br />
+                    {message.content}
+                    <br />
+                    <small>{this.renderTimestamp(message.timestamp)}</small>
+                </p>
+            </li>
+        ));
+    };
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    };
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
 
     render() {
-        const renderLoginButton = ()=>{
-            if(this.state.login_status!=='true'){
-                return (
-                    <LoginButton />
-                    )
-            } else {
-                return (<p className="welcome-msg">Hello, {this.state.username}! :)</p >)
-            }
-        }
-
-        const renderSignupButton = ()=>{
-            if(this.state.login_status!=='true'){
-                return (
-                    <SignUpButton />
-                    )
-            } else {
-                return (<DropDownMenu />)
-            }
-        }
         return (
-            <div>
-                <div className='header-container'>
-                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
-                    <Nav />
-                    <Search />
-                    {renderLoginButton()}
-                    {renderSignupButton()}
+            <div className="content">
+                <div className="messages">
+                    <ul id="chat-log">
+                        {
+                            this.state.messages &&
+                            this.renderMessages(this.state.messages)
+                        }
+                        <div
+                            style={{ float: "left", clear: "both" }}
+                            ref={el => {this.messagesEnd = el;}}
+                        />
+                    </ul>
                 </div>
-                <div className="content">
-                    <div className="chat-left">
-                        <h3>Participants</h3>
-                        <p>Jerry</p>
-                        <p>Evan</p>
-                        <p>Laura</p>
-                        <p>Ariadne</p>
-                    </div>
-                    <div className="chat-right">
-                        <div className="chat-messages">
-                            <p>Message 1</p>
-                        </div>
-                        <div className="chat-user-input">
+                <div className="message-input">
+                    <form onSubmit={this.sendMessageHandler}>
+                        <div className="wrap">
                             <input
-                                // onChange={}
-                                //    value={}
-                                   required
-                                   id="chat-message-input"
-                                   type="text"
-                                   size = "100"
-                                   placeholder="Write your message..." />
+                                onChange={this.messageChangeHandler}
+                                value={this.state.message}
+                                required
+                                id="chat-message-input"
+                                type="text"
+                                placeholder="Write your message..."
+                            />
                             <button id="chat-message-submit" className="submit">
-                                <i className="fa fa-paper-plane" aria-hidden="true"></i>
+                                <i className="fa fa-paper-plane" aria-hidden="true" />
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-
-                <Footer />
             </div>
         )
     }

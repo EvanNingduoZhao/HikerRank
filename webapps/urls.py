@@ -42,12 +42,6 @@ router.register(r'broadcast-message', views.BroadcastMessageViewSet)
 # router.register(r'trail-search', views.TrailSearchViewSet)
 # router.register(r'^trail-list/(?P<lontitude>.+)/$', views.TrailList)
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('chat/', views.index, name='index'),
-#     path('chat/<str:room_name>/', views.room, name='room'),
-# ]
-
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
