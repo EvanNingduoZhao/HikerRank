@@ -1,24 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from django.http import HttpResponse
-from rest_framework import viewsets, permissions
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.parsers import MultiPartParser, FormParser
-from django.views.decorators.csrf import csrf_exempt
-
-from django.http.response import JsonResponse
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
     PendingRequest, ProcessedRequest, BroadcastMessage, Chat,
 )
-from django.contrib.auth.models import User
-
 from hikerrank.serializers import (
     SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
@@ -32,7 +23,6 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data['initiator'])
         name = request.data['name']
         description = request.data['description']
         event_time = request.data['event_time']
@@ -49,7 +39,6 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response({'message': 'success'}, status=200)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         # update in event api
         status = request.data['status']
         event_id = request.data['event_id']
@@ -62,7 +51,6 @@ class EventViewSet(viewsets.ModelViewSet):
         msg = BroadcastMessage(message=message, messageType=messageType)
         msg.save()
         msg.audience.set(audience)
-        print(audience)
         return Response({'message': 'success'}, status=200)
 
 
@@ -75,26 +63,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-    # parser_classes = [MultiPartParser,FormParser]
-
     def create(self, request, *args, **kwargs):
-        data = {}
-        print(request.data)
         picture = request.data['picture']
         bio = request.data['bio']
         user_id = int(request.data['user'])
-        print('error point 1')
         user = User.objects.get(id=user_id)
         profile = Profile(user=user, bio=bio, picture=picture)
         profile.save()
-        # data['picture'] = picture
-        # data['bio'] = bio
-        # data['user'] = user
-        # serializer = self.get_serializer(data=data)
-        # serializer.is_valid(raise_exception=False)
-        # print(serializer.errors)
-        # print(serializer.is_valid())
-        # serializer.save()
         return Response({'message': 'success'}, status=200)
 
 
@@ -129,7 +104,6 @@ class CheckinViewSet(viewsets.ModelViewSet):
     serializer_class = CheckinSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         trail_id = int(request.data['trail'])
         user_id = int(request.data['User'])
         trail = Trail.objects.get(id=trail_id)
@@ -144,8 +118,6 @@ class AlbumViewSet(viewsets.ModelViewSet):
     serializer_class = AlbumSerializer
 
     def create(self, request, *args, **kwargs):
-        data = {}
-        print(request.data)
         picture = request.data['picture']
         caption = request.data['caption']
         user_id = int(request.data['user'])
@@ -161,7 +133,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         rating = request.data['rating']
         review_text = request.data['Review_text']
         trail_id = int(request.data['trail'])
@@ -192,7 +163,6 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowUnfollowSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user_id'])
         following_id = int(request.data['following_id'])
         user = User.objects.get(id=user_id)
@@ -207,7 +177,6 @@ class PendingRequestViewSet(viewsets.ModelViewSet):
     serializer_class = PendingRequestSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user'])
         event_id = int(request.data['event'])
         text = request.data['text']
@@ -228,7 +197,6 @@ class ProcessedRequestViewSet(viewsets.ModelViewSet):
     serializer_class = ProcessedRequestSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user_id'])
         event_id = int(request.data['event_id'])
         status = request.data['status']
@@ -238,6 +206,5 @@ class ProcessedRequestViewSet(viewsets.ModelViewSet):
         processed_request.save()
 
         if status == "Accepted":
-            print("add to participant list")
             event.participants.add(user)
         return Response({'message': 'success'}, status=200)

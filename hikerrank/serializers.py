@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message
+    PendingRequest, ProcessedRequest, BroadcastMessage
 )
-from django.contrib.auth.models import User
-from rest_framework.validators import UniqueTogetherValidator
 
 
 class SignupSerializer(serializers.HyperlinkedModelSerializer):
