@@ -30,13 +30,24 @@ class Home extends Component {
       // default coordinates is cmu address
       longtitude: -79.94227,
       latitude: 40.44508,
-      searchFilters: new Object()
+      // name, difficulty, type, maxLength, dislimit
+      searchFilters: {
+        'name': 'null',
+        'difficulty': 'null',
+        'type': 'null',
+        'maxLength': 'null',
+        'dislimit': 'null'
+      },
+      searchResults: []
     }
     this.handleClickTrailName = this.handleClickTrailName.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
+    this.handleSearchResults = this.handleSearchResults.bind(this)
 
     console.log(this.state) //'true' if logged in, null if not
     console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
+
 
 
   handleClickTrailName(trail_id) {
@@ -53,9 +64,28 @@ class Home extends Component {
       })
     }
   }
+
+  handleClickSearch(filters) {
+    // pop filters into state.searchfilters
+    this.setState({
+      searchFilters: filters
+    }, console.log(this.state))
+  }
+
+  handleSearchResults(searched_trails) {
+    this.setState({
+      searchResults: searched_trails
+    })
+    console.log('Home get search results', this.state.searchResults)
+  }
   
   render() {
     const clicked = this.state.clicked_trail
+    const searchFilters = this.state.searchFilters
+    const longtitude = this.state.longtitude
+    const latitude = this.state.latitude
+    const trails = this.state.searchResults
+
     const renderLoginButton = ()=>{
       if(this.state.login_status!=='true'){
         return (
@@ -103,17 +133,20 @@ class Home extends Component {
           <div class='search-criteria'>
               {/* <PrettierSearch /> */}
               
-              <Filter />
+              <Filter search_filters={searchFilters} onClickSearch={this.handleClickSearch}/>
           </div>
 
           <div className='map-container'>
             <div className="trail-info-box">
-              <div className="nearby-hint">Trails near you:</div>
-              <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName}/>
+              {/* <div className="nearby-hint">Trails near you:</div> */}
+              <DisplayTrail clicked_trail={clicked} onClickTrailName={this.handleClickTrailName} 
+              longtitude={longtitude} latitude={latitude}
+              search_filters={searchFilters}
+              onSearchResults={this.handleSearchResults}/>
             </div>
             <div className="mapbox">
-              {/* <HomeMapWrapper clicked_trail={clicked} clicked={this.state.clicked}/> */}
-              <img src={sampleMap} width='770px'></img>
+              <HomeMapWrapper trails={trails} clicked_trail={clicked} clicked={this.state.clicked}/>
+              {/* <img src={sampleMap} width='770px'></img> */}
             </div>
             
           </div>

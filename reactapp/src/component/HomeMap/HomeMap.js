@@ -7,7 +7,7 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const HomeMap = (props) => {
-    console.log(props)
+    console.log("HomeMap props", props)
   const mapContainerRef = useRef(null);
   const clicked_trail = props.clicked_trail
   var coordinates;
@@ -127,7 +127,7 @@ const HomeMap = (props) => {
         console.log('HomeMap, unclicked, to original nums');
         lgnNum = -80.01;
         latNum = 40.43;
-        zoomNum = 10;
+        zoomNum = 7.0;
       }
 
       
@@ -145,11 +145,11 @@ const HomeMap = (props) => {
       console.log('HomeMap Loading Map...');
       map.addControl(new mapboxgl.NavigationControl(), 'top-right');
   
-      map.on('move', () => {
-        setLng(map.getCenter().lng.toFixed(4));
-        setLat(map.getCenter().lat.toFixed(4));
-        setZoom(map.getZoom().toFixed(2));
-      });
+      // map.on('move', () => {
+      //   setLng(map.getCenter().lng.toFixed(4));
+      //   setLat(map.getCenter().lat.toFixed(4));
+      //   setZoom(map.getZoom().toFixed(2));
+      // });
 
       var trails = props.map_json_list
       console.log(trails)
@@ -157,15 +157,12 @@ const HomeMap = (props) => {
       map.on('load', function () {
           for (let map_json of trails) {
 
-              var source_name = map_json.name;
-              console.log('add map_json source name', source_name)
+              var source_name = map_json.tname + map_json.url.split('/')[5];
+              // console.log('add map_json source name', source_name)
 
               var trail_json = map_json.map_info;
 
-              map.addSource( source_name, {
-                  'type': 'geojson',
-                  'data': trail_json
-              });
+              map.addSource( source_name, trail_json)
 
               if (props.clicked && map_json.url == clicked_trail.url) {
                 console.log('HomeMap, layer for clicked trail')
@@ -199,12 +196,82 @@ const HomeMap = (props) => {
                   }
               });
 
-              map.loadImage(
+              // get the coordinates of the starting point of each trail
+              var start_coordinates = map_json.map_info.data.geometry.coordinates[0]
+              // console.log("start coordinates", map_json.map_info.data.geometry.coordinates[0], typeof(map_json.map_info.data.geometry.coordinates[0]), typeof(0.123));
+              if (typeof(map_json.map_info.data.geometry.coordinates[0][0]) == typeof(0.123)) {
+                  map.loadImage(
+                    // 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
+                    hiking3,
+                    function (error, image) {
+                        // console.log('inside adding image', map_json.map_info.data.geometry.coordinates[0])
+                        if (error) throw error;
+                        var imageName = 'cat' + map_json.url.split('/')[5];
+                        // console.log('try to add image with name', imageName);
+                        map.addImage(imageName, image);
+                        map.addSource(imageName, {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'FeatureCollection',
+                                'features': [
+                                    {
+                                        'type': 'Feature',
+                                        'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': map_json.map_info.data.geometry.coordinates[0]
+                                        }
+                                    }
+                                ]
+                            }
+                        });
+                        // console.log('added a kitty!')
+                        map.addLayer({
+                            'id': imageName,
+                            'type': 'symbol',
+                            'source': imageName,
+                            'layout': {
+                                'icon-image': imageName,
+                                'icon-size': zoomNum / 300.0
+                            }
+                        });
+
+                        // console.log('url', map_json.url, 'url split', map_json.url.split('/'));
+
+                        // var trail_id = map_json.url.split('/')[5];
+                        var trail_page_path = '/trail/' + map_json.url.split('/')[5];
+
+                        map.on('click', imageName, function (e) {
+                           var coordinates = map_json.map_info.data.geometry.coordinates[0];
+                           var description = '<h3 style="color:#085027;">' + map_json.tname + '</h3>' + '<p style="line-height:130%;">' 
+                           + map_json.description.substr(0, 200) + '...' + '</p>'
+                           + '<a href=' + trail_page_path + '>More Info</a>';
+
+                           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                          }
+                          new mapboxgl.Popup()
+                            .setLngLat(coordinates)
+                            .setHTML(description)
+                            .addTo(map);      
+                        })
+
+                        map.on('mouseenter', imageName, function () {
+                          map.getCanvas().style.cursor = 'pointer';
+                        });
+
+                        map.on('mouseleave', imageName, function () {
+                          map.getCanvas().style.cursor = '';
+                        });
+                    }
+                  );
+              } else if (typeof(map_json.map_info.data.geometry.coordinates[0][0][0]) == typeof(0.123)) {
+                map.loadImage(
                   // 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
                   hiking3,
                   function (error, image) {
+                      // console.log('inside adding image', map_json.map_info.data.geometry.coordinates[0])
                       if (error) throw error;
-                      var imageName = 'cat' + map_json.name;
+                      var imageName = 'cat' + map_json.url.split('/')[5];
                       console.log('try to add image with name', imageName);
                       map.addImage(imageName, image);
                       map.addSource(imageName, {
@@ -216,13 +283,13 @@ const HomeMap = (props) => {
                                       'type': 'Feature',
                                       'geometry': {
                                       'type': 'Point',
-                                      'coordinates': [map_json.longitude, map_json.latitude]
+                                      'coordinates': map_json.map_info.data.geometry.coordinates[0][0]
                                       }
                                   }
                               ]
                           }
                       });
-                      console.log('added a kitty!')
+                      // console.log('added a kitty!')
                       map.addLayer({
                           'id': imageName,
                           'type': 'symbol',
@@ -233,15 +300,15 @@ const HomeMap = (props) => {
                           }
                       });
 
-                      console.log('url', map_json.url, 'url split', map_json.url.split('/'));
+                      // console.log('url', map_json.url, 'url split', map_json.url.split('/'));
 
-                      var trail_id = map_json.url.split('/')[5];
-                      var trail_page_path = 'http://localhost:8000/trail/' + trail_id
+                      // var trail_id = map_json.url.split('/')[5];
+                      var trail_page_path = '/trail/' + map_json.url.split('/')[5];
 
                       map.on('click', imageName, function (e) {
-                         var coordinates = e.features[0].geometry.coordinates.slice();
-                         var description = '<h3 style="color:#085027;">' + map_json.name + '</h3>' + '<p style="line-height:130%;">' 
-                         + map_json.summary + '</p>'
+                         var coordinates = map_json.map_info.data.geometry.coordinates[0][0];
+                         var description = '<h3 style="color:#085027;">' + map_json.tname + '</h3>' + '<p style="line-height:130%;">' 
+                         + 'Summary: ' + map_json.description.substr(0, 200) + '...' + '</p>'
                          + '<a href=' + trail_page_path + '>More Info</a>';
 
                          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -261,7 +328,9 @@ const HomeMap = (props) => {
                         map.getCanvas().style.cursor = '';
                       });
                   }
-              );
+                );
+              }
+              
           }
           
       });
@@ -270,7 +339,7 @@ const HomeMap = (props) => {
       return () => map.remove();
  
     
-  }, [props.clicked_trail]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.clicked_trail, props.map_json_list]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return  <div className='map-holder' ref={mapContainerRef} />
 };

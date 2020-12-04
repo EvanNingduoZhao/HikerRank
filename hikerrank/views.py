@@ -118,31 +118,31 @@ class TrailList(ListAPIView):
 
         # start with name filter
         queryset = Trail.objects.all()
-        if 'name' in self.request.query_params:
+        if 'name' in self.request.query_params and self.request.query_params['name'] != 'null':
             filter_name = self.request.query_params['name']
             # print(filter_name)
             queryset = queryset.filter(tname__icontains=filter_name) 
 
         # difficulty filter
         # Easiest, More Difficult, Most Diffecult, Unknown, not set
-        if 'difficulty' in self.request.query_params:
+        if 'difficulty' in self.request.query_params and self.request.query_params['difficulty'] != 'null':
             filter_diff = self.request.query_params['difficulty']
             queryset = queryset.filter(difficulty=filter_diff)
 
-        # paving type filter
-        if 'type' in self.request.query_params:
+        # trail type filter
+        if 'type' in self.request.query_params and self.request.query_params['type'] != 'null':
             filter_type = self.request.query_params['type']
-            if filter_type == 'backpack':
+            if filter_type == 'Backpack':
                 queryset = queryset.filter(backpack="Supported")
-            if filter_type == 'bicycle':
+            if filter_type == 'Bicycle':
                 queryset = queryset.filter(bicycle="Supported")
-            if filter_type == 'moutainbike':
+            if filter_type == 'Mountainbike':
                 queryset = queryset.filter(mountainbike="Supported")
-            if filter_type == 'ski':
+            if filter_type == 'Ski':
                 queryset = queryset.filter(ski="Supported")
         
         # max length filter
-        if 'maxlength' in self.request.query_params:
+        if 'maxlength' in self.request.query_params and self.request.query_params['maxLength'] != 'null':
             filter_mlen = float(self.request.query_params['maxlength'])
             print(filter_mlen)
             queryset = queryset.filter(length__lte=filter_mlen)
@@ -152,6 +152,9 @@ class TrailList(ListAPIView):
         # print(queryset)
         checked_queryset = set()
         for trail_obj in queryset:
+            if len(checked_queryset) >= 100:
+                break
+            
             # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
             coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
             if type(coordinates[0]) == type([1, 2, 3]):
@@ -166,7 +169,7 @@ class TrailList(ListAPIView):
                 distance = distanceBetweenTwoCoordinates(lat_trail, lon_trail, lat_map, lon_map)
                 # print(distance)
 
-                if 'dislimit' in self.request.query_params:
+                if 'dislimit' in self.request.query_params and self.request.query_params['dislimit'] != 'null':
                     dislimit = float(self.request.query_params['dislimit'])
                 else:
                     dislimit = 100.0
