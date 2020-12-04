@@ -126,8 +126,8 @@ class HomeMapWrapper extends Component {
             <div>
                 <div className="test-map"><Map map_json_list={trails_list} display_lon={this.props.display_lon} display_lat={this.props.display_lat}
                 clicked_trail={clicked} clicked={click_flag} reportCenter={this.reportMapCenter}/></div>
-                <button className="clear-filter" onClick={this.handleRestoreCenter}>Restore Search to Default Center (Pittsburgh [40.44, -79.94])         </button>
-                <button className="search-button" onClick={this.handleSetCurrentCenter}>Search from Current Map Center [{this.state.map_center_lon.toFixed(2)}, {this.state.map_center_lat.toFixed(2)}]</button>
+                <button className="clear-filter" onClick={this.handleRestoreCenter}>Restore Search to Default Center (Pittsburgh [ 40.44, -79.94 ])         </button>
+                <button className="search-button" onClick={this.handleSetCurrentCenter}>&nbsp;Search from Current Map Center [ {this.state.map_center_lon.toFixed(2)}, {this.state.map_center_lat.toFixed(2)} ]&nbsp;</button>
                 
             </div>
         )

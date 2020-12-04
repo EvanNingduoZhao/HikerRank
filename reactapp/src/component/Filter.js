@@ -140,7 +140,7 @@ class Filter extends Component {
                 </select>
 
                 <button className="clear-filter" onClick={this.handleClickClear}>Clear Filter</button>
-                <button className="search-button" onClick={this.handleClickSearch}>Search</button>
+                <button className="search-button" onClick={this.handleClickSearch}>&nbsp;Search&nbsp;</button>
             </div>
         );
     }
