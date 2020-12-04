@@ -8,6 +8,7 @@ import history from "./component/history";
 import Profile from "./component/NewProfile/Profile";
 import Trail from "./component/Trail/Trail";
 import Event from "./component/Event/Event";
+import About from "./component/About/About";
 import Notification from "./component/Notification/Notification"
 import Test from "./Test"
 import TestMap from "./TestMap"
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/notification" component={Notification} />
                 <Route path="/testmap" component={TestMap} />
                 <Route path="/chat/:chatID" component={ChatPage} />
+                <Route path="/about" component={About} />
             </Switch>
         </Router>
     </div>

@@ -34,7 +34,8 @@ class Trail extends Component {
             username: sessionStorage.getItem('username'),
             trail:{},
             checkins:{},
-            trail_id:this.props.match.params['id']
+            trail_id:this.props.match.params['id'],
+            trail_exist:false
         }
         console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
     }
@@ -45,6 +46,7 @@ class Trail extends Component {
                 console.log(res.data)
                 this.setState({
                     trail:res.data,
+                    trail_exist:true
                 })
             })
         axios.get(`/api/checkin/`)
@@ -78,17 +80,44 @@ class Trail extends Component {
             }
           }
 
-        return (
-            <div className = 'container'>
+        if(this.state.trail_exist===false){
+            console.log("trail does not exist")
+            return(
+                <div className = 'container'>
                 <div className='header-container'>
                     <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
                     <Nav />
-                    <Search />
+                    {/* <Search /> */}
+                    <div className="welcome-or-buttons">
                     {renderLoginButton()}
                     {renderSignupButton()}
+                    </div>
                 </div>
 
-                <PicSlogan name={this.state.trail.name} summary={this.state.trail.description}/>
+                <p className="no-such-trail-msg">Sorry! This trail does not exist.</p>
+
+                <div className='trail-footer-container'>
+                    <Footer />
+                </div>
+
+            </div>
+
+            )
+        }else{
+            console.log("trail exist")
+            return(
+                <div className = 'container'>
+                <div className='header-container'>
+                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
+                    <Nav />
+                    {/* <Search /> */}
+                    <div className="welcome-or-buttons">
+                    {renderLoginButton()}
+                    {renderSignupButton()}
+                    </div>
+                </div>
+
+                <PicSlogan name={this.state.trail.tname} summary={this.state.trail.description}/>
 
                 <div className='trail-info-and-map-section'>
                     <TrailInfo type={this.state.trail.tclass} 
@@ -102,13 +131,11 @@ class Trail extends Component {
                             difficulty={this.state.trail.difficulty}
                   />
                     <div className='trail-map-container'>
-                        {/*<TrailMapWrapper trail_id={this.state.trail_id} />*/}
+                        {/* <TrailMapWrapper trail_id={this.state.trail_id} /> */}
+                        {/* <img src={sampleMap}></img> */}
                     </div>
                 </div>
 
-                <div className='map-container'>
-                    {/*<TrailMapWrapper trail_id={this.state.trail_id} />*/}
-                    {/* <img src={sampleMap}/> */}
                 </div>
 
                 <div className="checkin-and-review-section">
@@ -123,7 +150,8 @@ class Trail extends Component {
                 </div>
             </div>
 
-        );
+            )
+        }
     }
 }
 

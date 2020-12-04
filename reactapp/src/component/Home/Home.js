@@ -1,7 +1,6 @@
 import '../../App.css';
 import './Home.css';
 import homepagePic from '../../pictures/homepage_pic.jpg';
-import sampleMap from '../../pictures/sample-map.png'
 import Nav from '../Nav'
 import Search from '../Search'
 import SignUpButton from '../Signup/SignUpButton'
@@ -86,9 +85,11 @@ class Home extends Component {
         <div className='header-container'>
           <div><h3 className='title'>HIKERRANK</h3></div> 
           <Nav />
-          <Search />
+          {/* <Search /> */}
+          <div className="welcome-or-buttons">
           {renderLoginButton()}
           {renderSignupButton()}
+          </div>
           
         </div>
 

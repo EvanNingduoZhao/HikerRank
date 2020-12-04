@@ -19,6 +19,13 @@
   text-align: left;
 }
 
+.welcome-or-buttons{
+  float: right;
+  margin-right:15px;
+  margin-left: auto;
+  display: inline-flex;
+}
+
 .nav_button {
   color: #FFFEFE;
   background: #000000;
@@ -81,13 +88,14 @@
 
 .sub-slogan {
   position: absolute;
-  top: 230px;
+  top: 250px;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #FFFEFE;
   letter-spacing: 0.05em;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   line-height: 1.5;
+  width: 80%;
 }
 
 .bg-image{
