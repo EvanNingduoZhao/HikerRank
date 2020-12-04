@@ -152,9 +152,9 @@ class TrailList(ListAPIView):
         # print(queryset)
         checked_queryset = set()
         for trail_obj in queryset:
-            if len(checked_queryset) >= 100:
-                break
-            
+            # if len(checked_queryset) >= 100:
+            #     break
+
             # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
             coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
             if type(coordinates[0]) == type([1, 2, 3]):
@@ -172,7 +172,7 @@ class TrailList(ListAPIView):
                 if 'dislimit' in self.request.query_params and self.request.query_params['dislimit'] != 'null':
                     dislimit = float(self.request.query_params['dislimit'])
                 else:
-                    dislimit = 100.0
+                    dislimit = 75.0
                 
                 if distance <= dislimit:
                     checked_queryset.add(trail_obj)

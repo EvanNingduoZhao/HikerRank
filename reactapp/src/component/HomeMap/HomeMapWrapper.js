@@ -58,7 +58,7 @@ class HomeMapWrapper extends Component {
                     },
                     (error) => {
                         this.setState({
-                            clicked_trail: [],
+                            clicked_trail: {'foo': 'bar'},
                             clicked: false
                         })
                     }

@@ -83,12 +83,12 @@ class DisplayTrail extends Component {
         console.log('fetch result')
         console.log(this.state.trail_info)
         const clicked_trail_id = this.props.clicked_trail;
-        var num_trails;
-        if (this.state.trail_info.length >= 100) {
-            num_trails = '100+'
-        } else {
-            num_trails = this.state.trail_info.length
-        }
+        // var num_trails;
+        // if (this.state.trail_info.length >= 100) {
+        //     num_trails = '100+'
+        // } else {
+        const num_trails = this.state.trail_info.length
+        // }
         // const num_trails = this.state.trail_info.length;
         console.log('Display Trail', clicked_trail_id)
         return (
