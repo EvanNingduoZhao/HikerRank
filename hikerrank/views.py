@@ -15,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage, Chat,
+    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message,
 )
 from django.contrib.auth.models import User
 
@@ -23,7 +23,7 @@ from hikerrank.serializers import (
     SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
     PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer,
-    TrailSerializer,
+    TrailSerializer,MessageSerializer,
 )
 
 
@@ -70,6 +70,9 @@ class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
 
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()

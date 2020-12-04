@@ -2,6 +2,8 @@ class WebSocketService {
   static instance = null;
   callbacks = {};
 
+  // 保证有这个class instance有一个instance（这里instance是一个class static variable的名字）
+  // 如果目前没有就建一个
   static getInstance() {
     if (!WebSocketService.instance) {
       WebSocketService.instance = new WebSocketService();
@@ -14,9 +16,12 @@ class WebSocketService {
   }
 
   connect(chat_id) {
-    const path = 'ws://127.0.0.1:8000/ws/chat/' + chat_id + '/';
+    // 用目前chat room的path建一个WebSocket的instance，并把它作为这个class instance的static variable instance
+    const path = "ws://" + window.location.hostname+":"+window.location.port+ "/ws/chat/"+chat_id+"/";
     console.log(path);
     this.socketRef = new WebSocket(path);
+
+    //下面这几个method就是负责在这个webScoket instance干每件事时在console print出对应的信息，没什么用
     this.socketRef.onopen = () => {
       console.log("WebSocket open");
     };
@@ -71,6 +76,7 @@ class WebSocketService {
     });
   }
 
+  //messagesCallback, newMessageCallback只是parameter
   addCallbacks(messagesCallback, newMessageCallback) {
     this.callbacks["messages"] = messagesCallback;
     this.callbacks["new_message"] = newMessageCallback;
@@ -85,6 +91,7 @@ class WebSocketService {
     }
   }
 
+  //用来在chat.js里的waitForSocketConnection method里check一个WebSocketInstance的state的
   state() {
     return this.socketRef.readyState;
   }
