@@ -68,7 +68,7 @@ class DisplayTrail extends Component {
         this.setState({
             page: 'homepage',
             trail_info: searched_trails
-        }, console.log(this.state))
+        })
         // push the searched results to Home component
         this.props.onSearchResults(searched_trails)
     })
@@ -80,8 +80,8 @@ class DisplayTrail extends Component {
     }
     
     render() {
-        console.log('fetch result')
-        console.log(this.state.trail_info)
+        // console.log('fetch result')
+        // console.log(this.state.trail_info)
         const clicked_trail_id = this.props.clicked_trail;
 
         var num_trails;
@@ -91,8 +91,8 @@ class DisplayTrail extends Component {
             num_trails = this.state.trail_info.length
         }
         // const num_trails = this.state.trail_info.length;
-        
-        console.log('Display Trail', clicked_trail_id)
+
+        // console.log('Display Trail', clicked_trail_id)
         return (
             <div>
                 <div className="nearby-hint">{num_trails} Trails near you:</div>

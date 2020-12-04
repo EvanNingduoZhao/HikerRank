@@ -63,14 +63,14 @@ class HomeMapWrapper extends Component {
                 display_lat: this.props.display_lat
             })
         }
-        console.log('HomeMapWrapper props.clicked', this.props.clicked, 'clicked trail', this.props.clicked_trail)
+        // console.log('HomeMapWrapper props.clicked', this.props.clicked, 'clicked trail', this.props.clicked_trail)
         if ((prevProps.clicked_trail != this.props.clicked_trail) && this.props.clicked) {
-            console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch')
+            // console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch')
             fetch(`/api/trail/${this.props.clicked_trail}/`)
                 .then(res => res.json())
                 .then(
                     (result) => {
-                        console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch', result)
+                        // console.log('HomeMapWrapper, componentDidUpdate, 2nd fetch', result)
                         this.setState({
                             clicked_trail: result,
                             clicked: true
@@ -84,7 +84,7 @@ class HomeMapWrapper extends Component {
                     }
                 )
         } else if ((prevProps.clicked_trail != this.props.clicked_trail) && !this.props.clicked) {
-            console.log('HomeMapWrapper, componentDidUpdate, click to not click');
+            // console.log('HomeMapWrapper, componentDidUpdate, click to not click');
                 this.setState({
                     clicked_trail: {'foo': 'bar'},
                     clicked: false
@@ -114,13 +114,13 @@ class HomeMapWrapper extends Component {
     }
 
     render() {
-        console.log('HomeMapWrapper', this.props);
+        // .log('HomeMapWrapper', this.props);
         const trails_list = this.props.trails
         
         const clicked = this.state.clicked_trail
-        console.log('HomeMapWrapper clicked trail', clicked)
+        // console.log('HomeMapWrapper clicked trail', clicked)
         const click_flag = this.state.clicked;
-        console.log('HomeMapWrapper click_flag', click_flag)
+        // console.log('HomeMapWrapper click_flag', click_flag)
 
         return (
             <div>

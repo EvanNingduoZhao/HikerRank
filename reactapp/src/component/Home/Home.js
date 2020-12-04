@@ -57,7 +57,7 @@ class Home extends Component {
   }
 
   handleClickTrailName(trail_id) {
-    console.log('from Home Component', trail_id)
+    // console.log('from Home Component', trail_id)
     if (trail_id == this.state.clicked_trail) {
       this.setState({
         clicked_trail: -1,
@@ -75,14 +75,14 @@ class Home extends Component {
     // pop filters into state.searchfilters
     this.setState({
       searchFilters: filters
-    }, console.log(this.state))
+    })
   }
 
   handleSearchResults(searched_trails) {
     this.setState({
       searchResults: searched_trails
     })
-    console.log('Home get search results', this.state.searchResults)
+    // .log('Home get search results', this.state.searchResults)
   }
   
   render() {
