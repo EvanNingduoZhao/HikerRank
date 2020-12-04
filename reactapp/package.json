@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^4.7.0",
     "@mapbox/togeojson": "^0.16.0",
     "@syncfusion/ej2-grids": "^18.3.44",
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,6 +14,7 @@
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "mapbox-gl": "^1.11.1",
+    "mapbox-gl-geocoder": "^2.0.1",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "ramda": "^0.27.1",

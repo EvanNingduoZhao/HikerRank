@@ -43,6 +43,8 @@ class category_tab extends Component {
             var data_size = Object.keys(data).length
             var my_event_cnt = 0
             for (let index = 0; index < data_size; index++) {
+                // console.log('event data elememt');
+                // console.log(data[index]);
                 const element = data[index];
                 if (element['initiator'].split("/").includes(String(this.state.id)) && element['status']=='normal') {
                     my_event_cnt = my_event_cnt + 1
