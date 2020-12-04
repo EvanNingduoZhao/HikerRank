@@ -21,7 +21,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def new_message(self, data):
         # receive data from frontend as a paramter
-        #identify the author of the message, create a message instance in the database
+        # identify the author of the message, create a message instance in the database
         author_user = get_object_or_404(User, username=data['from'])
         message = Message.objects.create(
             author=author_user,

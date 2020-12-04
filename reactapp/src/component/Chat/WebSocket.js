@@ -14,9 +14,7 @@ class WebSocketService {
   }
 
   connect(chat_id) {
-    // const path = 'ws://127.0.0.1:8000/ws/chat/' + chat_id + '/';
     const path = "ws://" + window.location.hostname + ":" + window.location.port + "/ws/chat/" + chat_id + "/";
-    console.log(path);
     this.socketRef = new WebSocket(path);
     this.socketRef.onopen = () => {
       console.log("WebSocket open");
@@ -36,10 +34,6 @@ class WebSocketService {
     };
   }
 
-  disconnect() {
-    this.socketRef.close();
-  }
-
   socketNewMessage(data) {
     const parsedData = JSON.parse(data);
     const command = parsedData.command;
@@ -50,7 +44,6 @@ class WebSocketService {
       this.callbacks[command](parsedData.messages);
     }
     if (command === "new_message") {
-      console.log(this.callbacks[command]);
       this.callbacks[command](parsedData.message);
     }
   }
@@ -78,7 +71,6 @@ class WebSocketService {
   }
 
   sendMessage(data) {
-    console.log(data);
     try {
       this.socketRef.send(JSON.stringify({ ...data }));
     } catch (err) {
