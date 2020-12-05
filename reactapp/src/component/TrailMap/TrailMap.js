@@ -6,7 +6,7 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const TrailMap = (props) => {
-    console.log(props)
+    // console.log(props)
   const mapContainerRef = useRef(null);
 
   var data = props.map_data
@@ -20,8 +20,14 @@ const TrailMap = (props) => {
 
   // Calculate the optimal zoomNum
   const calculateZoom = () => {
-      var coordinates = data.map_info.features[0].geometry.coordinates
-      console.log(coordinates)
+      var coordinates_list = data.map_info.data.geometry.coordinates
+      var coordinates;
+      if (typeof(coordinates_list[0][0]) == typeof(0.123)) {
+          coordinates = coordinates_list;
+      } else if (typeof(coordinates_list[0][0][0]) == typeof(0.123)) {
+          coordinates = coordinates_list[0];
+      }
+      // console.log(coordinates)
       var lgnMin = 10000;
       var lgnMax = -10000;
       var latMin = 10000;
@@ -46,14 +52,14 @@ const TrailMap = (props) => {
           (latMin + latMax) / 2.0
         ];
   };
-  console.log('range', calculateZoom()[0]);
-  zoomNum = 145.0 / (calculateZoom()[0] / 3.0 + 9.9);
+  // console.log('range', calculateZoom()[0]);
+  zoomNum = 135.0 / (calculateZoom()[0] / 3.0 + 9.9);
   lgnNum = calculateZoom()[1];
-  console.log('adjusted lgnNum', lgnNum)
+  // .log('adjusted lgnNum', lgnNum)
   latNum = calculateZoom()[2];
-  console.log('adjusted latNum', latNum);
+  // console.log('adjusted latNum', latNum);
   
-  console.log('printing adjusted zoomNum', zoomNum);
+  // console.log('printing adjusted zoomNum', zoomNum);
 
   const [lng, setLng] = useState(lgnNum);
   const [lat, setLat] = useState(latNum);
@@ -72,19 +78,61 @@ const TrailMap = (props) => {
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
     map.on('move', () => {
-      setLng(map.getCenter().lng.toFixed(4));
-      setLat(map.getCenter().lat.toFixed(4));
-      setZoom(map.getZoom().toFixed(2));
+    //   setLng(map.getCenter().lng.toFixed(4));
+    //   setLat(map.getCenter().lat.toFixed(4));
+    //   setZoom(map.getZoom().toFixed(2));
     });
-    
-    var trail_json = props.map_data.map_info
+
+    // display all nearby trails in dashed line
+    var nearby_trails = props.nearby_trails;
+    // console.log('Trail Map nearby trails', nearby_trails)
     
     map.on('load', function () {
 
-        map.addSource( 'trail', {
-            'type': 'geojson',
-            'data': trail_json
-        });
+        for (let near_json of nearby_trails) {
+            var source_name = near_json.tname + near_json.url.split('/')[5];
+            // console.log('add near_json source name', source_name)
+    
+            var trail_json = near_json.map_info;
+    
+            map.addSource( source_name, trail_json)
+    
+            // decide trail color by difficulty
+            var trail_color = '#085027'
+            if (near_json.difficulty == 'Easiest') {
+            trail_color = '#07b36b'
+            } else if (near_json.difficulty == 'Most Difficult') {
+            trail_color = '#0d8b94'
+            }
+    
+            map.addLayer({
+                'id': source_name,
+                'type': 'line',
+                'source': source_name,
+                'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+                },
+                'paint': {
+                    'line-color': trail_color,
+                    'line-width': zoomNum / 6.0,
+                    'line-opacity': 0.7
+                }
+            });
+        }
+        
+        
+        var trail_json = props.map_data.map_info
+
+        // decide trail color by difficulty
+        var color = '#085027'
+        if (trail_json.difficulty == 'Easiest') {
+            color = '#07b36b'
+        } else if (trail_json.difficulty == 'Most Difficult') {
+            color = '#0d8b94'
+        }
+
+        map.addSource( 'trail', trail_json);
         map.addLayer({
             'id': 'trail_background',
             'type': 'line',
@@ -95,7 +143,7 @@ const TrailMap = (props) => {
             },
             'paint': {
                 'line-color': '#dff57d',
-                'line-width': zoomNum / 2.0
+                'line-width': zoomNum / 1.5
             }
         })
         map.addLayer({
@@ -107,58 +155,17 @@ const TrailMap = (props) => {
             'line-cap': 'round'
             },
             'paint': {
-                'line-color': '#085027',
+                'line-color': color,
                 'line-width': zoomNum / 4.0
             }
         });
         
-        var coords = trail_json.features[0].geometry.coordinates;
-        var index = 0;
-        const pa_al_max = 1300;
-        const pa_al_min = 600;
-        for (let coord of coords) {
-            var ln = coord[0];
-            var la = coord[1];
-            var al = coord[2];
-            var al_op = (al * 3.28 - 600) / (pa_al_max - pa_al_min);
-            al_op = Math.min(al_op, 0.999);
-            al_op = Math.max(al_op, 0.001);
-            index = index + 1;
-            var circle_name = 'circle_' + String(index);
-            // console.log('circle source name', circle_name, ln, la, al, al_op);
-            map.addSource(circle_name, {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'geometry': {
-                            'type': 'Point',
-                            'coordinates': [ln, la]
-                            }
-                        }
-                    ]
-                }
-            });
-            var color_va = Math.floor(255 * al_op);
-            var color_rgb = "rgb(35," + String(color_va) + ", 153)";
-            map.addLayer({
-                'id': circle_name,
-                'type': 'circle',
-                'source': circle_name,
-                'paint': {
-                    'circle-color': color_rgb,
-                    'circle-radius': zoomNum / 5.0,
-                    // 'circle-opacity': al_op
-                }
-            });
-        }
+        
     });
 
     // Clean up on unmount
     return () => map.remove();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.nearby_trails]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return  <div className='map-holder' ref={mapContainerRef} />
 };
