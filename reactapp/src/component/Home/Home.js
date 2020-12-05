@@ -45,8 +45,6 @@ class Home extends Component {
     this.handleSearchResults = this.handleSearchResults.bind(this)
     this.setSearchCenter = this.setSearchCenter.bind(this)
 
-    // console.log(this.state) //'true' if logged in, null if not
-    // console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
   }
 
   setSearchCenter(lon, lat) {
@@ -57,7 +55,6 @@ class Home extends Component {
   }
 
   handleClickTrailName(trail_id) {
-    // console.log('from Home Component', trail_id)
     if (trail_id == this.state.clicked_trail) {
       this.setState({
         clicked_trail: -1,

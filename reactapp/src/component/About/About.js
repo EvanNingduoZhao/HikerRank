@@ -84,7 +84,7 @@ class About extends Component {
                             <img src={evan} width="150px" className="intro-left"></img>
                             <div className="intro-right">
                                 <p className="people-name">Ningduo Zhao</p>
-                                <p className="people-intro">This is Evan, This is Evan,This is Evan,This is Evan,This is Evan,This is Evan,This is Evan,This is Evan</p>
+                                <p className="people-intro">This is Evan here. I am a first-year MISM-BIDA student at CMU. Hope you like our site and enjoy your next hiking trip!</p>
                             </div>
                             
                             
@@ -93,7 +93,7 @@ class About extends Component {
                             <img src={ariadne} width="150px" className="intro-left"></img>
                             <div className="intro-right">
                                 <p className="people-name">Ruoqi Bai</p>
-                                <p className="people-intro">This is Ariadne, This is Ariadne, This is Ariadne, This is Ariadne, This is Ariadne, This is Ariadne, This is Ariadne</p>
+                                <p className="people-intro">This is Ariadne who studied architecture design but started coding everyday since arriving at CMU. Going out for a hike is the best activity in this time of quarantine, isn't it?</p>
                             </div>
                         </div>
                     </div>
@@ -103,14 +103,14 @@ class About extends Component {
                         <img src={jerry} width="150px" className="intro-left"></img>
                         <div className="intro-right">
                             <p className="people-name">Ningyang Peng</p>
-                            <p className="people-intro">This is Jerry, This is Jerry, This is Jerry, This is Jerry, This is Jerry, This is Jerry, </p>
+                            <p className="people-intro">My name is Jerry. I am studying Electrical and Computer Engineering at CMU. Wish you the best experience in browing our hiking website!</p>
                         </div>
                     </div>
                     <div className="row-right">
                         <img src={laura} width="150px" className="intro-left"></img>
                         <div className="intro-right">
                             <p className="people-name">Yuchen Xie</p>
-                            <p className="people-intro">This is Laura, This is Laura, This is Laura, This is Laura, This is Laura, This is Laura,  </p>
+                            <p className="people-intro">This is Laura, I am a second year MISM-BIDA student in Heinz College. We spent a lot of time working on this project, so please give us a thumbs-up!</p>
                         </div>
                     </div>
                         

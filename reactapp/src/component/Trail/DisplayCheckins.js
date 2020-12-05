@@ -17,15 +17,15 @@ class displayCheckins extends Component {
         var list = new Array()
         axios.get(`/api/checkin/`)
         .then(res=>{
-            console.log(res.data)
+            // console.log(res.data)
             var size = Object.keys(res.data).length
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element['trail'])
                 let timestamp=fetched_element.Time.substring(0,10)
-                console.log(`timestamp is ${fetched_element.Time.substring(0,10)}`)
-                console.log(fetched_trail_id)
-                console.log(`current trail id is: ${this.state.trail_id}`)
+                // console.log(`timestamp is ${fetched_element.Time.substring(0,10)}`)
+                // console.log(fetched_trail_id)
+                // console.log(`current trail id is: ${this.state.trail_id}`)
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
                     //User id is the second to the last element in the list formed by splitting the url
                     // by "/"
@@ -34,9 +34,9 @@ class displayCheckins extends Component {
                     })
                     let profile_url_splitted_list=fetched_element.User.split("/")
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
-                    console.log(`The id of this user is ${fetched_user_id}`)
+                    // console.log(`The id of this user is ${fetched_user_id}`)
                     let fetched_user_url = `/api/user/${fetched_user_id}/`
-                    console.log(fetched_user_url)
+                    // console.log(fetched_user_url)
                     axios.get(`/api/user/${fetched_user_id}/`)
                     .then(res=>{
                         var checkin_dict = {}
@@ -44,11 +44,11 @@ class displayCheckins extends Component {
                         checkin_dict['profile_url']=`/profile/${fetched_user_id}/`
                         checkin_dict['timestamp']=timestamp
                         list.push(checkin_dict)
-                        console.log(checkin_dict)
+                        // console.log(checkin_dict)
                         this.setState({
                             checkins_list:list
                         })
-                        console.log(this.state)
+                        // console.log(this.state)
                     })
                 }
             }

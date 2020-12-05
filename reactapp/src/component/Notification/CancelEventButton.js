@@ -13,7 +13,6 @@ class CancelEventButton extends Component {
       }
 
       toggleModal = key => event => {
-        console.log(this.state)
         event.preventDefault();
         if (this.state.currentModal) {
           this.handleModalCloseRequest();
@@ -42,7 +41,6 @@ class CancelEventButton extends Component {
         if (text == '') {
         }
         this.setState({ ...this.state});
-        console.log(this.state)
       }
     
       handleOnAfterOpenModal = () => {

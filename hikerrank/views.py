@@ -89,14 +89,13 @@ class TrailList(ListAPIView):
     serializer_class = TrailSerializer
 
     def get_queryset(self):
-        print('test')
-        print(self.request.query_params)
+        # print('test')
+        # print(self.request.query_params)
 
         # start with name filter
         queryset = Trail.objects.all()
         if 'name' in self.request.query_params and self.request.query_params['name'] != 'null':
             filter_name = self.request.query_params['name']
-            # print(filter_name)
             queryset = queryset.filter(tname__icontains=filter_name) 
 
         # difficulty filter
@@ -120,17 +119,14 @@ class TrailList(ListAPIView):
         # max length filter
         if 'maxlength' in self.request.query_params and self.request.query_params['maxLength'] != 'null':
             filter_mlen = float(self.request.query_params['maxlength'])
-            print(filter_mlen)
             queryset = queryset.filter(length__lte=filter_mlen)
 
-        # print(distanceBetweenTwoCoordinates(51.5, 0, 38.8, -77.1))
         
         checked_queryset = set()
         for trail_obj in queryset:
             if len(checked_queryset) >= 200:
                 break
 
-            # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
             coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
             if type(coordinates[0]) == type([1, 2, 3]):
                 # in this case, the trail consists of multiple sub-trails
@@ -151,8 +147,6 @@ class TrailList(ListAPIView):
                 if distance <= dislimit:
                     checked_queryset.add(trail_obj)
         
-        print(len(queryset))
-        print(len(checked_queryset))
         return checked_queryset
 
 

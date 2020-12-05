@@ -18,7 +18,7 @@ class DisplayReviewUserName extends Component {
             this.setState({
                 user_name:username
             })
-            console.log(`username is set to be ${this.state.user_name}`)
+            // console.log(`username is set to be ${this.state.user_name}`)
         })
     }
 

@@ -15,7 +15,6 @@ class UserCheckins extends Component {
     componentDidMount(){
         var list = new Array();
         const checkin_api_url = '/api/checkin/'
-        console.log(checkin_api_url)
         fetch(checkin_api_url)
         .then(res => res.json())
         .then(

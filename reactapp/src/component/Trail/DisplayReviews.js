@@ -19,16 +19,16 @@ class displayReviews extends Component {
         var list = new Array()
         axios.get(`/api/review/`)
         .then(res=>{
-            console.log(res.data)
+            // console.log(res.data)
             var size = Object.keys(res.data).length
             var review_cnt = 0
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element.trail)
                 let timestamp=fetched_element.time.substring(0,10)
-                console.log(`timestamp is ${fetched_element.time.substring(0,10)}`)
-                console.log(fetched_trail_id)
-                console.log(`current trail id is: ${this.state.trail_id}`)
+                // console.log(`timestamp is ${fetched_element.time.substring(0,10)}`)
+                // console.log(fetched_trail_id)
+                // console.log(`current trail id is: ${this.state.trail_id}`)
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
                     this.setState({
                         no_review_msg:null
@@ -37,18 +37,18 @@ class displayReviews extends Component {
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
                     let review_text=fetched_element.Review_text
                     let review_rating=fetched_element.rating
-                    console.log(`The id of this user is ${fetched_user_id}`)
+                    // console.log(`The id of this user is ${fetched_user_id}`)
                     var user_name = null;
                     axios.get(`/api/profile/${fetched_user_id}/`)
                     .then(res=>{
-                        console.log(`the first fetch started`)
+                        // console.log(`the first fetch started`)
                         var review_dict = {}
                         review_dict['user_id']=fetched_user_id
                         review_dict['timestamp']=timestamp
                         review_dict['review_text']=review_text
                         review_dict['rating']=review_rating
-                        console.log('the review dict is like this:')
-                        console.log(review_dict)
+                        // console.log('the review dict is like this:')
+                        // console.log(review_dict)
                         review_dict['profile_url']=`/profile/${fetched_user_id}/`
                         let picture_url_splitted_list=res.data.picture.split("/")
                         let pic_url="/"
@@ -58,16 +58,16 @@ class displayReviews extends Component {
                                 pic_url+="/"
                             }
                         }
-                        console.log(pic_url)
+                        // console.log(pic_url)
                         review_dict['profile_pic_url']=pic_url
 
                         review_dict['user_name']=user_name
                         list.push(review_dict)
-                        console.log(review_dict)
+                        // console.log(review_dict)
                         this.setState({
                             review_list:list
                         })
-                        console.log(this.state)
+                        // console.log(this.state)
                     })
                 }
             }
@@ -76,7 +76,7 @@ class displayReviews extends Component {
 
     renderReviews(){
         this.state.review_list.map((element)=>{
-            console.log(`the user name is ${element.user_name}`)
+            // console.log(`the user name is ${element.user_name}`)
             return(
                 <div>
                     <div className='review'>
@@ -124,7 +124,7 @@ class displayReviews extends Component {
 
                     {
                         this.state.review_list.map((element)=>{
-                            console.log(`the user name is ${element.user_name}`)
+                            // console.log(`the user name is ${element.user_name}`)
                             return(
                                 <div>
                                     <div className='review'>

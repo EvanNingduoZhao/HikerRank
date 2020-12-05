@@ -98,7 +98,7 @@ class DisplayTrail extends Component {
                 <div className="nearby-hint">{num_trails} Trails near you:</div>
                {
                    this.state.trail_info.map((trail) => {
-                       console.log(typeof(clicked_trail_id), typeof(trail.id))
+                    //    console.log(typeof(clicked_trail_id), typeof(trail.id))
                        var trail_id = String(trail['url']).split("/")[5];
                        var trail_types = 'hike/';
                        if (trail['backpack'] == 'Supported') {

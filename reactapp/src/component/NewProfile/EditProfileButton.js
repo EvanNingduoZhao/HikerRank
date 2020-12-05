@@ -60,7 +60,6 @@ class EditProfileButton extends Component {
         if (text == '') {
         }
         this.setState({ ...this.state});
-        console.log(this.state)
       }
     
       handleOnAfterOpenModal = () => {

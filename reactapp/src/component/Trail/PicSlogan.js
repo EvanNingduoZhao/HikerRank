@@ -3,7 +3,7 @@ import trailPagePic from '../../pictures/login_background_resized.jpg';
 
 
 function PicSlogan(props) {
-    console.log("pic_slogan is invoked")
+    // console.log("pic_slogan is invoked")
     return (
         <div className='pic-slogan-container'>
             <img className='bg-image' src={trailPagePic} width='100%' height='400px'/>

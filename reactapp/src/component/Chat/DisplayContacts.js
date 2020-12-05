@@ -16,24 +16,20 @@ class DisplayContacts extends Component {
             let participants=[]
             let initiator_url_splitted_list=res.data.initiator.split("/")
             let initiator_id = String(initiator_url_splitted_list[initiator_url_splitted_list.length-2])
-            console.log(`initiator_id is ${initiator_id}`)
             participants.push(initiator_id)
 
             let participants_url_list=res.data.participants
             for(let i=0; i<participants_url_list.length;i++){
                 let participant_url_splitted_list=participants_url_list[i].split("/")
                 let participant_id=String(participant_url_splitted_list[participant_url_splitted_list.length-2])
-                console.log(`participant_id is ${participant_id}`)
                 if(!participants.includes(participant_id)){
                     participants.push(participant_id)
                 }
             }
-            console.log(participants)
             for(let i=0;i<participants.length;i++){
                 axios.get(`/api/profile/${participants[i]}/`)
                 .then(res2=>{
                     let contact={}
-                    console.log(res2.data)
                     let pic_url_splitted_list=res2.data.picture.split("/")
                     axios.get(`/api/user/${participants[i]}/`)
                     .then(res3=>{
@@ -45,14 +41,12 @@ class DisplayContacts extends Component {
                         }else{
                             pic_url="/pictures/"+username+"/"+pic_url_splitted_list[pic_url_splitted_list.length-1]
                         }
-                        console.log(pic_url)
                         contact["pic_url"]=pic_url
                         let new_contacts=this.state.contacts
                         new_contacts.push(contact)
                         this.setState({
                             contacts:new_contacts
                         })
-                        console.log(this.state.contacts)
                     })
                 })
             }
@@ -70,7 +64,6 @@ class DisplayContacts extends Component {
                 </div>
             </li>
         ));
-        console.log(contact_html)
         return (
             <div id="contacts">
                 <ul>

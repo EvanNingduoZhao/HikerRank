@@ -24,11 +24,11 @@ import Modal from 'react-modal';
       })
     .then(res =>{
       // alert(`${res}`)
-      console.log(res);
+      // console.log(res);
       sessionStorage.setItem('new_event_stay_open','false')
     })
     .catch(error => {
-      console.log(error)
+      // console.log(error)
       alert(`${error}`)
       sessionStorage.setItem('new_event_stay_open','true')
     // })

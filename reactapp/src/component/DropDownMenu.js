@@ -18,7 +18,7 @@ class DropDownMenu extends Component {
 
     
     _onSelect(option) {
-        console.log('You selected ', option.value);
+        // console.log('You selected ', option.value);
         this.setState({ 
             selected: { value: option.value, label: option.label },
             redirect_to:  option.value

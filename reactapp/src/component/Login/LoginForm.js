@@ -40,7 +40,6 @@ class LoginForm extends Component {
         .then(res => res.json())
         .then(data => {    
             if(data['token']!=null) {
-                console.log(data);
                 sessionStorage.setItem('login_status','true');
                 sessionStorage.setItem('username',this.state.username);
                 sessionStorage.setItem('id',data['user_id'])

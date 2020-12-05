@@ -103,8 +103,8 @@ class Filter extends Component {
         if (dislimit !== '') {
             filters.dislimit = dislimit
         }
-        console.log('filters get from Filter.js')
-        console.log(filters)
+        // console.log('filters get from Filter.js')
+        // console.log(filters)
         this.props.onClickSearch(filters)
     }
 

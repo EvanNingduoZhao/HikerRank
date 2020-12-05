@@ -19,28 +19,28 @@ class DisplayEvents extends Component {
         var list = new Array()
         axios.get(`/api/event/`)
         .then(res=>{
-            console.log(res.data)
+            // console.log(res.data)
             var size = Object.keys(res.data).length
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element.trail)
                 let fetched_event_status = String(fetched_element.status)
-                console.log(`the current event status is ${fetched_event_status}`)
+                // console.log(`the current event status is ${fetched_event_status}`)
                 let event_date=fetched_element.event_time.substring(0,10)
                 let event_name=String(fetched_element.name)
                 let participants_count = fetched_element.participants.length
                 let event_url_splitted_list=fetched_element.url.split("/")
                 let event_id=String(event_url_splitted_list[event_url_splitted_list.length-2])
-                console.log(`event time is ${fetched_element.event_time.substring(0,10)}`)
-                console.log(fetched_trail_id)
-                console.log(`current trail id is: ${this.state.trail_id}`)
+                // console.log(`event time is ${fetched_element.event_time.substring(0,10)}`)
+                // console.log(fetched_trail_id)
+                // console.log(`current trail id is: ${this.state.trail_id}`)
                 if(fetched_trail_id.split("/").includes(String(this.state.trail_id))&&fetched_event_status==="normal"){
                     this.setState({
                         no_event_msg:null
                     })
                     let profile_url_splitted_list=fetched_element.initiator.split("/")
                     let fetched_user_id = String(profile_url_splitted_list[profile_url_splitted_list.length-2])
-                    console.log(`The id of this user is ${fetched_user_id}`)
+                    // console.log(`The id of this user is ${fetched_user_id}`)
                     axios.get(`/api/user/${fetched_user_id}/`)
                     .then(res=>{
                         var event_dict = {}
@@ -52,11 +52,11 @@ class DisplayEvents extends Component {
                         event_dict['event_id']=event_id
                         event_dict['event_url']=`/event/${event_id}/`
                         list.push(event_dict)
-                        console.log(event_dict)
+                        // console.log(event_dict)
                         this.setState({
                             event_list:list
                         })
-                        console.log(this.state)
+                        // console.log(this.state)
                     })
                 }
             }

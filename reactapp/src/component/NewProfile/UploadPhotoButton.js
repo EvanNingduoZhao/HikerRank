@@ -31,7 +31,6 @@ class UploadPhotoButton extends Component {
 
 
       toggleModal = key => event => {
-        console.log(this.state)
         // alert(`${this.props.ini_picture}`)
         event.preventDefault();
         if (this.state.currentModal) {
@@ -61,7 +60,6 @@ class UploadPhotoButton extends Component {
         if (text == '') {
         }
         this.setState({ ...this.state});
-        console.log(this.state)
       }
     
       handleOnAfterOpenModal = () => {

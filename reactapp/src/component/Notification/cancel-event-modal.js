@@ -30,21 +30,7 @@ import Modal from 'react-modal';
       console.error('Error: ', error)
     });
     
-    // send broadcast message to audience
-    // var message = "The event \"" + event_name +"\" has been cancelled by the initiator."
-    // const data = {'message':message, 'messageType': "cancelevent", 'audience':event_participants}
-    // fetch('/api/broadcast-message/', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data)
-    // })
-    //     .then(res => res.json())
-    //     .then(data => console.log('Success: ', data))
-    //     .catch((error) => {
-    //         console.error('Error: ', error)
-    //     });
+    
   }
 
   return (

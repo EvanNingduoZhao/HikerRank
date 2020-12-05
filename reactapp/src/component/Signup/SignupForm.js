@@ -62,7 +62,7 @@ class SignupForm extends Component {
                     errorMessage: data['username'],
                     status: false
                 });
-                console.log(this.state)
+                // console.log(this.state)
             } else if (data['email']!=this.state.email){
                 this.setState({
                     errorMessage: data['email'],
@@ -78,7 +78,7 @@ class SignupForm extends Component {
                     id: data['id']
                 });
             }        
-            console.log(data)  
+            // console.log(data)  
         })
         .catch((error) => {
             console.log('Error: ', error)

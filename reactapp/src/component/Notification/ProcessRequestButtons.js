@@ -55,7 +55,7 @@ class AcceptButton extends Component {
     }
 
     declineRequest = () =>{
-        console.log("Decline")
+        // console.log("Decline")
         const data = {'user_id': this.state.user_id, 'event_id': this.state.event_id, 'status':"Declined"}
         fetch('/api/processed-request/', {
             method: 'POST',

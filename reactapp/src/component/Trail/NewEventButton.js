@@ -40,7 +40,7 @@ class NewEventButton extends Component {
           this.props.history.push('/login')
         }
         else{
-          console.log(this.state)
+          // console.log(this.state)
           // alert(`${this.props.ini_picture}`)
           event.preventDefault();
           if (this.state.currentModal) {
@@ -72,7 +72,7 @@ class NewEventButton extends Component {
         if (text == '') {
         }
         this.setState({ ...this.state});
-        console.log(this.state)
+        // console.log(this.state)
       }
     
       handleOnAfterOpenModal = () => {

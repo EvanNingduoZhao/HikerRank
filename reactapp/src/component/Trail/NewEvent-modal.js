@@ -16,7 +16,7 @@ import Modal from 'react-modal';
  
 
   const apply = () => {
-    console.log(trailId)
+    // console.log(trailId)
     const data = {'name':eventName, 
                   'description': eventIntro, 
                   'event_time': eventDate, 
@@ -34,11 +34,11 @@ import Modal from 'react-modal';
       })
     .then(res =>{
       // alert(`${res}`)
-      console.log(res);
+      // console.log(res);
       sessionStorage.setItem('stay_open','false')
     })
     .catch(error => {
-      console.log(error)
+      // console.log(error)
       // alert(`${error}`)
       sessionStorage.setItem('stay_open','true')
     // })

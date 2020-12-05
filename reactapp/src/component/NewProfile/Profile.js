@@ -33,12 +33,10 @@ class Profile extends Component {
 
     componentDidMount(){
         const profile_api_url = '/api/profile/'+this.state.profile_id+'/'
-        console.log(profile_api_url)
         fetch(profile_api_url)
         .then(res => res.json())
         .then(
             result =>{
-                console.log(result);
                 if (result['detail']==='Not found.') {
                     this.setState({
                         error: "No such user"
@@ -58,7 +56,6 @@ class Profile extends Component {
         .then(res => res.json())
         .then(
             result =>{
-                console.log(result);
                 this.setState({
                     profile_username:result['username'],
                 },()=>{console.log(this.state)})

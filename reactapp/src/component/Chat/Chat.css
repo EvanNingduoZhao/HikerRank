@@ -704,3 +704,8 @@ ul {
   color: white;
   display: inline-flex;
 }
+
+input#chat-message-input{
+  font-size: 20px;
+  height: 32px;
+}

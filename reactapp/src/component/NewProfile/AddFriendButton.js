@@ -13,7 +13,6 @@ class AddFriendButton extends Component {
     }
 
     componentDidMount(){
-        console.log(this.state)
         fetch('/api/follow-unfollow/')
         .then(res => res.json())
         .then(data =>{
@@ -54,7 +53,6 @@ class AddFriendButton extends Component {
             })
             .then(res => res.json())
             .then(data => {
-                console.log('Success: ', data)
                 this.setState({
                     button_display: 'Follow',
                     url: null
@@ -74,7 +72,6 @@ class AddFriendButton extends Component {
             })
             .then(res => res.json())
             .then(data => {
-                console.log('Success: ', data)
                 this.setState({
                     button_display: 'Unfollow',
                 },()=>console.log(this.state))

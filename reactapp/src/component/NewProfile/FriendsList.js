@@ -26,10 +26,8 @@ class FriendsList extends Component {
                 fetch(user_url)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     let fetched_user_id = data['id']
                     if (String(fetched_user_id)===String(this.state.profile_id)) {
-                        console.log('fetched')
                         fetch(following_url)
                         .then(res => res.json())
                         .then(data => {

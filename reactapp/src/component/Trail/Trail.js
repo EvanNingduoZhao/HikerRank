@@ -37,13 +37,13 @@ class Trail extends Component {
             trail_id:this.props.match.params['id'],
             trail_exist:false
         }
-        console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
+        // console.log(`the current loggedd in user is: ${sessionStorage.getItem('username')}`)
     }
 
     componentDidMount(){
         axios.get(`/api/trail/${this.state.trail_id}/`)
             .then(res=>{
-                console.log(res.data)
+                // console.log(res.data)
                 this.setState({
                     trail:res.data,
                     trail_exist:true
@@ -54,7 +54,7 @@ class Trail extends Component {
                 this.setState({
                     checkins:res.data.filter(a=>a.trail==this.state.trail_id)
                 })
-                console.log(this.state.checkins)
+                // console.log(this.state.checkins)
             })
     }
     
@@ -81,7 +81,7 @@ class Trail extends Component {
           }
 
         if(this.state.trail_exist===false){
-            console.log("trail does not exist")
+            // console.log("trail does not exist")
             return(
                 <div className = 'container'>
                 <div className='header-container'>
@@ -104,7 +104,7 @@ class Trail extends Component {
 
             )
         }else{
-            console.log("trail exist")
+            // console.log("trail exist")
             return(
                 <div className = 'container'>
                     <div className='header-container'>

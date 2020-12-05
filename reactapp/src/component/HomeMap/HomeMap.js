@@ -4,18 +4,14 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './HomeMap.css';
 import hiking3 from '../../pictures/hiking3.png';
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const HomeMap = (props) => {
-    // console.log("HomeMap props", props)
   const mapContainerRef = useRef(null);
   const clicked_trail = props.clicked_trail
   var coordinates;
   // var map;
   
   const calculateZoom = (coordinates) => {
-      // console.log(coordinates)
       var lgnMin = 10000;
       var lgnMax = -10000;
       var latMin = 10000;
@@ -57,14 +53,12 @@ const HomeMap = (props) => {
             .then(res => res.json())
             .then(
                 (result) => {
-                    // console.log('HomeMap, fetch clicked trail result', result);
                     selected_trail = result;
                 },
                 (error) => {
                     selected_trail = {'foo' : 'bar'};
                 }
             )
-        // console.log('HomeMap, fetch clicked trail assign', selected_trail);
         return selected_trail;
     } else {
         return {'foo':'bar'};
@@ -83,42 +77,27 @@ const HomeMap = (props) => {
   async function updateMapDisplay() {
     if (props.clicked) {
       // calculate center and zoom Level
-      // console.log('clicked trail, HomeMap.js', clicked_trail)
       var coordinates;
       await getClickedTrail().then(
         (result) => {
           coordinates = result.map_info.features[0].geometry.coordinates;
-          // console.log('HomeMap, testing .then', coordinates);
         }
       )
       .then(
         () => {
-          // var coordinates = select_trail.map_info.features[0].geometry.coordinates
           zoomNum = 148.0 / (calculateZoom(coordinates)[0] / 3.0 + 9.9);
           lgnNum = calculateZoom(coordinates)[1];
           latNum = calculateZoom(coordinates)[2];
-          // console.log('After click: lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum)
         }
       )
     }
   }
-  // updateMapDisplay().then(
-  //   () => {
-  //     setLng(lgnNum);
-  //     setLat(latNum);
-  //     setZoom(zoomNum);
-  //     // console.log('HomeMap, check state', lgn, lat, zoom);
-  //   }
-  // );
-  // console.log('lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum);
   
 
   // Initialize map when component mounts
   useEffect(() => {
 
-      // console.log('mount, update, useEffect in HomeMap')
       if (props.clicked === true) {
-        // .log('HomeMap, clicked, racalculating nums');
         var clicked_json = props.clicked_trail
         if (typeof(clicked_json.map_info.data.geometry.coordinates[0][0]) == typeof(0.123)) {
             coordinates = clicked_json.map_info.data.geometry.coordinates;
@@ -133,16 +112,13 @@ const HomeMap = (props) => {
             latNum = calculateZoom(coordinates)[2];
             props.reportCenter(lgnNum, latNum);
         } else {
-            // console.log('HomeMap, unclicked, to original nums');
             // lgnNum = -79.56556;
             // latNum = 40.58439;
             lgnNum = props.display_lon
             latNum = props.display_lat
             zoomNum = 7.5;
         }
-        // console.log('After click: lgnNum', lgnNum, 'latNum', latNum, 'zoomNum', zoomNum)
       } else {
-        // console.log('HomeMap, unclicked, to original nums');
         // lgnNum = -79.56556;
         // latNum = 40.58439;
         lgnNum = props.display_lon
@@ -180,25 +156,21 @@ const HomeMap = (props) => {
         // setLng(map.getCenter().lng.toFixed(4));
         // setLat(map.getCenter().lat.toFixed(4));
         // setZoom(map.getZoom().toFixed(2));
-        // console.log(props)
         props.reportCenter(map.getCenter().lng, map.getCenter().lat);
       });
 
       var trails = props.map_json_list
-      // console.log(trails)
       
       map.on('load', function () {
           for (let map_json of trails) {
 
               var source_name = map_json.tname + map_json.url.split('/')[5];
-              // console.log('add map_json source name', source_name)
 
               var trail_json = map_json.map_info;
 
               map.addSource( source_name, trail_json)
 
               if (props.clicked && map_json.url == clicked_trail.url) {
-                // console.log('HomeMap, layer for clicked trail')
                 var back_name = source_name + '_background';
                 map.addLayer({
                   'id': back_name,
@@ -239,7 +211,6 @@ const HomeMap = (props) => {
 
               // get the coordinates of the starting point of each trail
               var start_coordinates = map_json.map_info.data.geometry.coordinates[0]
-              // console.log("start coordinates", map_json.map_info.data.geometry.coordinates[0], typeof(map_json.map_info.data.geometry.coordinates[0]), typeof(0.123));
               if (typeof(map_json.map_info.data.geometry.coordinates[0][0]) == typeof(0.123)) {
                   map.loadImage(
                     // 'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',

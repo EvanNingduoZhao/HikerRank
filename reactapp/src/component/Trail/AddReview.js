@@ -18,14 +18,14 @@ class AddReview extends Component {
     componentDidMount(){
         axios.get(`/api/profile/`)
         .then(res=>{
-            console.log(res.data)
+            // console.log(res.data)
             var size = Object.keys(res.data).length
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_user_url = String(fetched_element.url)
                 let fetched_url_splitted_list=fetched_user_url.split("/")
                 let fetched_user_id = String(fetched_url_splitted_list[fetched_url_splitted_list.length-2])
-                console.log(fetched_user_id)
+                // console.log(fetched_user_id)
                 if(String(fetched_user_id)===String(this.state.userId)){
                     let picture_url_splitted_list=fetched_element.picture.split("/")
                         let pic_url="/"
@@ -35,11 +35,11 @@ class AddReview extends Component {
                                 pic_url+="/"
                             }
                         }
-                        console.log(pic_url)
+                        // console.log(pic_url)
                     this.setState({
                         user_profile_pic_url:pic_url
                     })
-                    console.log(this.state)
+                    // console.log(this.state)
                 }
             }
         })
@@ -82,13 +82,13 @@ class AddReview extends Component {
 
     renderUserPic(){
         if(this.state.userId===null){
-            console.log("i am in if")
+            // console.log("i am in if")
             return (
                 <img className='add-review-profile-pic'src={catPic}/>
             )
         }
         else{
-            console.log("I am in else")
+            // console.log("I am in else")
             return(
                 <img className='add-review-profile-pic'src={this.state.user_profile_pic_url}/>
             )

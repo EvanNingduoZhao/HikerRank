@@ -9,8 +9,8 @@ class CheckinButton extends Component {
              userId : sessionStorage.getItem('id'),
              trail_id:this.props.trail_id
         }
-        console.log(this.state)
-        console.log(`this trail id is: ${this.state.trail_id}`)
+        // console.log(this.state)
+        // console.log(`this trail id is: ${this.state.trail_id}`)
     }
     
     handleCheckin = (event)=>{

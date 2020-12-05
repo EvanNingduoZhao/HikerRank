@@ -30,10 +30,6 @@ class category_tab extends Component {
 
     componentDidMount(){
         var currentDate = new Date()
-        // var eventDate = new Date("2020-11-21T09:38:00Z")
-        // console.log(currentDate)
-        // console.log(eventDate)
-        // console.log(currentDate>=eventDate)
 
         // ****************************** Tab1: initiated event ******************************
         var my_event_list = new Array();
@@ -43,8 +39,7 @@ class category_tab extends Component {
             var data_size = Object.keys(data).length
             var my_event_cnt = 0
             for (let index = 0; index < data_size; index++) {
-                // console.log('event data elememt');
-                // console.log(data[index]);
+                
                 const element = data[index];
                 if (element['initiator'].split("/").includes(String(this.state.id)) && element['status']=='normal') {
                     my_event_cnt = my_event_cnt + 1
@@ -150,9 +145,8 @@ class category_tab extends Component {
             var data_size = Object.keys(data).length
             for (let index = 0; index < data_size; index++) {
                 const element = data[index];
-                console.log(element['user'])
                 if (element['user'].split("/").includes(String(this.state.id))){
-                    console.log("requirement satisfied")
+                    // console.log("requirement satisfied")
                     my_request_cnt = my_request_cnt + 1
                     fetch(element['event']).then(res=>res.json())
                     .then(data => {
@@ -172,7 +166,7 @@ class category_tab extends Component {
                 }
             }
         })
-            console.log(my_request_cnt)
+            // console.log(my_request_cnt)
 
             if (my_request_cnt==0) {
                 this.setState({

@@ -18,15 +18,11 @@ class displayAuthorPic extends Component {
         .then(res=>{
             let author_url_splitted_list=res.data.author.split("/")
             author_id = String(author_url_splitted_list[author_url_splitted_list.length-2])
-            console.log(`author_id is ${author_id}`)
             this.setState({
                 message_author_id:author_id
             })
-            console.log(`this state author was just set to be ${this.state.message_author_id}`)
             axios.get(`/api/profile/${this.state.message_author_id}/`)
             .then(res=>{
-                console.log(`author id in here is ${this.state.message_author_id}`)
-                console.log(res.data)
                 let author_pic_url_splitted_list=res.data.picture.split("/")
                 let author_pic_url=null
                 if(author_pic_url_splitted_list[author_pic_url_splitted_list.length-1]=="default-picture.png"){
@@ -34,18 +30,15 @@ class displayAuthorPic extends Component {
                 }else{
                     author_pic_url="/pictures/"+this.state.message_author_name+"/"+author_pic_url_splitted_list[author_pic_url_splitted_list.length-1]
                 }
-                console.log(author_pic_url)
                 this.setState({
                     pic_url:author_pic_url
                 })
-                console.log(this.state.pic_url)
             })
         })
         
     }
     
     render() {
-        console.log(this.state.pic_url)
         return (
             <img
                 src={this.state.pic_url}

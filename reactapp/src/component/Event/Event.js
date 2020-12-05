@@ -11,7 +11,6 @@ import JoinEventButton from "./JoinEventButton";
 import ApplyIcon from "../../pictures/apply-icon.png";
 import history from "../history";
 
-let accessToken = 'pk.eyJ1IjoiamVycnlwZW5nMDIiLCJhIjoiY2tndHZwaGl5MDBhejJxcXBodW1wN3R3NyJ9.RS9i9jjvaZElQugyd9CJXQ';
 
 
 class Event extends Component {
