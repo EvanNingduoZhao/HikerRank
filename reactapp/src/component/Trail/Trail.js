@@ -107,48 +107,46 @@ class Trail extends Component {
             console.log("trail exist")
             return(
                 <div className = 'container'>
-                <div className='header-container'>
-                    <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div> 
-                    <Nav />
-                    {/* <Search /> */}
-                    <div className="welcome-or-buttons">
-                    {renderLoginButton()}
-                    {renderSignupButton()}
-                    </div>
-                </div>
-
-                <PicSlogan name={this.state.trail.tname} summary={this.state.trail.description}/>
-
-                <div className='trail-info-and-map-section'>
-                    <TrailInfo type={this.state.trail.tclass} 
-                            surface={this.state.trail.surface}
-                            length={this.state.trail.length}
-                            backpack={this.state.trail.backpack}
-                            bicycle={this.state.trail.bicycle}
-                            mountainbike={this.state.trail.mountainbike}
-                            ski={this.state.trail.ski}
-                            width={this.state.trail.width}
-                            difficulty={this.state.trail.difficulty}
-                  />
-                    <div className='trail-map-container'>
-                        <TrailMapWrapper trail_id={this.state.trail_id} />
-                        {/* <img src={sampleMap}></img> */}
+                    <div className='header-container'>
+                        <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
+                        <Nav />
+                        {/* <Search /> */}
+                        <div className="welcome-or-buttons">
+                            {renderLoginButton()}
+                            {renderSignupButton()}
+                        </div>
                     </div>
 
-                </div>
+                    <PicSlogan name={this.state.trail.tname} summary={this.state.trail.description}/>
 
-                <div className="checkin-and-review-section">
-                    <DisplayCheckins trailId = {this.state.trail_id}/>
-                    <DisplayReviews trailId = {this.state.trail_id}/>
-                </div>
-                
-                <DisplayEvents trailId = {this.state.trail_id}/>
+                    <div className='trail-info-and-map-section'>
+                        <TrailInfo type={this.state.trail.tclass}
+                                surface={this.state.trail.surface}
+                                length={this.state.trail.length}
+                                backpack={this.state.trail.backpack}
+                                bicycle={this.state.trail.bicycle}
+                                mountainbike={this.state.trail.mountainbike}
+                                ski={this.state.trail.ski}
+                                width={this.state.trail.width}
+                                difficulty={this.state.trail.difficulty}
+                        />
+                        <div className='trail-map-container'>
+                            <TrailMapWrapper trail_id={this.state.trail_id} />
+                            {/* <img src={sampleMap}></img> */}
+                        </div>
 
-                <div className='trail-footer-container'>
-                    <Footer />
-                </div>
-            </div>
+                        <div className="checkin-and-review-section">
+                            <DisplayCheckins trailId = {this.state.trail_id}/>
+                            <DisplayReviews trailId = {this.state.trail_id}/>
+                        </div>
 
+                        <DisplayEvents trailId = {this.state.trail_id}/>
+
+                        <div className='trail-footer-container'>
+                            <Footer />
+                        </div>
+                    </div>
+                </div>
             )
         }
     }

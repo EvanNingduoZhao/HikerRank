@@ -5,8 +5,8 @@ import Modal from 'react-modal';
  function EventModal(props) {
   
   const {
-    title, isOpen, askToClose,
-    onAfterOpen, onRequestClose, onChangeInput,userId,eventId
+    isOpen, askToClose,
+    onAfterOpen, onRequestClose, eventId
   } = props;
 
   const [application, setApplication] = useState("");
@@ -23,15 +23,12 @@ import Modal from 'react-modal';
       body: JSON.stringify(data)
       })
     .then(res =>{
-      alert(`${res}`)
       console.log(res);
       sessionStorage.setItem('new_event_stay_open','false')
     })
     .catch(error => {
       console.log(error)
-      alert(`${error}`)
       sessionStorage.setItem('new_event_stay_open','true')
-    // })
     })
   }
 
@@ -45,7 +42,11 @@ import Modal from 'react-modal';
       id="event-modal">
       <h3>Your request to attend:</h3>
       <form className="edit-profile-form">
-        <input id="edit-apply" type="text" onChange={(event) => setApplication(event.target.value)} placeholder="Please tell the initiator Why you want to attend this event"/><br></br>
+        <input
+            id="edit-apply"
+            type="text"
+            onChange={(event) => setApplication(event.target.value)}
+            placeholder="Please tell the initiator Why you want to attend this event"/><br/>
         <button className="btn btn-primary" onClick={()=> apply()}>Send request</button>
       </form>
       <button className="close-edit-button" onClick={askToClose}>X close</button>
