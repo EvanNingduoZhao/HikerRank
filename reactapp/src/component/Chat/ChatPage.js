@@ -29,8 +29,10 @@ class ChatPage extends Component {
                         <div className='header-container'>
                             <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                             <Nav />
-                            <p className="welcome-msg">Hello, {this.state.username}! :)</p >
-                            <DropDownMenu />
+                            <div className="welcome-or-buttons">
+                                <p className="welcome-msg">Hello, {this.state.username}! :)</p >
+                                <DropDownMenu />
+                            </div>
                         </div>
                         <div className="chat-page">
                             <div id="frame">
