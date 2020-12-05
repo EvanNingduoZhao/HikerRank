@@ -123,11 +123,11 @@ class Filter extends Component {
                 </select>
 
                 <label className="filter-name" for="maxLength_filter">Length</label>
-                <input className="filter-choice" type="text" placeholder="trail max length in miles" id="maxLength_filter" onChange={this.handleMaxLength}/>
+                <input className="filter-choice" type="number" placeholder="trail max length in miles" id="maxLength_filter" onChange={this.handleMaxLength}/>
 
 
                 <label className="filter-name" for="distance_filter">Distance</label>
-                <input className="filter-choice" type="text" placeholder="distance to trail start" id="dislimit_filter" onChange={this.handleDistance}/>
+                <input className="filter-choice" type="number" placeholder="distance to trail start" id="dislimit_filter" onChange={this.handleDistance}/>
 
 
                 <label className="filter-name" for="type_filter">Trail Type</label>
