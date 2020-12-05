@@ -79,3 +79,13 @@ a {
 .event-page-content{
     height: 670px;
 }
+
+h3#join-group-chat-link{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h3#request-join-link{
+    font-size: 18px;
+    font-weight: bold;
+}

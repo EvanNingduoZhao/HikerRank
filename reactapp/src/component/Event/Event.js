@@ -49,6 +49,7 @@ class Event extends Component {
                     fetch(trail_url)
                         .then(res => res.json())
                         .then(result => {
+                            console.log(result)
                             const mapinfo = result['map_info'];
                             const firstCoord = mapinfo['data']['geometry']['coordinates'][0];
                             const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + firstCoord[0] +
@@ -58,12 +59,13 @@ class Event extends Component {
                                 .then(result => {
                                     this.setState({
                                         trail_location: result['features'][0]['place_name']
-                                    })
+                                    },()=>console.log(this.state))
                                 })
+                            var trailid = String(result['url']).split("/")[5];
                             this.setState({
-                                trail_id: result['id'],
+                                trail_id: trailid,
                                 trail_name: result['tname']
-                            })
+                            },()=>console.log(this.state))
                         })
 
                     const user_url = result['initiator']
@@ -159,7 +161,7 @@ class Event extends Component {
                                 <Link to={'/profile/' + this.state.initiator_id + '/'}>
                                     <h3>EVENT INITIATOR</h3>
                                     <h4 id="username">{this.state.initiator_name}</h4>
-                                    <img src={this.state.initiator_profile_picture} alt="image" width="170px"/>
+                                    <img src={this.state.initiator_profile_picture} alt="image" style={{width: 170, height: 170, borderRadius: 170/ 2}}/>
                                     <div className="bio-box">
                                         <p id="bio">{this.state.initiator_bio}</p >
                                     </div>
@@ -221,7 +223,7 @@ class Event extends Component {
                                         }
                                     }}>
                                         <img src={GroupChatIcon} width="85px"/>
-                                        <h3>Join Group Chat</h3>
+                                        <h3 id="join-group-chat-link">Join Group Chat</h3>
                                     </Link>
                                 </div>
                             </div>
@@ -240,8 +242,11 @@ class Event extends Component {
                         <div className='header-container'>
                             <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                             <Nav />
+                            <div className="welcome-or-buttons">
                             {renderLoginButton()}
                             {renderSignupButton()}
+                            </div>
+
                         </div>
 
                         <div className='event-page-content'>
@@ -289,8 +294,10 @@ class Event extends Component {
                         <div className='header-container'>
                             <div><h3 className='title'><Link to='/'>HIKERRANK</Link></h3></div>
                             <Nav/>
+                            <div className="welcome-or-buttons">
                             {renderLoginButton()}
                             {renderSignupButton()}
+                            </div>
                         </div>
 
                         <div className='event-page-content'>

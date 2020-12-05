@@ -23,7 +23,7 @@ class JoinEventButton extends Component {
           this.setState({
             currentModal: MODAL_A,
             modal_stay_open: true
-          });
+          },()=>{console.log(this.state)});
           sessionStorage.setItem('event_stay_open','false')
         } else {
           this.setState({
@@ -54,7 +54,7 @@ class JoinEventButton extends Component {
         this.setState({
           ...this.state,
           currentModal: null
-        });
+        },()=>{console.log(this.state)});
       }
     
       handleInputChange = e => {
@@ -75,7 +75,7 @@ class JoinEventButton extends Component {
         return (
             <div>
                 <button type="button" className="request-join-button" onClick={this.toggleModal(MODAL_A)}>
-                    <h3>Request and Join</h3>
+                    <h3 id="request-join-link">Request and Join</h3>
                 </button>
                 <MyModal
                     isOpen={currentModal === MODAL_A || this.modal_stay_open}
