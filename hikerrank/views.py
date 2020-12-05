@@ -10,13 +10,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage, Chat,
+    PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message,
 )
 from hikerrank.serializers import (
     SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
     PendingRequestSerializer, ProcessedRequestSerializer, BroadcastMessageSerializer,
-    TrailSerializer,
+    TrailSerializer,MessageSerializer,
 )
 
 import math
@@ -62,6 +62,9 @@ class TrailViewSet(viewsets.ModelViewSet):
     queryset = Trail.objects.all()
     serializer_class = TrailSerializer
 
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
 
 # helper functions for calculating distance between two coordinates
 def degreesToRadians(degrees):

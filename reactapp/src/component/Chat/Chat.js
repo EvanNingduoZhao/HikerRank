@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import WebSocketInstance from "./WebSocket";
+import axios from 'axios';
+import DisplayAuthorPic from './DisplayAuthorPic'
 
 class Chat extends Component {
     constructor(props) {
@@ -52,12 +54,14 @@ class Chat extends Component {
         this.setState({ messages: messages.reverse()});
     }
 
+    // react里写form所需的那个form里value的changeHandler，把form里的value和一个component state连起来
     messageChangeHandler = event => {
         this.setState({
             message: event.target.value
         });
     };
 
+    // send message button的handler
     sendMessageHandler = e => {
         e.preventDefault();
         const messageObject = {
@@ -65,6 +69,7 @@ class Chat extends Component {
             content: this.state.message,
             chat_id: this.state.chat_id,
         };
+        // 通过websocket发给consumer，consumer收到以后call new_message method来处理
         WebSocketInstance.newChatMessage(messageObject);
         this.setState({
             message: ''
@@ -79,18 +84,21 @@ class Chat extends Component {
             + time.getMinutes() + (time.getHours() < 12 ? 'AM' : 'PM')
     };
 
+    // 把一个message里的data变成呈现在页面上的HTML
     renderMessages = messages => {
         const currentUser = this.state.username;
+        
         return messages.map((message, i, arr) => (
             <li
                 key={message.id}
                 style={{ marginBottom: arr.length - 1 === i ? "300px" : "15px" }}
                 className={message.author === currentUser ? "sent" : "replies"}
             >
-                <img
-                    src="http://emilcarlsson.se/assets/mikeross.png"
+                {/* <img
+                    src={message_pic_dict[message.id]}
                     alt="profile-pic"
-                />
+                /> */}
+                <DisplayAuthorPic message_id={message.id} message_author_name={message.author}/>
                 <p>
                     <small>{message.author}</small>
                     <br />
@@ -107,7 +115,7 @@ class Chat extends Component {
     };
 
     componentDidMount() {
-        this.scrollToBottom();
+        // this.scrollToBottom();
     }
 
     componentDidUpdate() {

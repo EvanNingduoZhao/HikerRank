@@ -96,3 +96,8 @@ class BroadcastMessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = BroadcastMessage
         fields = '__all__'
+
+class MessageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Message
+        fields ='__all__'
