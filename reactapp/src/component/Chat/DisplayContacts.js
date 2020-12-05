@@ -70,6 +70,7 @@ class DisplayContacts extends Component {
                 </div>
             </li>
         ));
+        console.log(contact_html)
         return (
             <div id="contacts">
                 <ul>

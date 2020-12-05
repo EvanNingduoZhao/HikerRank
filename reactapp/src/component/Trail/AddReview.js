@@ -11,7 +11,7 @@ class AddReview extends Component {
              comment:'',
              userId : sessionStorage.getItem('id'),
              trail_id:this.props.trail_id,
-             rating:'',
+             rating:'1',
              user_profile_pic_url:''
         }
     }
@@ -27,8 +27,17 @@ class AddReview extends Component {
                 let fetched_user_id = String(fetched_url_splitted_list[fetched_url_splitted_list.length-2])
                 console.log(fetched_user_id)
                 if(String(fetched_user_id)===String(this.state.userId)){
+                    let picture_url_splitted_list=fetched_element.picture.split("/")
+                        let pic_url="/"
+                        for(let i=3; i<picture_url_splitted_list.length;i++){
+                            pic_url+=picture_url_splitted_list[i]
+                            if(i!=picture_url_splitted_list.length-1){
+                                pic_url+="/"
+                            }
+                        }
+                        console.log(pic_url)
                     this.setState({
-                        user_profile_pic_url:fetched_element.picture
+                        user_profile_pic_url:pic_url
                     })
                     console.log(this.state)
                 }

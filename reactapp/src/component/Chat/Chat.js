@@ -149,7 +149,7 @@ class Chat extends Component {
                                 placeholder="Write your message..."
                             />
                             <button id="chat-message-submit" className="submit">
-                                <i className="fa fa-paper-plane" aria-hidden="true" />
+                                <i class="fa fa-paper-plane-o fa-2x" aria-hidden="true"></i> 
                             </button>
                         </div>
                     </form>

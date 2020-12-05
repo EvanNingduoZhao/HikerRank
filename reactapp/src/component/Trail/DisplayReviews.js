@@ -11,7 +11,7 @@ class displayReviews extends Component {
         this.state = {
              review_list:[],
              trail_id : this.props.trailId,
-             no_review_msg:"You can use the section below to be the first one to give this trail a review!"
+             no_review_msg:"No one has reviewed this trail. Be the first to do it!"
         }
     }
 
@@ -50,7 +50,17 @@ class displayReviews extends Component {
                         console.log('the review dict is like this:')
                         console.log(review_dict)
                         review_dict['profile_url']=`/profile/${fetched_user_id}/`
-                        review_dict['profile_pic_url']=res.data.picture
+                        let picture_url_splitted_list=res.data.picture.split("/")
+                        let pic_url="/"
+                        for(let i=3; i<picture_url_splitted_list.length;i++){
+                            pic_url+=picture_url_splitted_list[i]
+                            if(i!=picture_url_splitted_list.length-1){
+                                pic_url+="/"
+                            }
+                        }
+                        console.log(pic_url)
+                        review_dict['profile_pic_url']=pic_url
+
                         review_dict['user_name']=user_name
                         list.push(review_dict)
                         console.log(review_dict)
@@ -60,11 +70,6 @@ class displayReviews extends Component {
                         console.log(this.state)
                     })
                 }
-            }
-            if (review_cnt === 0) {
-                this.setState({
-                    no_review_msg:"No one has reviewed this trail. Be the first to do it!"
-                })
             }
         })
     }
