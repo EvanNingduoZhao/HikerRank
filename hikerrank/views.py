@@ -1,24 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from django.http import HttpResponse
-from rest_framework import viewsets, permissions
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
-
-from django.http.response import JsonResponse
-from django_filters.rest_framework import DjangoFilterBackend
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
     PendingRequest, ProcessedRequest, BroadcastMessage, Chat, Message,
 )
-from django.contrib.auth.models import User
-
 from hikerrank.serializers import (
     SignupSerializer, EventSerializer, ProfileSerializer, UserSerializer,
     FollowUnfollowSerializer, CheckinSerializer, ReviewSerializer, AlbumSerializer,
@@ -26,13 +19,14 @@ from hikerrank.serializers import (
     TrailSerializer,MessageSerializer,
 )
 
+import math
+
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data['initiator'])
         name = request.data['name']
         description = request.data['description']
         event_time = request.data['event_time']
@@ -49,7 +43,6 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response({'message': 'success'}, status=200)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         # update in event api
         status = request.data['status']
         event_id = request.data['event_id']
@@ -62,7 +55,6 @@ class EventViewSet(viewsets.ModelViewSet):
         msg = BroadcastMessage(message=message, messageType=messageType)
         msg.save()
         msg.audience.set(audience)
-        print(audience)
         return Response({'message': 'success'}, status=200)
 
 
@@ -74,30 +66,112 @@ class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
+# helper functions for calculating distance between two coordinates
+def degreesToRadians(degrees):
+        return degrees * math.pi / 180.0
+    
+
+def distanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2):
+    earthRadiusKM = 6371
+
+    dLat = degreesToRadians(lat2-lat1)
+    dLon = degreesToRadians(lon2-lon1)
+
+    lat1 = degreesToRadians(lat1)
+    lat2 = degreesToRadians(lat2)
+    a = math.sin(dLat / 2.0) * math.sin(dLat / 2.0) + math.sin(dLon / 2.0) * math.sin(dLon / 2.0) * math.cos(lat1) * math.cos(lat2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    # return distance in miles
+    return earthRadiusKM * c / 1.609344
+
+
+class TrailList(ListAPIView):
+    serializer_class = TrailSerializer
+
+    def get_queryset(self):
+        print('test')
+        print(self.request.query_params)
+
+        # start with name filter
+        queryset = Trail.objects.all()
+        if 'name' in self.request.query_params and self.request.query_params['name'] != 'null':
+            filter_name = self.request.query_params['name']
+            # print(filter_name)
+            queryset = queryset.filter(tname__icontains=filter_name) 
+
+        # difficulty filter
+        # Easiest, More Difficult, Most Diffecult, Unknown, not set
+        if 'difficulty' in self.request.query_params and self.request.query_params['difficulty'] != 'null':
+            filter_diff = self.request.query_params['difficulty']
+            queryset = queryset.filter(difficulty=filter_diff)
+
+        # trail type filter
+        if 'type' in self.request.query_params and self.request.query_params['type'] != 'null':
+            filter_type = self.request.query_params['type']
+            if filter_type == 'Backpack':
+                queryset = queryset.filter(backpack="Supported")
+            if filter_type == 'Bicycle':
+                queryset = queryset.filter(bicycle="Supported")
+            if filter_type == 'Mountainbike':
+                queryset = queryset.filter(mountainbike="Supported")
+            if filter_type == 'Ski':
+                queryset = queryset.filter(ski="Supported")
+        
+        # max length filter
+        if 'maxlength' in self.request.query_params and self.request.query_params['maxLength'] != 'null':
+            filter_mlen = float(self.request.query_params['maxlength'])
+            print(filter_mlen)
+            queryset = queryset.filter(length__lte=filter_mlen)
+
+        # print(distanceBetweenTwoCoordinates(51.5, 0, 38.8, -77.1))
+        
+        checked_queryset = set()
+        for trail_obj in queryset:
+            if len(checked_queryset) >= 200:
+                break
+
+            # print(trail_obj.map_info["data"]["geometry"]["coordinates"][0])
+            coordinates = trail_obj.map_info["data"]["geometry"]["coordinates"][0]
+            if type(coordinates[0]) == type([1, 2, 3]):
+                # in this case, the trail consists of multiple sub-trails
+                coordinates = coordinates[0]
+            if type(coordinates[0]) == type(0.123):
+                lon_trail = float(coordinates[0])
+                lat_trail = float(coordinates[1])
+                lon_map = float(self.request.query_params['longtitude'])
+                lat_map = float(self.request.query_params['latitude'])
+
+                distance = distanceBetweenTwoCoordinates(lat_trail, lon_trail, lat_map, lon_map)
+
+                if 'dislimit' in self.request.query_params and self.request.query_params['dislimit'] != 'null':
+                    dislimit = float(self.request.query_params['dislimit'])
+                else:
+                    dislimit = 70.0
+                
+                if distance <= dislimit:
+                    checked_queryset.add(trail_obj)
+        
+        print(len(queryset))
+        print(len(checked_queryset))
+        return checked_queryset
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-    # parser_classes = [MultiPartParser,FormParser]
-
     def create(self, request, *args, **kwargs):
-        data = {}
-        print(request.data)
         picture = request.data['picture']
         bio = request.data['bio']
         user_id = int(request.data['user'])
-        print('error point 1')
         user = User.objects.get(id=user_id)
         profile = Profile(user=user, bio=bio, picture=picture)
         profile.save()
-        # data['picture'] = picture
-        # data['bio'] = bio
-        # data['user'] = user
-        # serializer = self.get_serializer(data=data)
-        # serializer.is_valid(raise_exception=False)
-        # print(serializer.errors)
-        # print(serializer.is_valid())
-        # serializer.save()
         return Response({'message': 'success'}, status=200)
 
 
@@ -132,7 +206,6 @@ class CheckinViewSet(viewsets.ModelViewSet):
     serializer_class = CheckinSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         trail_id = int(request.data['trail'])
         user_id = int(request.data['User'])
         trail = Trail.objects.get(id=trail_id)
@@ -147,8 +220,6 @@ class AlbumViewSet(viewsets.ModelViewSet):
     serializer_class = AlbumSerializer
 
     def create(self, request, *args, **kwargs):
-        data = {}
-        print(request.data)
         picture = request.data['picture']
         caption = request.data['caption']
         user_id = int(request.data['user'])
@@ -164,7 +235,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         rating = request.data['rating']
         review_text = request.data['Review_text']
         trail_id = int(request.data['trail'])
@@ -195,7 +265,6 @@ class FollowUnfollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowUnfollowSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user_id'])
         following_id = int(request.data['following_id'])
         user = User.objects.get(id=user_id)
@@ -210,7 +279,6 @@ class PendingRequestViewSet(viewsets.ModelViewSet):
     serializer_class = PendingRequestSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user'])
         event_id = int(request.data['event'])
         text = request.data['text']
@@ -231,7 +299,6 @@ class ProcessedRequestViewSet(viewsets.ModelViewSet):
     serializer_class = ProcessedRequestSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_id = int(request.data['user_id'])
         event_id = int(request.data['event_id'])
         status = request.data['status']
@@ -241,6 +308,5 @@ class ProcessedRequestViewSet(viewsets.ModelViewSet):
         processed_request.save()
 
         if status == "Accepted":
-            print("add to participant list")
             event.participants.add(user)
         return Response({'message': 'success'}, status=200)

@@ -24,6 +24,8 @@ class DisplayEvents extends Component {
             for(let i=0;i<size;i++){
                 const fetched_element = res.data[i]
                 let fetched_trail_id = String(fetched_element.trail)
+                let fetched_event_status = String(fetched_element.status)
+                console.log(`the current event status is ${fetched_event_status}`)
                 let event_date=fetched_element.event_time.substring(0,10)
                 let event_name=String(fetched_element.name)
                 let participants_count = fetched_element.participants.length
@@ -32,7 +34,7 @@ class DisplayEvents extends Component {
                 console.log(`event time is ${fetched_element.event_time.substring(0,10)}`)
                 console.log(fetched_trail_id)
                 console.log(`current trail id is: ${this.state.trail_id}`)
-                if(fetched_trail_id.split("/").includes(String(this.state.trail_id))){
+                if(fetched_trail_id.split("/").includes(String(this.state.trail_id))&&fetched_event_status==="normal"){
                     this.setState({
                         no_event_msg:null
                     })

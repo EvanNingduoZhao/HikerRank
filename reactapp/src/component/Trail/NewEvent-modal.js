@@ -45,6 +45,10 @@ import Modal from 'react-modal';
     })
   }
 
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const minDate = tomorrow.toISOString().substring(0,11) + "00:00"
+
   return (
     <Modal
       contentLabel="modalA"
@@ -60,7 +64,7 @@ import Modal from 'react-modal';
         <label className="new-event-input">Event Description:  </label><br></br>
         <input className="new-event-input" id="event-intro" type="text" onChange={(event) => setEventIntro(event.target.value)} required/><br></br>
         <label className="new-event-input">Event Date:  </label>
-        <input className="new-event-input" id="event-date" type="datetime-local" onChange={(event) => setEventDate(event.target.value)} required/><br></br>
+        <input className="new-event-input" id="event-date" type="datetime-local" min={minDate} onChange={(event) => setEventDate(event.target.value)} required/><br></br>
         <label className="new-event-input">Headcount:  </label>
         <input className="new-event-input" id="event-hc" type="text" onChange={(event) => setEventHc(event.target.value)} required/><br></br>
         <button id="new-event-btn" className="btn btn-primary" onClick={()=> apply()}>Initiate</button>

@@ -17,18 +17,21 @@ class CheckinButton extends Component {
         if (this.state.userId===null){
             this.props.history.push('/login')
         }
-        return(
-            axios.post('/api/checkin/',{
-                trail:this.state.trail_id,
-                User:this.state.userId
-            })
-            .then(response => {
-                console.log(JSON.stringify(response))
-            })
-            .catch(error => {
-                console.log(JSON.stringify(error.response))
-            })
-        )
+        else{
+            return(
+                axios.post('/api/checkin/',{
+                    trail:this.state.trail_id,
+                    User:this.state.userId
+                })
+                .then(response => {
+                    console.log(JSON.stringify(response))
+                })
+                .catch(error => {
+                    console.log(JSON.stringify(error.response))
+                })
+            )
+        }
+        
     }
     render() {
         return (

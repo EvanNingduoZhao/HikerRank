@@ -21,8 +21,6 @@ class LoginForm extends Component {
 
     handleLogin = event => {
         event.preventDefault()
-        // alert(`${this.state.username} ${this.state.password}`)
-
         this.postLogin()
     }
 
@@ -92,7 +90,7 @@ class LoginForm extends Component {
                 {this.renderRedirect()}
                 <form className="login-form" onSubmit={this.handleLogin}>
                     <input type="text" className="login-input" name="username" placeholder="Username" required="required" value={this.state.username} onChange={this.handleUsernameInput}/>
-                    <input type="text" className="login-input" name="password" placeholder="Password" required="required" value={this.state.password} onChange={this.handlePasswordInput}/>
+                    <input type="password" className="login-input" name="password" placeholder="Password" required="required" value={this.state.password} onChange={this.handlePasswordInput}/>
                     <br></br>
                     <button type="submit" class="login-btn">LOGIN</button>
                 </form>
