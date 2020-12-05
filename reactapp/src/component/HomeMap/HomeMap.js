@@ -4,8 +4,6 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './HomeMap.css';
 import hiking3 from '../../pictures/hiking3.png';
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const HomeMap = (props) => {
   const mapContainerRef = useRef(null);
