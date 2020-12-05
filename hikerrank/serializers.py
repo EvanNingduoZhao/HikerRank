@@ -4,7 +4,7 @@ from rest_framework.validators import UniqueTogetherValidator
 
 from hikerrank.models import (
     Event, Trail, Profile, Follow_UnFollow, CheckIn, Review, Album,
-    PendingRequest, ProcessedRequest, BroadcastMessage
+    PendingRequest, ProcessedRequest, BroadcastMessage, Message
 )
 
 
@@ -97,7 +97,8 @@ class BroadcastMessageSerializer(serializers.HyperlinkedModelSerializer):
         model = BroadcastMessage
         fields = '__all__'
 
+
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Message
-        fields ='__all__'
+        fields = '__all__'
