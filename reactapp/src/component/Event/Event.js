@@ -49,7 +49,10 @@ class Event extends Component {
                         .then(result => {
                             console.log(result)
                             const mapinfo = result['map_info'];
-                            const firstCoord = mapinfo['data']['geometry']['coordinates'][0];
+                            var firstCoord = mapinfo['data']['geometry']['coordinates'][0];
+                            while(typeof(firstCoord) !== typeof(0.123)) {
+                                firstCoord = firstCoord[0];
+                            }
                             const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + firstCoord[0] +
                                 ',' + firstCoord[1] + '.json?types=poi&access_token=' + accessToken;
                             fetch(url)
